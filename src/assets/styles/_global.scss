@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import 'mocha';
+@import 'helpers';
+
+body {
+    background: $base; color: $text;
+    font: $global-font-size $global-font-family;
+    display: flex; position: relative;
+    margin: 0; padding: 0;
+}
+
+div {
+    box-sizing: border-box;
+    display: flex; position: relative;
+    margin: 0; padding: 0;
+    background: transparent; color: inherit;
+    flex-direction: column;
+}
+
+a {
+    color: $green;
+    text-decoration: none;
+
+    &:hover {
+        color: $peach;
+    }
+}
+
+.container {
+    flex-direction: row;
+    width: 100vw; height: 100vh;
+    max-width: 100%;
+
+    .left {
+        background: $crust;
+        border-right: 3px solid $mantle;
+
+        .branding {
+            justify-content: center; align-items: center;
+            flex-direction: row;
+            gap: 1em;
+
+            svg { color: $green; }
+        }
+
+        .nav {
+            margin: 2em 0;
+
+            .nav-item {
+                display: flex; position: relative;
+                margin: 0;
+                flex-direction: row;
+                gap: 1em;
+                border-left: 4px solid transparent;
+                align-items: center;
+                color: $text;
+                min-width: 196px;
+
+                &:hover {
+                    border-color: $blue;
+                    color: $blue; background: $mantle;
+                }
+
+                &.router-link-active {
+                    border-color: $mauve;
+                    color: $mauve;
+                }
+            }
+        }
+
+        .foot {
+            justify-content: center; align-items: center;
+        }
+    }
+
+    .right {
+        .menu {
+            background: $mantle;
+        }
+    }
+}

@@ -1,0 +1,31 @@
+$global-font-size: 11pt;
+$global-font-family: 'Fira Code', monospace;
+$global-font-family-retina: 'Fira Sans', sans-serif;
+
+.grow { flex-grow: 1; }
+
+.p-xs { padding: 0.5em; }
+.p-sm { padding: 0.75em; }
+.p-md { padding: 1em; }
+.p-lg { padding: 1.25em; }
+.p-xl { padding: 1.5em; }
+
+.text-xs { font-size: 0.8em; }
+.text-sm { font-size: 0.9em; }
+.text-md { font-size: 1.0em; }
+.text-lg { font-size: 1.2em; }
+.text-xl { font-size: 1.4em; }
+
+.font-mono { font-family: $global-font-family; }
+.font-retina { font-family: $global-font-family-retina; }
+
+.rounded-xs { border-radius: 0.25em; }
+.rounded-sm { border-radius: 0.5em; }
+.rounded { border-radius: 0.75em; }
+.rounded-lg { border-radius: 1em; }
+.rounded-xl { border-radius: 1.2em; }
+
+.code {
+    font-family: $global-font-family;
+    background: $crust; color: $text;
+}
