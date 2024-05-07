@@ -1,0 +1,12 @@
+{
+    "posts": [
+        {
+            "title": "First Test Post From JSON",
+            "message": "This is the content for the first blog post."
+        },
+        {
+            "title": "Second Test Post From JSON",
+            "message": "This is the content for the second blog post."
+        }
+    ]
+}
