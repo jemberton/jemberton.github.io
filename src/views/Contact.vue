@@ -2,7 +2,9 @@
 </script>
 
 <template>
-This is a placeholder for the contact view.
+<div class="sheet">
+    When I'm ready ... I'll put my contact info here. Otherwise, try messaging through github.
+</div>
 </template>
 
 <style lang="scss" scoped>

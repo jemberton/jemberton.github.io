@@ -40,7 +40,7 @@ a {
             flex-direction: row;
             gap: 1em;
 
-            svg { color: $green; }
+            svg { color: $lavender; }
         }
 
         .nav {
@@ -70,12 +70,22 @@ a {
 
         .foot {
             justify-content: center; align-items: center;
+
+            a {
+                color: $text;
+
+                &:hover { color: $peach; }
+            }
         }
     }
 
     .right {
         .menu {
             background: $mantle;
+        }
+
+        .main {
+            align-items: center; justify-content: start;
         }
     }
 }

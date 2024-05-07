@@ -3,7 +3,7 @@
 
 <template>
 <div class="sheet">
-    projects go here ...
+    guides will go here ...
 </div>
 </template>
 

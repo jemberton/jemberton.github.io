@@ -2,6 +2,10 @@ $global-font-size: 11pt;
 $global-font-family: 'Fira Code', monospace;
 $global-font-family-retina: 'Fira Sans', sans-serif;
 
+.gutters-v { margin: 1em 0; }
+.gutters-h { margin: 0 1em; }
+.gutters { margin: 1em; }
+
 .grow { flex-grow: 1; }
 
 .p-xs { padding: 0.5em; }
@@ -27,5 +31,15 @@ $global-font-family-retina: 'Fira Sans', sans-serif;
 
 .code {
     font-family: $global-font-family;
-    background: $crust; color: $text;
+    background: $crust; color: $subtext1;
+    margin: 1em 0;
+}
+
+.sheet {
+    display: flex; position: relative;
+    margin: 0; padding: 1em;
+    flex-direction: column;
+    flex-grow: 1;
+    width: 80%;
+    max-width: 80%;
 }

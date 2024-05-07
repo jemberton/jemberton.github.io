@@ -1,9 +1,15 @@
 <script setup lang="ts">
+
 const navigation = [
     {
         title: "home",
         icon: "fa-solid fa-house fa-fw",
         url: "/"
+    },
+    {
+        title: "guides",
+        icon: "fa-solid fa-book-bookmark fa-fw",
+        url: "/guides"
     },
     {
         title: "projects",
@@ -16,6 +22,7 @@ const navigation = [
         url: "/contact"
     }
 ]
+
 </script>
 
 <template>
@@ -46,7 +53,7 @@ const navigation = [
     </div>
     <div class="right grow">
         <div class="menu p-md"></div>
-        <div class="main grow p-md">
+        <div class="main grow">
             <RouterView />
         </div>
         <div class="foot p-md"></div>
