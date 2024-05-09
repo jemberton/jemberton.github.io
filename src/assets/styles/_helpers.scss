@@ -7,6 +7,7 @@ $global-font-family-retina: 'Fira Sans', sans-serif;
 .gutters { margin: 1em; }
 
 .grow { flex-grow: 1; }
+.shrink { flex-grow: 0; }
 
 .p-xs { padding: 0.5em; }
 .p-sm { padding: 0.75em; }
@@ -19,6 +20,32 @@ $global-font-family-retina: 'Fira Sans', sans-serif;
 .text-md { font-size: 1.0em; }
 .text-lg { font-size: 1.2em; }
 .text-xl { font-size: 1.4em; }
+
+.font-rosewater { color: $rosewater; }
+.font-flamingo { color: $flamingo; }
+.font-pink { color: $pink; }
+.font-mauve { color: $mauve; }
+.font-red { color: $red; }
+.font-maroon { color: $maroon; }
+.font-peach { color: $peach; }
+.font-yellow { color: $yellow; }
+.font-green { color: $green; }
+.font-teal { color: $teal; }
+.font-sky { color: $sky; }
+.font-sapphire { color: $sapphire; }
+.font-blue { color: $blue; }
+.font-lavender { color: $lavender; }
+.font-subtext1 { color: $subtext1; }
+.font-subtext0 { color: $subtext0; }
+.font-overlay2 { color: $overlay2; }
+.font-overlay1 { color: $overlay1; }
+.font-overlay0 { color: $overlay0; }
+.font-surface2 { color: $surface2; }
+.font-surface1 { color: $surface1; }
+.font-surface0 { color: $surface0; }
+.font-base { color: $base; }
+.font-mantle { color: $mantle; }
+.font-crust { color: $crust; }
 
 .font-mono { font-family: $global-font-family; }
 .font-retina { font-family: $global-font-family-retina; }
@@ -33,6 +60,8 @@ $global-font-family-retina: 'Fira Sans', sans-serif;
     font-family: $global-font-family;
     background: $crust; color: $subtext1;
     margin: 1em 0;
+    flex-direction: row;
+    gap: 0.5em;
 }
 
 .sheet {
@@ -42,4 +71,11 @@ $global-font-family-retina: 'Fira Sans', sans-serif;
     flex-grow: 1;
     width: 80%;
     max-width: 80%;
+}
+
+.card {
+    display: flex; position: relative;
+    margin: 1em 0;
+    flex-direction: column;
+    background: $mantle;
 }

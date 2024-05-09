@@ -3,7 +3,10 @@
 
 <template>
 <div class="sheet">
-    guides will go here ...
+<ul>
+    TODO LIST
+    <li>linux beginner guide</li>
+</ul>
 </div>
 </template>
 

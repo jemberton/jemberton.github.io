@@ -30,7 +30,6 @@ const navigation = [
     <div class="left">
         <div class="branding p-md">
             <font-awesome-icon :icon="['fas', 'code']" class="text-xl" />
-            <div class="text-md">jemberton</div>
         </div>
         <div class="nav grow">
             <template v-for="navitem of navigation">
