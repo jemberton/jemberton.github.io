@@ -1,8 +1,8 @@
 {
     "posts": [
         {
-            "title": "Things Have to Start Somewhere",
-            "body": "Like all things, there is a start before there is a middle or an end.",
+            "title": "TEST POST",
+            "body": "TEST FOR DESIGN PURPOSES",
             "timestamp": 1715124732378,
             "image": "gramps-porsche.png",
             "files": [],
@@ -12,8 +12,8 @@
             "link": "https://github.com/jemberton"
         },
         {
-            "title": "Things Have to Start Somewhere ... but they already did",
-            "body": "Like all things, there is a start before there is a middle or an end.",
+            "title": "TEST POST",
+            "body": "TEST FOR DESIGN PURPOSES",
             "timestamp": 1715124732380,
             "image": "",
             "files": ["test1.zip", "test2.zip"],
@@ -23,8 +23,8 @@
             "link": "https://github.com/jemberton"
         },
         {
-            "title": "Things Have to Start Somewhere",
-            "body": "Like all things, there is a start before there is a middle or an end.",
+            "title": "TEST POST",
+            "body": "TEST FOR DESIGN PURPOSES",
             "timestamp": 1715124732390,
             "image": "",
             "files": [],

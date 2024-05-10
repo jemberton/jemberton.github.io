@@ -2,12 +2,18 @@
 
 import blogData from '../database.json'
 
+const parseDate = (datestamp: number) => {
+    let parsedObject = new Date(datestamp)
+    return parsedObject.toISOString()
+}
+
 </script>
 
 <template>
+<div class="phullo">mytestbox</div>
 <div class="sheet">
     <div class="code p-md rounded-xs">
-        <span class="font-green">jemberton@github ~$</span>
+        <span class="text-green">jemberton@github ~$</span>
         <span>echo $BLOG</span>
     </div>
     <template v-for="post in blogData.posts">
@@ -20,27 +26,37 @@ import blogData from '../database.json'
                 <div class="post-avatar p-md">
                     <img :src="post.avatar" class="round" />
                     <div class="post-metadata">
-                        <div class="post-author">{{ post.author }}</div>
-                        <div class="post-username">{{ post.username }} {{ post.link }}</div>
+                        <div class="post-author text-lg"><strong>{{ post.author }}</strong></div>
+                        <div class="post-username">
+                            <template v-if="post.link">
+                                <a :href="post.link">{{ post.username }}</a>
+                            </template>
+                            <template v-else>{{ post.username }}</template>
+                        </div>
                     </div>
                 </div>
             </template>
             <template v-else>
-                <div class="post-metadata p-md">
-                    <div class="post-author">{{ post.author }}</div>
-                    <div class="post-username">{{ post.username }} {{ post.link }}</div>
+                <div class="post-metadata p-xl">
+                    <div class="post-author text-lg"><strong>{{ post.author }}</strong></div>
+                    <div class="post-username">
+                        <template v-if="post.link">
+                            <a :href="post.link">{{ post.username }}</a>
+                        </template>
+                        <template v-else>{{ post.username }}</template>
+                    </div>
                 </div>
             </template>
 
-            <div>
-                <div class="post-title">{{ post.title }}</div>
-                <div class="post-body">{{ post.body }}</div>
-                <div class="post-timestamp">{{ post.timestamp }}</div>
-            </div>
-            <div>
-                <template v-for="file in post.files">
-                    <div class="post-file">{{ file }}</div>
-                </template>
+            <div class="post-data p-lg">
+                <div class="post-title text-subtext1 text-lg">{{ post.title }}</div>
+                <div class="post-timestamp text-subtext0 text-sm">{{ parseDate(post.timestamp) }}</div>
+                <div class="post-body gutters-v text-text">{{ post.body }}</div>
+                <div class="post-actions">
+                    <template v-for="file in post.files">
+                        <div class="post-file bg-blue p-xs rounded-sm text-mantle">{{ file }}</div>
+                    </template>
+                </div>
             </div>
         </div>
     </template>
@@ -81,10 +97,20 @@ import blogData from '../database.json'
     justify-content: start; align-items: start;
 }
 
-.post-author { color: red; }
-.post-username { color: green; }
-.post-title { color: blue; }
-.post-body { color: salmon; }
-.post-timestamp { color: turquoise; }
-.post-file { color: mediumspringgreen; }
+.post-data {
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+    border-top: 2px solid rgba(0,0,0,0.1);
+}
+
+.post-author { color: $text; }
+.post-username { color: $overlay1; }
+// .post-title { color: $subtext1; }
+// .post-body { color: salmon; }
+// .post-timestamp { color: turquoise; }
+
+.post-actions {
+    flex-direction: row;
+    gap: 0.5em;
+}
 </style>

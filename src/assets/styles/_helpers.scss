@@ -2,50 +2,34 @@ $global-font-size: 11pt;
 $global-font-family: 'Fira Code', monospace;
 $global-font-family-retina: 'Fira Sans', sans-serif;
 
+//# SIZE_NAME LAYOUT_SIZE TEXT_SIZE
+$sizes: 
+    "xxs" "0.25" "0.5",
+    "xs" "0.5" "0.7",
+    "sm" "0.75" "0.9",
+    "md" "1.0" "1.0",
+    "lg" "1.25" "1.25",
+    "xl" "1.5" "1.5",
+    "xxl" "2.0" "2.0";
+
+//# Build colors from Catppuccin Mocha
+@each $color_name, $color_hex in $mocha {
+    .bg-#{$color_name} { background: $color_hex; }
+    .text-#{$color_name} { color: $color_hex; }
+}
+
+//# Build size based classes
+@each $size_name, $size, $text_size in $sizes {
+    .text-#{$size_name} { font-size: #{$text_size}em; }
+    .p-#{$size_name} { padding: #{$size}em; }
+}
+
 .gutters-v { margin: 1em 0; }
 .gutters-h { margin: 0 1em; }
 .gutters { margin: 1em; }
 
 .grow { flex-grow: 1; }
 .shrink { flex-grow: 0; }
-
-.p-xs { padding: 0.5em; }
-.p-sm { padding: 0.75em; }
-.p-md { padding: 1em; }
-.p-lg { padding: 1.25em; }
-.p-xl { padding: 1.5em; }
-
-.text-xs { font-size: 0.8em; }
-.text-sm { font-size: 0.9em; }
-.text-md { font-size: 1.0em; }
-.text-lg { font-size: 1.2em; }
-.text-xl { font-size: 1.4em; }
-
-.font-rosewater { color: $rosewater; }
-.font-flamingo { color: $flamingo; }
-.font-pink { color: $pink; }
-.font-mauve { color: $mauve; }
-.font-red { color: $red; }
-.font-maroon { color: $maroon; }
-.font-peach { color: $peach; }
-.font-yellow { color: $yellow; }
-.font-green { color: $green; }
-.font-teal { color: $teal; }
-.font-sky { color: $sky; }
-.font-sapphire { color: $sapphire; }
-.font-blue { color: $blue; }
-.font-lavender { color: $lavender; }
-.font-subtext1 { color: $subtext1; }
-.font-subtext0 { color: $subtext0; }
-.font-overlay2 { color: $overlay2; }
-.font-overlay1 { color: $overlay1; }
-.font-overlay0 { color: $overlay0; }
-.font-surface2 { color: $surface2; }
-.font-surface1 { color: $surface1; }
-.font-surface0 { color: $surface0; }
-.font-base { color: $base; }
-.font-mantle { color: $mantle; }
-.font-crust { color: $crust; }
 
 .font-mono { font-family: $global-font-family; }
 .font-retina { font-family: $global-font-family-retina; }
@@ -78,4 +62,5 @@ $global-font-family-retina: 'Fira Sans', sans-serif;
     margin: 1em 0;
     flex-direction: column;
     background: $mantle;
+    border: 1px solid $crust;
 }
