@@ -12,17 +12,42 @@ $sizes:
     "xl" "1.5" "1.5",
     "xxl" "2.0" "2.0";
 
+$shadows:
+    "lowest" "0 1px 1px 1px rgba(0,0,0,0.2)",
+    "lower" "0 1px 2px 1px rgba(0,0,0,0.2)",
+    "low" "0 1px 4px 1px rgba(0,0,0,0.2)",
+    "high" "0 1px 6px 2px rgba(0,0,0,0.3)",
+    "higher" "0 2px 6px 3px rgba(0,0,0,0.3)",
+    "highest" "0 3px 8px 4px rgba(0,0,0,0.3)";
+
+$filters:
+    "grayscale" "grayscale(60%)",
+    "bw" "grayscale(100%)";
+
 //# Build colors from Catppuccin Mocha
+//# bg text
 @each $color_name, $color_hex in $mocha {
     .bg-#{$color_name} { background: $color_hex; }
     .text-#{$color_name} { color: $color_hex; }
 }
 
 //# Build size based classes
+//# text p rounded
 @each $size_name, $size, $text_size in $sizes {
     .text-#{$size_name} { font-size: #{$text_size}em; }
     .p-#{$size_name} { padding: #{$size}em; }
+    .rounded-#{$size_name} { border-radius: #{$size}em; }
 }
+
+@each $shadow_name, $shadow in $shadows {
+    .shadow-#{$shadow_name} { box-shadow: #{$shadow}; }
+}
+
+@each $filter_name, $filter in $filters {
+    .filter-#{$filter_name} { filter: #{$filter}; }
+}
+
+.shadow { box-shadow: 0 1px 4px 2px rgba(0,0,0,0.2); }
 
 .gutters-v { margin: 1em 0; }
 .gutters-h { margin: 0 1em; }
@@ -33,12 +58,6 @@ $sizes:
 
 .font-mono { font-family: $global-font-family; }
 .font-retina { font-family: $global-font-family-retina; }
-
-.rounded-xs { border-radius: 0.25em; }
-.rounded-sm { border-radius: 0.5em; }
-.rounded { border-radius: 0.75em; }
-.rounded-lg { border-radius: 1em; }
-.rounded-xl { border-radius: 1.2em; }
 
 .code {
     font-family: $global-font-family;

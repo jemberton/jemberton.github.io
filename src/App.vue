@@ -6,21 +6,21 @@ const navigation = [
         icon: "fa-solid fa-house fa-fw",
         url: "/"
     },
-    {
-        title: "guides",
-        icon: "fa-solid fa-book-bookmark fa-fw",
-        url: "/guides"
-    },
-    {
-        title: "projects",
-        icon: "fa-solid fa-folder-tree fa-fw",
-        url: "/projects"
-    },
-    {
-        title: "contact",
-        icon: "fa-solid fa-address-card fa-fw",
-        url: "/contact"
-    }
+    // {
+    //     title: "guides",
+    //     icon: "fa-solid fa-book-bookmark fa-fw",
+    //     url: "/guides"
+    // },
+    // {
+    //     title: "projects",
+    //     icon: "fa-solid fa-folder-tree fa-fw",
+    //     url: "/projects"
+    // },
+    // {
+    //     title: "contact",
+    //     icon: "fa-solid fa-address-card fa-fw",
+    //     url: "/contact"
+    // }
 ]
 
 </script>
