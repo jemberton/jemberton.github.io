@@ -3,10 +3,14 @@
 
 <template>
 <div class="sheet">
-<ul>
-    TODO LIST
-    <li>linux beginner guide</li>
-</ul>
+    <div class="code p-md rounded-xs">
+        <span class="text-green">jemberton@github ~$</span>
+        <span>echo $GUIDES</span>
+    </div>
+    <ul>
+        TODO LIST
+        <li>linux beginner guide</li>
+    </ul>
 </div>
 </template>
 

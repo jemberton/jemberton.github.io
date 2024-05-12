@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
+import Button from './components/Button.vue'
 
 const navigation = [
     {
@@ -6,22 +9,36 @@ const navigation = [
         icon: "fa-solid fa-house fa-fw",
         url: "/"
     },
-    // {
-    //     title: "guides",
-    //     icon: "fa-solid fa-book-bookmark fa-fw",
-    //     url: "/guides"
-    // },
-    // {
-    //     title: "projects",
-    //     icon: "fa-solid fa-folder-tree fa-fw",
-    //     url: "/projects"
-    // },
-    // {
-    //     title: "contact",
-    //     icon: "fa-solid fa-address-card fa-fw",
-    //     url: "/contact"
-    // }
+    {
+        title: "guides",
+        icon: "fa-solid fa-book-bookmark fa-fw",
+        url: "/guides"
+    },
+    {
+        title: "projects",
+        icon: "fa-solid fa-folder-tree fa-fw",
+        url: "/projects"
+    },
+    {
+        title: "contact",
+        icon: "fa-solid fa-address-card fa-fw",
+        url: "/contact"
+    }
 ]
+
+const breadcrumb = ref([])
+
+const HanselGretel = () => {
+    if (breadcrumb.value.length > 0) {
+        return breadcrumb.value
+    }
+
+    return ""
+}
+
+const addCrumb = () => {
+    breadcrumb.value.push({ url: 'wee', text: 'woo' })
+}
 
 </script>
 
@@ -51,7 +68,8 @@ const navigation = [
         </div>
     </div>
     <div class="right grow">
-        <div class="menu p-md"></div>
+        <div class="menu p-md text-sm">{{ HanselGretel() }}</div>
+        <Button text="add to breadcrumb"/>
         <div class="main grow">
             <RouterView />
         </div>

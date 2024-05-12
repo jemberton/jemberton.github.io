@@ -26,6 +26,9 @@ a {
     }
 }
 
+h1, h2, h3, h4, h5, h6 { padding: 0; margin: 0; margin-bottom: $global-font-size; }
+p { padding: 0; margin: 0; margin-bottom: $global-font-size; }
+
 .container {
     flex-direction: row;
     width: 100vw; height: 100vh;
@@ -37,6 +40,7 @@ a {
         position: fixed;
         top: 0; bottom: 0; left: 0;
         z-index: 1;
+        width: 196px;
 
         .branding {
             justify-content: center; align-items: center;
@@ -57,7 +61,6 @@ a {
                 border-left: 4px solid transparent;
                 align-items: center;
                 color: $text;
-                width: 196px;
 
                 &:hover {
                     border-color: $blue;

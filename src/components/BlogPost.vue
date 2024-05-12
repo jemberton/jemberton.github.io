@@ -1,11 +1,14 @@
 <script setup lang="ts">
 
+import Button from './Button.vue'
+
 const props = defineProps<{
     post: {
         title: string,
         body: string,
         timestamp: number,
         image: string,
+        caption: string,
         files: any[],
         avatar: string,
         author: string,
@@ -22,10 +25,13 @@ const parseDate = (datestamp: number) => {
 </script>
 
 <template>
-<div class="font-retina card rounded-sm shrink shadow">
-    <div v-if="props.post.image" class="post-image filter-bw">
-        <img :src="props.post.image" />
-    </div>
+<div class="card rounded-sm shrink shadow border-thin border-crust">
+    <template v-if="props.post.image">
+        <div class="post-image filter-bw">
+            <img :src="props.post.image" />
+        </div>
+        <div v-if="props.post.caption" class="post-caption p-sm text-overlay1 text-sm"><em>{{ props.post.caption }}</em></div>
+    </template>
 
     <template v-if="props.post.avatar">
         <div class="post-avatar p-md">
@@ -59,7 +65,7 @@ const parseDate = (datestamp: number) => {
         <div class="post-body gutters-v text-text">{{ props.post.body }}</div>
         <div class="post-actions">
             <template v-for="file in props.post.files">
-                <div class="post-file bg-blue p-xs rounded-sm text-mantle">{{ file }}</div>
+                <Button :text="file" />
             </template>
         </div>
     </div>
@@ -80,6 +86,10 @@ const parseDate = (datestamp: number) => {
             clip-path: circle(40%);
         }
     }
+}
+
+.post-caption {
+    justify-content: center; align-items: center;
 }
 
 .post-avatar {
