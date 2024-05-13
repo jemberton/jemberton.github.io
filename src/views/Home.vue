@@ -5,6 +5,8 @@ import BlogPost from '../components/BlogPost.vue'
 
 import blogData from '../database.json'
 
+import { parseImage, parseHeadings, parseBlockQuote, parseHorizontalRule, parseMetadata } from '../lib'
+
 const globData = ref("")
 
 const blogstuff = async () => {
@@ -20,30 +22,64 @@ const markdownToHTML = async () => {
     let test = markdown.split('\n')
     let newHTMLArray = []
 
-    for (const line of test) {
+    let metadata = []
+    let metadataFlag = false
+
+    for (const [index, line] of test.entries()) {
         let newline = ""
 
-        //# Starting Character Line Parsers
-        if (line.startsWith('#')) {
-            let symbols = line.match(/^\#+/g) || []
-            let count = 0
+        // FIXME this is very broken for processing metadata ....
+        if (index === 0 && line.startsWith('{')) { metadataFlag = true; continue; }
 
-            if (symbols.length > 0) {
-                count = (symbols[0]?.match(/#/g) || []).length
-                newline = line.replace(/^#+\s(.*)/g, `<h${ count }>$1</h${ count }>`)
+        if (metadataFlag === true && line.startsWith('}')) { metadataFlag = false; parseMetadata(metadata); continue; }
+        if (metadataFlag === true && !line.startsWith('}')) {
+            metadata.push(line)
+        } else {
+            let isHeading = parseHeadings(line)
+            if (isHeading !== line) { newline = isHeading }
+
+            let isBlockQuote = parseBlockQuote(line)
+            if (isBlockQuote !== line) { newline = isBlockQuote }
+
+            let isHorizontalRule = parseHorizontalRule(line)
+            if (isHorizontalRule !== line) { newline = isHorizontalRule }
+
+            // TODO FIXME All of these should be put into seperate function calls to parse EVERYTHING
+
+            // FIXME this is needing some consideration for <ul> tags
+            if (line.startsWith('- ')) {
+                newline = line.replace(/^-\s(.+)/, '<li>$1</li>')
             }
+
+            if (line.startsWith('![')) {
+                let matches = line.match(/^!\[(.+?)\]\((.+?)\)/) || []
+                if (matches.length > 0) {
+                    newline = `<div class="md-img rounded-xxs"><img src="${ matches[2] }" alt="${ matches[1] }" /><span class="text-subtext0 text-sm"><em>${ matches[1] }</em></span></div>`
+                }
+            }
+
+            if (line.startsWith('[')) {
+                let matches = line.match(/^\[(.+?)\]\((.+?)\)/) || []
+                if (matches.length > 0) {
+                    if (matches[1].startsWith('![')) { parseImage() }
+                    else {
+                        newline = `<a href="${ matches[2] }" class="md-a">${ matches[1] }</a>`
+                    }
+                }
+            }
+
+            //# If line does contain a Markdown starting character, make it a content paragraph
+            if (newline === "" && line !== "") { newline = `<p>${ line }</p>` }
+
+            //# Parse other Markdown triggers
+            newline = newline.replace(/\*\*\*([a-zA-Z0-9_\s-]+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+            newline = newline.replace(/\*\*([a-zA-Z0-9_\s-]+?)\*\*/g, '<strong>$1</strong>')
+            newline = newline.replace(/\*([a-zA-Z0-9_\s-]+?)\*/g, `<em>$1</em>`)
+            newline = newline.replace(/\`([a-zA-Z0-9_\s-]+?)\`/g, `<div class="code">$1</div>`)
+
+            //# Add to HTML array
+            if (newline !== "") { newHTMLArray.push(newline) }
         }
-
-        //# If line does contain a Markdown starting character, make it a content paragraph
-        if (newline === "" && line !== "") { newline = `<p>${ line }</p>` }
-
-        //# Parse other Markdown triggers
-        newline = newline.replace(/\*\*\*([a-zA-Z0-9_\s-]+?)\*\*\*/g, '<strong><em>$1</em></strong>')
-        newline = newline.replace(/\*\*([a-zA-Z0-9_\s-]+?)\*\*/g, '<strong>$1</strong>')
-        newline = newline.replace(/\*([a-zA-Z0-9_\s-]+?)\*/g, `<em>$1</em>`)
-
-        //# Add to HTML array
-        if (newline !== "") { newHTMLArray.push(newline) }
     }
 
     globData.value = newHTMLArray.join("")
@@ -77,12 +113,12 @@ markdownToHTML()
 </script>
 
 <template>
-<div v-html="globData" class="bg-crust p-md" style="width: 100%;"></div>
 <div class="sheet">
     <div class="code p-md rounded-xs">
         <span class="text-green">jemberton@github ~$</span>
         <span>echo $BLOG</span>
     </div>
+    <div v-html="globData" class="bg-mantle p-md rounded border-thin border-crust shadow gutters-v"></div>
     <template v-for="post in blogData.posts">
         <BlogPost :post="post"/>
     </template>

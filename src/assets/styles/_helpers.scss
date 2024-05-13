@@ -61,6 +61,7 @@ $headings:
     .m-#{$size_name} { margin: #{$size}em; }
     .rounded-#{$size_name} { border-radius: #{$size}em; }
 }
+.rounded { border-radius: 1.0em; }
 
 @each $shadow_name, $shadow in $shadows {
     .shadow-#{$shadow_name} { box-shadow: #{$shadow}; }
@@ -76,7 +77,7 @@ $headings:
 }
 
 @each $heading, $size in $headings {
-    #{$heading} { font-size: #{$size}em; font-weight: bold; }
+    #{$heading} { font-size: #{$size}em; }
 }
 
 .gutters-v { margin: 1em 0; }
@@ -88,6 +89,26 @@ $headings:
 
 .font-mono { font-family: $global-font-family; }
 .font-retina { font-family: $global-font-family-retina; }
+
+.md-img {
+    padding: 0; margin: 0;
+    margin-bottom: calc($global-font-size * 2);
+    justify-content: center; align-items: center;
+
+    img {
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+        border-radius: inherit;
+        margin-bottom: calc($global-font-size / 2);
+    }
+}
+
+.md-a {
+    color: $red;
+    padding: 0; margin: 0;
+    margin-bottom: $global-font-size;
+}
 
 .code {
     font-family: $global-font-family;
