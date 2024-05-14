@@ -31,6 +31,11 @@ p { padding: 0; margin: 0; margin-bottom: $global-font-size; }
 blockquote { padding: 0; margin: 0; margin-bottom: $global-font-size; }
 li { list-style: square; padding: 0; margin: 0; margin-bottom: $global-font-size; margin-left: $global-font-size; }
 hr { width: 100%; border: none; border-top: 2px dashed $crust; padding: 0; margin: 0; margin-bottom: calc($global-font-size * 2); }
+.code { background: $crust; margin: 1em 0; }
+
+.md-header {
+    background: red;
+}
 
 .container {
     flex-direction: row;

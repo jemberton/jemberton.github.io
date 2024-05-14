@@ -60,8 +60,11 @@ $headings:
     .p-#{$size_name} { padding: #{$size}em; }
     .m-#{$size_name} { margin: #{$size}em; }
     .rounded-#{$size_name} { border-radius: #{$size}em; }
+    .gap-#{$size_name} { gap: #{$size}em; }
 }
 .rounded { border-radius: 1.0em; }
+.p-font { padding: $global-font-size; }
+.m-font { margin: $global-font-size; }
 
 @each $shadow_name, $shadow in $shadows {
     .shadow-#{$shadow_name} { box-shadow: #{$shadow}; }
@@ -86,9 +89,13 @@ $headings:
 
 .grow { flex-grow: 1; }
 .shrink { flex-grow: 0; }
+.row { flex-direction: row; }
+.column { flex-direction: column; }
 
 .font-mono { font-family: $global-font-family; }
 .font-retina { font-family: $global-font-family-retina; }
+
+
 
 .md-img {
     padding: 0; margin: 0;
@@ -108,14 +115,6 @@ $headings:
     color: $red;
     padding: 0; margin: 0;
     margin-bottom: $global-font-size;
-}
-
-.code {
-    font-family: $global-font-family;
-    background: $crust; color: $subtext1;
-    margin: 1em 0;
-    flex-direction: row;
-    gap: 0.5em;
 }
 
 .sheet {

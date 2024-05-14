@@ -9,7 +9,7 @@ export const parseHeadings = (line: string) => {
 
         if (symbols.length > 0) {
             count = (symbols[0]?.match(/#/g) || []).length
-            return line.replace(/^#+\s(.*)/g, `<h${ count }>$1</h${ count }>`)
+            return line.replace(/^#+\s(.*)/g, `<h${ count } class="m-font">$1</h${ count }>`)
         }
     }
 
@@ -43,21 +43,28 @@ export const parseMetadata = (metadata: string[]) => {
     }
 
     for (const data of metadata) {
-        console.log(data.trim())
         let key = data.trim().split(': ')
         
         if (key.length > 1) {
             switch (key[0]) {
-                case "title": metadataHTML.title = `<div>${ key[1] }</div>`; break
-                case "author": metadataHTML.author = `<div>${ key[1] }</div>`; break
-                case "avatar": metadataHTML.avatar = `<div>${ key[1] }</div>`; break
-                case "date": metadataHTML.date = `<div>${ parseInt(key[1]) }</div>`; break
+                case "title":
+                    metadataHTML.title = `<div class="text-red">${ key[1] }</div>`
+                    break
+                case "author":
+                    metadataHTML.author = `<div>${ key[1] }</div>`
+                    break
+                case "avatar":
+                    metadataHTML.avatar = `<div>${ key[1] }</div>`
+                    break
+                case "date":
+                    metadataHTML.date = `<div>${ parseInt(key[1]) }</div>`
+                    break
                 default: break
             }
         }
     }
 
-    return ""
+    return `<div class="md-header">${ metadataHTML.avatar }${ metadataHTML.author }</div><div>${ metadataHTML.title }${ metadataHTML.date }</div>`
 }
 
 export const parse = (markdown: string) => {

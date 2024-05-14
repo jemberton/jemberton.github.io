@@ -31,7 +31,12 @@ const markdownToHTML = async () => {
         // FIXME this is very broken for processing metadata ....
         if (index === 0 && line.startsWith('{')) { metadataFlag = true; continue; }
 
-        if (metadataFlag === true && line.startsWith('}')) { metadataFlag = false; parseMetadata(metadata); continue; }
+        if (metadataFlag === true && line.startsWith('}')) {
+            metadataFlag = false
+            let newMetadata: string = parseMetadata(metadata)
+            newHTMLArray.push(newMetadata)
+            continue
+        }
         if (metadataFlag === true && !line.startsWith('}')) {
             metadata.push(line)
         } else {
@@ -75,7 +80,7 @@ const markdownToHTML = async () => {
             newline = newline.replace(/\*\*\*([a-zA-Z0-9_\s-]+?)\*\*\*/g, '<strong><em>$1</em></strong>')
             newline = newline.replace(/\*\*([a-zA-Z0-9_\s-]+?)\*\*/g, '<strong>$1</strong>')
             newline = newline.replace(/\*([a-zA-Z0-9_\s-]+?)\*/g, `<em>$1</em>`)
-            newline = newline.replace(/\`([a-zA-Z0-9_\s-]+?)\`/g, `<div class="code">$1</div>`)
+            newline = newline.replace(/\`([a-zA-Z0-9_\s-]+?)\`/g, `<div class="code p-md rounded-xxs font-mono text-sm">$1</div>`)
 
             //# Add to HTML array
             if (newline !== "") { newHTMLArray.push(newline) }
@@ -114,11 +119,11 @@ markdownToHTML()
 
 <template>
 <div class="sheet">
-    <div class="code p-md rounded-xs">
+    <div class="code row gap-md p-md rounded-xs">
         <span class="text-green">jemberton@github ~$</span>
         <span>echo $BLOG</span>
     </div>
-    <div v-html="globData" class="bg-mantle p-md rounded border-thin border-crust shadow gutters-v"></div>
+    <div v-html="globData" class="bg-mantle rounded border-thin border-crust shadow gutters-v"></div>
     <template v-for="post in blogData.posts">
         <BlogPost :post="post"/>
     </template>

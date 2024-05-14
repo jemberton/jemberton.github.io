@@ -1,8 +1,8 @@
 {
-    title: 'Markdown Parser'
+    title: Markdown Parser
     date: 1715124732378
-    author: 'Josh'
-    avatar: 'josh.jpg'
+    author: Josh
+    avatar: josh.jpg
 }
 
 # Markdown Parser
