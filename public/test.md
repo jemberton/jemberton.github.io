@@ -2,10 +2,10 @@
     title: Markdown Parser
     date: 1715124732378
     author: Josh
+    email: @email real@email.com
+    github: @github https://jemberton.github.io
     avatar: josh.jpg
 }
-
-# Markdown Parser
 
 this is a markdown file to be used as the blog content. I liked the idea of the metadata in JSON format, but that lacks an easy editing mode like Markdown.
 

@@ -36,9 +36,9 @@ const HanselGretel = () => {
     return ""
 }
 
-const addCrumb = () => {
-    breadcrumb.value.push({ url: 'wee', text: 'woo' })
-}
+// const addCrumb = () => {
+//     breadcrumb.value.push({ url: 'wee', text: 'woo' })
+// }
 
 </script>
 

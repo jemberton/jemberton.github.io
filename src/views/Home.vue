@@ -74,7 +74,7 @@ const markdownToHTML = async () => {
             }
 
             //# If line does contain a Markdown starting character, make it a content paragraph
-            if (newline === "" && line !== "") { newline = `<p>${ line }</p>` }
+            if (newline === "" && line !== "") { newline = `<p class="p-md pt-none">${ line }</p>` }
 
             //# Parse other Markdown triggers
             newline = newline.replace(/\*\*\*([a-zA-Z0-9_\s-]+?)\*\*\*/g, '<strong><em>$1</em></strong>')

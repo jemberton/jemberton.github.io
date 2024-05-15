@@ -1,6 +1,16 @@
+// TODO Add method to handle text colors as links. It should handle hover colors 
+
+//@=============================================================================
+//@ Globals
+//@=============================================================================
+
 $global-font-size: 11pt;
 $global-font-family: 'Fira Code', monospace;
 $global-font-family-retina: 'Fira Sans', sans-serif;
+
+//@=============================================================================
+//@ Variable Arrays
+//@=============================================================================
 
 //# SIZE_NAME LAYOUT_SIZE TEXT_SIZE
 $sizes: 
@@ -40,6 +50,21 @@ $headings:
     "h5" "1.0",
     "h6" "0.9";
 
+$alignments:
+    "start",
+    "end",
+    "center";
+
+$faces:
+    "t" "top",
+    "b" "bottom",
+    "r" "right",
+    "l" "left";
+
+//@=============================================================================
+//@ Iterative Classes
+//@=============================================================================
+
 @each $border_name, $border in $borders {
     .border-#{$border_name} { border: #{$border} transparent; }
 }
@@ -51,6 +76,10 @@ $headings:
     .bg-#{$color_name} { background: $color_hex; }
     .text-#{$color_name} { color: $color_hex; }
     .border-#{$color_name} { border-color: $color_hex; }
+
+    @each $face_letter, $face in $faces {
+        .border-#{$face_letter}-#{$color_name} { border-#{$face}-color: $color_hex; }
+    }
 }
 
 //# Build size based classes
@@ -61,10 +90,20 @@ $headings:
     .m-#{$size_name} { margin: #{$size}em; }
     .rounded-#{$size_name} { border-radius: #{$size}em; }
     .gap-#{$size_name} { gap: #{$size}em; }
+
+    @each $face_letter, $face in $faces {
+        .p#{$face_letter}-#{$size_name} { padding-#{$face}: #{$size}em; }
+        .m#{$face_letter}-#{$size_name} { margin-#{$face}: #{$size}em; }
+    }
 }
 .rounded { border-radius: 1.0em; }
 .p-font { padding: $global-font-size; }
 .m-font { margin: $global-font-size; }
+
+@each $face_letter, $face in $faces {
+    .p#{$face_letter}-none { padding-#{$face}: 0; }
+    .m#{$face_letter}-none { margin-#{$face}: 0; }
+}
 
 @each $shadow_name, $shadow in $shadows {
     .shadow-#{$shadow_name} { box-shadow: #{$shadow}; }
@@ -83,17 +122,31 @@ $headings:
     #{$heading} { font-size: #{$size}em; }
 }
 
+@each $alignment in $alignments {
+    .justify-#{$alignment} { justify-content: #{$alignment}; }
+    .align-#{$alignment} { align-items: #{$alignment}; }
+}
+
+//@=============================================================================
+//@ Static Classes
+//@=============================================================================
+
 .gutters-v { margin: 1em 0; }
 .gutters-h { margin: 0 1em; }
 .gutters { margin: 1em; }
 
 .grow { flex-grow: 1; }
 .shrink { flex-grow: 0; }
+
 .row { flex-direction: row; }
 .column { flex-direction: column; }
 
 .font-mono { font-family: $global-font-family; }
 .font-retina { font-family: $global-font-family-retina; }
+
+.font-bold { font-weight: bold; }
+
+.circle { clip-path: circle(40%); }
 
 
 
