@@ -7,7 +7,11 @@ import blogData from '../database.json'
 
 import { parseImage, parseHeadings, parseBlockQuote, parseHorizontalRule, parseMetadata } from '../lib'
 
+import { IMarkdownPost } from '../lib'
+import MarkdownPost from '../components/MarkdownPost.vue'
+
 const globData = ref("")
+const markdownPosts = ref([<IMarkdownPost>{}])
 
 const blogstuff = async () => {
     const data = await fetch('/test.md')
@@ -21,6 +25,11 @@ const markdownToHTML = async () => {
 
     let test = markdown.split('\n')
     let newHTMLArray = []
+    let newMetadata: IMarkdownPost = {
+        title: '',
+        date: '',
+        body: ''
+    }
 
     let metadata = []
     let metadataFlag = false
@@ -33,8 +42,8 @@ const markdownToHTML = async () => {
 
         if (metadataFlag === true && line.startsWith('}')) {
             metadataFlag = false
-            let newMetadata: string = parseMetadata(metadata)
-            newHTMLArray.push(newMetadata)
+            newMetadata = parseMetadata(metadata)
+            // newHTMLArray.push(newMetadata)
             continue
         }
         if (metadataFlag === true && !line.startsWith('}')) {
@@ -88,6 +97,8 @@ const markdownToHTML = async () => {
     }
 
     globData.value = newHTMLArray.join("")
+    newMetadata.body = newHTMLArray.join("")
+    markdownPosts.value.push(newMetadata)
 
     // let parsed = ""
     // parsed = markdown.replace(/^#{1,6}\s.*\n/gm, (match) => {
@@ -124,6 +135,9 @@ markdownToHTML()
         <span>echo $BLOG</span>
     </div>
     <div v-html="globData" class="bg-mantle rounded border-thin border-crust shadow gutters-v"></div>
+    <template v-for="post in markdownPosts">
+        <MarkdownPost :postData="post" />
+    </template>
     <template v-for="post in blogData.posts">
         <BlogPost :post="post"/>
     </template>
