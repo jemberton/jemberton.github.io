@@ -161,5 +161,5 @@ export const parseMetadata = (metadata: string[]) => {
 // }
 
 export const parse = (markdown: string) => {
-    console.log('full parser ...')
+    console.log('full parser ...', markdown)
 }

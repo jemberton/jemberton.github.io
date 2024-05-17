@@ -95,6 +95,11 @@ $faces:
         .p#{$face_letter}-#{$size_name} { padding-#{$face}: #{$size}em; }
         .m#{$face_letter}-#{$size_name} { margin-#{$face}: #{$size}em; }
     }
+
+    .px-#{$size_name} { padding-left: #{$size}em; padding-right: #{$size}em; }
+    .py-#{$size_name} { padding-top: #{$size}em; padding-bottom: #{$size}em; }
+    .mx-#{$size_name} { margin-left: #{$size}em; margin-right: #{$size}em; }
+    .my-#{$size_name} { margin-top: #{$size}em; margin-bottom: #{$size}em; }
 }
 .rounded { border-radius: 1.0em; }
 .p-font { padding: $global-font-size; }

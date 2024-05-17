@@ -39,7 +39,7 @@ const postData = defineProps<{
                         <template v-if="postData.data.avatar">
                             <img :src="postData.data.avatar" class="avatar circle"/>
                         </template>
-                        <div class="justify-center align-start">
+                        <div class="justify-center align-start gap-xxs">
                             <template v-if="postData.data.author">
                                 <div class="author text-lg">{{ postData.data.author }}</div>
                             </template>

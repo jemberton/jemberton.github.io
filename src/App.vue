@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useWindowSize } from '@vueuse/core'
 
-import Button from './components/Button.vue'
+const windowSize = ref(useWindowSize())
 
 const navigation = [
     {
@@ -44,7 +45,7 @@ const HanselGretel = () => {
 
 <template>
 <div class="container">
-    <div class="left">
+    <div class="left" v-if="windowSize.width >= 1024">
         <div class="branding p-md">
             <font-awesome-icon :icon="['fas', 'code']" class="text-xl" />
         </div>
@@ -67,12 +68,19 @@ const HanselGretel = () => {
             </a>
         </div>
     </div>
+    <div class="bg-crust row justify-start align-center" v-else>
+        <div class="p-lg px-xl row gap-lg grow">
+            <font-awesome-icon icon="fa-solid fa-code" class="text-xl" />
+            <span class="grow"></span>
+            <font-awesome-icon icon="fa-solid fa-bars" class="text-xl" />
+        </div>
+    </div>
     <div class="right grow">
-        <div class="menu p-md text-sm">{{ HanselGretel() }}</div>
+        <div class="menu p-md text-sm">{{ HanselGretel() }} $HanselGretel</div>
         <div class="main grow">
             <RouterView />
         </div>
-        <div class="foot p-md"></div>
+        <div class="foot p-md">$footer</div>
     </div>
 </div>
 </template>

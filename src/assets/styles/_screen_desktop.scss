@@ -1,0 +1,67 @@
+.container {
+    width: 100vw; height: 100vh;
+    max-width: 100%;
+
+    .left {
+        background: $crust;
+        border-right: 3px solid $mantle;
+        position: fixed;
+        top: 0; bottom: 0; left: 0;
+        z-index: 1;
+        width: 196px;
+
+        .branding {
+            justify-content: center; align-items: center;
+            flex-direction: row;
+            gap: 1em;
+
+            svg { color: $lavender; }
+        }
+
+        .nav {
+            margin: 2em 0;
+
+            .nav-item {
+                display: flex; position: relative;
+                margin: 0;
+                flex-direction: row;
+                gap: 1em;
+                border-left: 4px solid transparent;
+                align-items: center;
+                color: $text;
+
+                &:hover {
+                    border-color: $blue;
+                    color: $blue; background: $mantle;
+                }
+
+                &.router-link-active {
+                    border-color: $mauve;
+                    color: $mauve;
+                }
+            }
+        }
+
+        .foot {
+            justify-content: center; align-items: center;
+
+            a {
+                color: $text;
+
+                &:hover { color: $peach; }
+            }
+        }
+    }
+
+    .right {
+        margin-left: 196px;
+
+        .menu {
+            background: $mantle;
+        }
+
+        .main {
+            align-items: center; justify-content: start;
+        }
+    }
+}
