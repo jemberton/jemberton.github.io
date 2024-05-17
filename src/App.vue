@@ -69,7 +69,6 @@ const HanselGretel = () => {
     </div>
     <div class="right grow">
         <div class="menu p-md text-sm">{{ HanselGretel() }}</div>
-        <Button text="add to breadcrumb"/>
         <div class="main grow">
             <RouterView />
         </div>
