@@ -3,7 +3,7 @@
     date: 1715124732378
     author: Josh
     email: @email real@email.com
-    github: @github https://jemberton.github.io
+    github: @jemberton https://github.com/jemberton
     avatar: josh.jpg
 }
 

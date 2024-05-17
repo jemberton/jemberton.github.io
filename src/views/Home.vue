@@ -1,16 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-import BlogPost from '../components/BlogPost.vue'
-
-import blogData from '../database.json'
-
 import { parseImage, parseHeadings, parseBlockQuote, parseHorizontalRule, parseMetadata } from '../lib'
 
 import { IMarkdownPost } from '../lib'
 import MarkdownPost from '../components/MarkdownPost.vue'
 
-const globData = ref("")
 const markdownPosts = ref([<IMarkdownPost>{}])
 
 const blogstuff = async () => {
@@ -96,7 +91,6 @@ const markdownToHTML = async () => {
         }
     }
 
-    globData.value = newHTMLArray.join("")
     newMetadata.body = newHTMLArray.join("")
     markdownPosts.value.push(newMetadata)
 
@@ -134,12 +128,8 @@ markdownToHTML()
         <span class="text-green">jemberton@github ~$</span>
         <span>echo $BLOG</span>
     </div>
-    <div v-html="globData" class="bg-mantle rounded border-thin border-crust shadow gutters-v"></div>
     <template v-for="post in markdownPosts">
-        <MarkdownPost :postData="post" />
-    </template>
-    <template v-for="post in blogData.posts">
-        <BlogPost :post="post"/>
+        <MarkdownPost :data="post" />
     </template>
 </div>
 </template>
