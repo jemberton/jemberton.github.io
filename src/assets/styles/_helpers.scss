@@ -72,10 +72,17 @@ $faces:
 
 //# Build colors from Catppuccin Mocha
 //# bg text
-@each $color_name, $color_hex in $mocha {
+@each $color_name, $color_hex, $hover in $mocha {
     .bg-#{$color_name} { background: $color_hex; }
-    .text-#{$color_name} { color: $color_hex; }
     .border-#{$color_name} { border-color: $color_hex; }
+    .text-#{$color_name} { color: $color_hex; }
+    a {
+        &.text-#{$color_name} { 
+            color: $color_hex;
+
+            &:hover { color: $hover; }
+        }
+    }
 
     @each $face_letter, $face in $faces {
         .border-#{$face_letter}-#{$color_name} { border-#{$face}-color: $color_hex; }
@@ -132,6 +139,13 @@ $faces:
     .align-#{$alignment} { align-items: #{$alignment}; }
 }
 
+@for $percent from 1 through 9 {
+    .w-#{$percent * 10} { width: #{$percent * 10}#{"%"}; }
+    .h-#{$percent * 10} { height: #{$percent * 10}#{"%"}; }
+}
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+
 //@=============================================================================
 //@ Static Classes
 //@=============================================================================
@@ -177,11 +191,8 @@ $faces:
 
 .sheet {
     display: flex; position: relative;
-    margin: 0; padding: 1em;
     flex-direction: column;
     flex-grow: 1;
-    width: 80%;
-    max-width: 80%;
 }
 
 .card {
