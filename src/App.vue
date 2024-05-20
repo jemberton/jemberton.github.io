@@ -64,7 +64,7 @@ const navigation = [
         <div class="menu p-md text-sm row gap-sm align-center">
             <font-awesome-icon icon="fa-solid fa-location-arrow fa-fw" class="text-md text-overlay2" />
             <template v-for="(item, index) in globalState.hanselGretel">
-                <a v-if="item.url" :href="item.url" :title="item.name">{{ item.name }}</a>
+                <a v-if="item.url" :href="item.url" :title="item.name" class="text-text">{{ item.name }}</a>
                 <div v-else :title="item.name">{{ item.name }}</div>
                 <div v-if="index < globalState.hanselGretel.length - 1">
                     <font-awesome-icon icon="fa-solid fa-arrow-right-long fa-fw" class="text-surface1" />

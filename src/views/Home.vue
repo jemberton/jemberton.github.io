@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { useGlobalState } from '../stores/globalState'
 
 const globalState = useGlobalState()
-globalState.hanselGretel = [{ name: 'Home', url: '/' }, { name: 'Guides', url: '/guides' }, { name: 'Today', url: '/' }]
+globalState.hanselGretel = [{ name: 'Home', url: '/' }]
 
 import { parseImage, parseHeadings, parseBlockQuote, parseHorizontalRule, parseMetadata } from '../lib'
 
