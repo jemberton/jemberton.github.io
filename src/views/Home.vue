@@ -88,7 +88,7 @@ const markdownToHTML = async () => {
             newline = newline.replace(/\*\*\*([a-zA-Z0-9_\s-]+?)\*\*\*/g, '<strong><em>$1</em></strong>')
             newline = newline.replace(/\*\*([a-zA-Z0-9_\s-]+?)\*\*/g, '<strong>$1</strong>')
             newline = newline.replace(/\*([a-zA-Z0-9_\s-]+?)\*/g, `<em>$1</em>`)
-            newline = newline.replace(/\`([a-zA-Z0-9_\s-]+?)\`/g, `<div class="code p-md rounded-xxs font-mono text-sm">$1</div>`)
+            newline = newline.replace(/\`([a-zA-Z0-9_\s-]+?)\`/g, `<div class="code p-md rounded-xxs font-mono text-sm m-md bg-crust">$1</div>`)
 
             //# Add to HTML array
             if (newline !== "") { newHTMLArray.push(newline) }
@@ -128,7 +128,7 @@ markdownToHTML()
 
 <template>
 <div class="sheet" :class="globalState.windowSize.width < 1024 ? 'w-full px-xxl py-md' : 'w-80 p-md'">
-    <div class="code row gap-md p-md rounded-xs">
+    <div class="code row gap-md p-md rounded-xs bg-crust">
         <span class="text-green">jemberton@github ~$</span>
         <span>echo $BLOG</span>
     </div>

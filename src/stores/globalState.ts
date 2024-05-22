@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { useStorage, useWindowSize } from '@vueuse/core'
+import { useWindowSize } from '@vueuse/core'
 
 interface HanselGretelItem {
     name: string,
