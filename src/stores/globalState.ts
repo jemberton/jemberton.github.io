@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { useWindowSize } from '@vueuse/core'
+import { useWindowScroll, useWindowSize } from '@vueuse/core'
 
 interface HanselGretelItem {
     name: string,
@@ -9,6 +9,7 @@ interface HanselGretelItem {
 
 export const useGlobalState = defineStore('globalState', () => {
     const windowSize = ref(useWindowSize())
+    const windowScroll = ref(useWindowScroll({ behavior: 'smooth' }))
     const hanselGretel = ref([<HanselGretelItem>{}])
 
     const navigationPanel = ref(false)
@@ -102,6 +103,7 @@ export const useGlobalState = defineStore('globalState', () => {
         hanselGretel,
         navigationPanel,
         screenOverlayPanel,
+        windowScroll,
         windowSize
     }
 })

@@ -1,9 +1,4 @@
 <script setup lang="ts">
-import { useWindowScroll } from '@vueuse/core'
-const { x, y } = useWindowScroll({ behavior: 'smooth' })
-console.log(x.value, y.value)
-y.value = 200
-
 import { useGlobalState } from './stores/globalState'
 const globalState = useGlobalState()
 
@@ -37,7 +32,13 @@ const navigation = [
     v-if="globalState.screenOverlayPanel && globalState.windowSize.width < 1024" class="screen-overlay z-2"
     @click="() => { globalState.navigationPanel = !globalState.navigationPanel; globalState.screenOverlayPanel = globalState.navigationPanel }"
 />
-<div v-if="y > 0" class="screen-scroll rounded-full pointer hover-mauve bg-surface0 shadow-high justify-center align-center z-1" @click="() => y = 0">
+<div
+    v-if="globalState.windowScroll.y > 0"
+    class="screen-scroll rounded-full pointer hover-mauve bg-surface0 shadow-high justify-center align-center z-1"
+    @click="() => globalState.windowScroll.y = 0"
+    title="Scroll to page top"
+    v-motion-fade
+>
     <font-awesome-icon icon="fa-solid fa-caret-up fa-fw" class="text-xxl" />
 </div>
 <div class="container">
@@ -106,7 +107,7 @@ const navigation = [
         <div class="menu p-md text-sm row gap-sm align-center">
             <font-awesome-icon icon="fa-solid fa-location-arrow fa-fw" class="text-md text-overlay2" />
             <template v-for="(item, index) in globalState.hanselGretel">
-                <a v-if="item.url" :href="item.url" :title="item.name" class="text-text">{{ item.name }}</a>
+                <RouterLink v-if="item.url" :to="item.url" :title="item.name" class="text-text">{{ item.name }}</RouterLink>
                 <div v-else :title="item.name">{{ item.name }}</div>
                 <div v-if="index < globalState.hanselGretel.length - 1">
                     <font-awesome-icon icon="fa-solid fa-arrow-right-long fa-fw" class="text-surface1" />
