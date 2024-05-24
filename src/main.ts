@@ -3,6 +3,8 @@ import './assets/styles/_global.scss'
 import App from './App.vue'
 import { createPinia } from 'pinia'
 
+import { MotionPlugin } from '@vueuse/motion'
+
 import router from './router'
 
 /* import the fontawesome core */
@@ -24,4 +26,5 @@ app.config.performance = false
 app.use(createPinia())
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.use(router)
+app.use(MotionPlugin)
 app.mount('#app')

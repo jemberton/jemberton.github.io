@@ -35,8 +35,10 @@ $filters:
     "bw" "grayscale(100%)";
 
 $borders:
+    "none" "none",
     "thin" "1px solid",
-    "thick" "3px solid";
+    "thick" "3px solid",
+    "thicker" "4px solid";
 
 $letter-spacings:
     "narrow" "-1",
@@ -76,6 +78,10 @@ $svg:
 
 @each $border_name, $border in $borders {
     .border-#{$border_name} { border: #{$border} transparent; }
+
+    @each $face_letter, $face in $faces {
+        .border-#{$face_letter}-#{$border_name} { border-#{$face}: #{$border} transparent; }
+    }
 }
 .border { border: 2px solid transparent; }
 

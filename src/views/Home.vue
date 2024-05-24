@@ -4,6 +4,8 @@ import { useGlobalState } from '../stores/globalState'
 
 const globalState = useGlobalState()
 globalState.hanselGretel = [{ name: 'Home', url: '/' }]
+globalState.navigationPanel = false
+globalState.screenOverlayPanel = false
 
 import { parseImage, parseHeadings, parseBlockQuote, parseHorizontalRule, parseMetadata } from '../lib'
 

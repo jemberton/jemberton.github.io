@@ -3,6 +3,9 @@ import { useGlobalState } from '../stores/globalState'
 
 const globalState = useGlobalState()
 globalState.hanselGretel = [{ name: 'Guides', url: '/guides' }]
+globalState.navigationPanel = false
+globalState.screenOverlayPanel = false
+
 </script>
 
 <template>

@@ -28,19 +28,24 @@ const navigation = [
 </script>
 
 <template>
+<div v-if="globalState.screenOverlayPanel && globalState.windowSize.width < 1024" class="screen-overlay"></div>
 <div class="container">
     <div
         v-if="globalState.navigationPanel && globalState.windowSize.width < 1024"
-        class="fixed z-9 t-0 b-0 l-0 py-lg px-xl bg-crust"
+        class="fixed z-9 t-0 b-0 l-0 bg-crust border-r-thick border-mantle nav-width"
+        v-motion-slide-left
     >
-        <span @click="() => { globalState.navigationPanel = !globalState.navigationPanel }" class="z-10">
+        <span
+            @click="() => { globalState.navigationPanel = !globalState.navigationPanel; globalState.screenOverlayPanel = globalState.navigationPanel }"
+            class="py-lg px-xl"
+        >
             <font-awesome-icon icon="fa-solid fa-bars" class="text-xl pointer" />
         </span>
-        <div class="nav grow">
+        <div class="p-none mt-xxl grow">
             <template v-for="navitem of navigation">
                 <RouterLink
                     :to="navitem.url"
-                    class="nav-item p-sm"
+                    class="flex row p-sm gap-md border-l-thicker justify-start align-center"
                 >
                     <div v-if="navitem.icon !== ''">
                         <font-awesome-icon :icon="navitem.icon" />
@@ -48,11 +53,6 @@ const navigation = [
                     <div>{{ navitem.title }}</div>
                 </RouterLink>
             </template>
-        </div>
-        <div class="text-lg p-md foot">
-            <a href="https://github.com/jemberton" title="jemberton's github">
-                <font-awesome-icon icon="fa-brands fa-github" />
-            </a>
         </div>
     </div>
     <div class="left" v-if="globalState.windowSize.width >= 1024">
@@ -80,7 +80,7 @@ const navigation = [
     </div>
     <div class="bg-crust row justify-start align-center" v-else>
         <div class="py-lg px-xl row gap-lg grow align-center">
-            <span @click="() => { globalState.navigationPanel = !globalState.navigationPanel }">
+            <span @click="() => { globalState.navigationPanel = !globalState.navigationPanel; globalState.screenOverlayPanel = globalState.navigationPanel }">
                 <font-awesome-icon icon="fa-solid fa-bars" class="text-xl pointer" />
             </span>
             <span class="grow"></span>

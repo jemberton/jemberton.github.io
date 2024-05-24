@@ -12,6 +12,7 @@ export const useGlobalState = defineStore('globalState', () => {
     const hanselGretel = ref([<HanselGretelItem>{}])
 
     const navigationPanel = ref(false)
+    const screenOverlayPanel = ref(false)
 
     // const navDrawerLeft = ref(false)
     // const navDrawerRight = ref(false)
@@ -100,6 +101,7 @@ export const useGlobalState = defineStore('globalState', () => {
     return {
         hanselGretel,
         navigationPanel,
+        screenOverlayPanel,
         windowSize
     }
 })
