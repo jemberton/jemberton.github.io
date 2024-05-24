@@ -9,16 +9,6 @@
         top: 0; bottom: 0; left: 0;
         z-index: 1;
         width: 196px;
-
-        .foot {
-            justify-content: center; align-items: center;
-
-            a {
-                color: $text;
-
-                &:hover { color: $peach; }
-            }
-        }
     }
 
     .right {

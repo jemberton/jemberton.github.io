@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import { useWindowScroll } from '@vueuse/core'
+const { x, y } = useWindowScroll({ behavior: 'smooth' })
+console.log(x.value, y.value)
+y.value = 200
+
 import { useGlobalState } from './stores/globalState'
 const globalState = useGlobalState()
 
@@ -29,9 +34,12 @@ const navigation = [
 
 <template>
 <div
-    v-if="globalState.screenOverlayPanel && globalState.windowSize.width < 1024" class="screen-overlay"
+    v-if="globalState.screenOverlayPanel && globalState.windowSize.width < 1024" class="screen-overlay z-2"
     @click="() => { globalState.navigationPanel = !globalState.navigationPanel; globalState.screenOverlayPanel = globalState.navigationPanel }"
-></div>
+/>
+<div v-if="y > 0" class="screen-scroll rounded-full pointer hover-mauve bg-surface0 shadow-high justify-center align-center z-1" @click="() => y = 0">
+    <font-awesome-icon icon="fa-solid fa-caret-up fa-fw" class="text-xxl" />
+</div>
 <div class="container">
     <div
         v-if="globalState.navigationPanel && globalState.windowSize.width < 1024"
@@ -75,8 +83,8 @@ const navigation = [
                 </RouterLink>
             </template>
         </div>
-        <div class="text-lg p-md foot">
-            <a href="https://github.com/jemberton" title="jemberton's github">
+        <div class="text-lg p-md justify-center align-center">
+            <a href="https://github.com/jemberton" title="jemberton's github" class="text-text">
                 <font-awesome-icon icon="fa-brands fa-github" />
             </a>
         </div>
@@ -89,7 +97,7 @@ const navigation = [
             <span class="grow"></span>
             <font-awesome-icon icon="fa-solid fa-code" class="text-xl text-lavender" />
             <span class="grow"></span>
-            <a href="https://github.com/jemberton" title="jemberton's github" class="flex">
+            <a href="https://github.com/jemberton" title="jemberton's github" class="flex text-text">
                 <font-awesome-icon icon="fa-brands fa-github" class="svg-sm" />
             </a>
         </div>
@@ -108,7 +116,7 @@ const navigation = [
         <div class="main grow">
             <RouterView />
         </div>
-        <div class="foot p-md">$footer</div>
+        <div class="bg-yellow text-mantle p-md">$footer</div>
     </div>
 </div>
 </template>

@@ -98,6 +98,7 @@ $svg:
             &:hover { color: $hover; }
         }
     }
+    .hover-#{$color_name} { &:hover { color: $color_hex; } }
 
     @each $face_letter, $face in $faces {
         .border-#{$face_letter}-#{$color_name} { border-#{$face}-color: $color_hex; }
@@ -126,6 +127,7 @@ $svg:
     .my-#{$size_name} { margin-top: #{$size}em; margin-bottom: #{$size}em; }
 }
 .rounded { border-radius: 1.0em; }
+.rounded-full { border-radius: 50%; }
 .p-font { padding: $global-font-size; }
 .m-font { margin: $global-font-size; }
 

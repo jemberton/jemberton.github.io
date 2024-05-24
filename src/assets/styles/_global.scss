@@ -9,6 +9,24 @@ body {
     margin: 0; padding: 0;
     width: 100vw; height: 100vh;
     max-width: 100%;
+    overflow-x: hidden;
+}
+
+*::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+*::-webkit-scrollbar-corner { background: $crust; }
+
+*::-webkit-scrollbar-track {
+    background: $crust;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 4px;
+    border: 3px solid $overlay0;
 }
 
 div {
@@ -24,7 +42,7 @@ a {
     text-decoration: none;
 
     &:hover {
-        color: $lavender;
+        color: inherit;
     }
 }
 
@@ -53,9 +71,16 @@ hr { width: 100%; border: none; border-top: 2px dashed $crust; padding: 0; margi
     top: 0; bottom: 0;
     left: 0; right: 0;
     background: rgba(0,0,0,0.6);
-    z-index: 1;
     backdrop-filter: blur(0.1em);
     -webkit-backdrop-filter: blur(0.1em);
+}
+
+.screen-scroll {
+    display: flex; position: fixed;
+    margin: 0; padding: 1em;
+    bottom: 2em;
+    right: 2em;
+    height: 3em; width: 3em;
 }
 
 // @import "screen_desktop";

@@ -12,11 +12,11 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 
 /* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faAddressCard, faArrowRightLong, faBars, faBookBookmark, faCode, faFolderTree, faHome, faLocationArrow, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { faAddressCard, faArrowRightLong, faBars, faBookBookmark, faCaretUp, faCircleUp, faCode, faFolderTree, faHome, faLocationArrow, faPaperPlane, faUpLong } from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faSquareGithub } from '@fortawesome/free-brands-svg-icons'
 
 /* add icons to the library */
-library.add(faFolderTree, faHome, faAddressCard, faGithub, faCode, faBookBookmark, faSquareGithub, faPaperPlane, faBars, faLocationArrow, faArrowRightLong)
+library.add(faFolderTree, faHome, faAddressCard, faGithub, faCode, faBookBookmark, faSquareGithub, faPaperPlane, faBars, faLocationArrow, faArrowRightLong, faCircleUp, faCaretUp, faUpLong)
 
 const app = createApp(App)
 
