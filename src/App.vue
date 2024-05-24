@@ -28,7 +28,10 @@ const navigation = [
 </script>
 
 <template>
-<div v-if="globalState.screenOverlayPanel && globalState.windowSize.width < 1024" class="screen-overlay"></div>
+<div
+    v-if="globalState.screenOverlayPanel && globalState.windowSize.width < 1024" class="screen-overlay"
+    @click="() => { globalState.navigationPanel = !globalState.navigationPanel; globalState.screenOverlayPanel = globalState.navigationPanel }"
+></div>
 <div class="container">
     <div
         v-if="globalState.navigationPanel && globalState.windowSize.width < 1024"
@@ -45,7 +48,7 @@ const navigation = [
             <template v-for="navitem of navigation">
                 <RouterLink
                     :to="navitem.url"
-                    class="flex row p-sm gap-md border-l-thicker justify-start align-center"
+                    class="flex row p-sm gap-md border-l-thicker justify-start align-center nav-link"
                 >
                     <div v-if="navitem.icon !== ''">
                         <font-awesome-icon :icon="navitem.icon" />
@@ -56,14 +59,14 @@ const navigation = [
         </div>
     </div>
     <div class="left" v-if="globalState.windowSize.width >= 1024">
-        <div class="branding p-md">
-            <font-awesome-icon icon="fa-solid fa-code" class="text-xl" />
+        <div class="py-lg px-xl">
+            <font-awesome-icon icon="fa-solid fa-code" class="text-xl text-lavender" />
         </div>
-        <div class="nav grow">
+        <div class="p-none grow mt-xxl">
             <template v-for="navitem of navigation">
                 <RouterLink
                     :to="navitem.url"
-                    class="nav-item p-sm"
+                    class="flex row p-sm gap-md border-l-thicker justify-start align-center nav-link"
                 >
                     <div v-if="navitem.icon !== ''">
                         <font-awesome-icon :icon="navitem.icon" />

@@ -44,6 +44,8 @@ hr { width: 100%; border: none; border-top: 2px dashed $crust; padding: 0; margi
 }
 
 .nav-width { width: 196px; }
+.nav-link { &:hover { border-color: $blue; color: $blue; background: $mantle; } }
+.router-link-active { color: $mauve; border-color: $mauve; }
 
 .screen-overlay {
     display: flex; position: fixed;

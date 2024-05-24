@@ -129,7 +129,7 @@ markdownToHTML()
 </script>
 
 <template>
-<div class="sheet" :class="globalState.windowSize.width < 1024 ? 'w-full px-xxl py-md' : 'w-80 p-md'">
+<div class="sheet" :class="globalState.windowSize.width < 1024 ? 'w-full p-md' : 'w-80 p-md'">
     <div class="code row gap-md p-md rounded-xs bg-crust">
         <span class="text-green">jemberton@github ~$</span>
         <span>echo $BLOG</span>

@@ -10,38 +10,6 @@
         z-index: 1;
         width: 196px;
 
-        .branding {
-            justify-content: center; align-items: center;
-            flex-direction: row;
-            gap: 1em;
-
-            svg { color: $lavender; }
-        }
-
-        .nav {
-            margin: 2em 0;
-
-            .nav-item {
-                display: flex; position: relative;
-                margin: 0;
-                flex-direction: row;
-                gap: 1em;
-                border-left: 4px solid transparent;
-                align-items: center;
-                color: $text;
-
-                &:hover {
-                    border-color: $blue;
-                    color: $blue; background: $mantle;
-                }
-
-                &.router-link-active {
-                    border-color: $mauve;
-                    color: $mauve;
-                }
-            }
-        }
-
         .foot {
             justify-content: center; align-items: center;
 
