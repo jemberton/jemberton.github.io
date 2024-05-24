@@ -61,6 +61,15 @@ $faces:
     "r" "right",
     "l" "left";
 
+$svg:
+    "xxs" "0.8",
+    "xs" "1.0",
+    "sm" "1.5",
+    "md" "2.0",
+    "lg" "2.5",
+    "xl" "3.0",
+    "xxl" "4.0";
+
 //@=============================================================================
 //@ Iterative Classes
 //@=============================================================================
@@ -101,6 +110,8 @@ $faces:
     @each $face_letter, $face in $faces {
         .p#{$face_letter}-#{$size_name} { padding-#{$face}: #{$size}em; }
         .m#{$face_letter}-#{$size_name} { margin-#{$face}: #{$size}em; }
+
+        .#{$face_letter}-#{$size_name} { #{$face}: #{$size}em; }
     }
 
     .px-#{$size_name} { padding-left: #{$size}em; padding-right: #{$size}em; }
@@ -115,6 +126,7 @@ $faces:
 @each $face_letter, $face in $faces {
     .p#{$face_letter}-none { padding-#{$face}: 0; }
     .m#{$face_letter}-none { margin-#{$face}: 0; }
+    .#{$face_letter}-0 { #{$face}: 0; }
 }
 
 @each $shadow_name, $shadow in $shadows {
@@ -146,13 +158,28 @@ $faces:
 .w-full { width: 100%; }
 .h-full { height: 100%; }
 
+@for $level from 0 through 10 {
+    .z-#{$level} { z-index: #{$level}; }
+}
+
+@each $svg_name, $svg_size in $svg {
+    .svg-#{$svg_name} { width: #{$svg_size}em; height: #{$svg_size}em; }
+}
+
 //@=============================================================================
 //@ Static Classes
 //@=============================================================================
 
+.pointer { &:hover { cursor: pointer; } }
+
 .gutters-v { margin: 1em 0; }
 .gutters-h { margin: 0 1em; }
 .gutters { margin: 1em; }
+
+.flex { display: flex; }
+
+.absolute { position: absolute; }
+.fixed { position: fixed; }
 
 .grow { flex-grow: 1; }
 .shrink { flex-grow: 0; }

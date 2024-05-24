@@ -2,7 +2,7 @@
 import { useGlobalState } from '../stores/globalState'
 
 const globalState = useGlobalState()
-globalState.hanselGretel = [{ name: 'Projects', url: '/projects' }]
+globalState.hanselGretel = [{ name: 'Projects', url: `/projects` }]
 </script>
 
 <template>

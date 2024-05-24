@@ -7,6 +7,8 @@ body {
     font: $global-font-size $global-font-family;
     display: flex; position: relative;
     margin: 0; padding: 0;
+    width: 100vw; height: 100vh;
+    max-width: 100%;
 }
 
 div {

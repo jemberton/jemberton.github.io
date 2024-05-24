@@ -29,9 +29,35 @@ const navigation = [
 
 <template>
 <div class="container">
+    <div
+        v-if="globalState.navigationPanel && globalState.windowSize.width < 1024"
+        class="fixed z-9 t-0 b-0 l-0 py-lg px-xl bg-crust"
+    >
+        <span @click="() => { globalState.navigationPanel = !globalState.navigationPanel }" class="z-10">
+            <font-awesome-icon icon="fa-solid fa-bars" class="text-xl pointer" />
+        </span>
+        <div class="nav grow">
+            <template v-for="navitem of navigation">
+                <RouterLink
+                    :to="navitem.url"
+                    class="nav-item p-sm"
+                >
+                    <div v-if="navitem.icon !== ''">
+                        <font-awesome-icon :icon="navitem.icon" />
+                    </div>
+                    <div>{{ navitem.title }}</div>
+                </RouterLink>
+            </template>
+        </div>
+        <div class="text-lg p-md foot">
+            <a href="https://github.com/jemberton" title="jemberton's github">
+                <font-awesome-icon icon="fa-brands fa-github" />
+            </a>
+        </div>
+    </div>
     <div class="left" v-if="globalState.windowSize.width >= 1024">
         <div class="branding p-md">
-            <font-awesome-icon :icon="['fas', 'code']" class="text-xl" />
+            <font-awesome-icon icon="fa-solid fa-code" class="text-xl" />
         </div>
         <div class="nav grow">
             <template v-for="navitem of navigation">
@@ -53,11 +79,16 @@ const navigation = [
         </div>
     </div>
     <div class="bg-crust row justify-start align-center" v-else>
-        <div class="p-lg px-xl row gap-lg grow">
-            <font-awesome-icon icon="fa-solid fa-code" class="text-xl" />
+        <div class="py-lg px-xl row gap-lg grow align-center">
+            <span @click="() => { globalState.navigationPanel = !globalState.navigationPanel }">
+                <font-awesome-icon icon="fa-solid fa-bars" class="text-xl pointer" />
+            </span>
             <span class="grow"></span>
-            <font-awesome-icon icon="fa-solid fa-bars" class="text-xl" />
-            <span class="text-yellow">?? remove ??</span>
+            <font-awesome-icon icon="fa-solid fa-code" class="text-xl text-lavender" />
+            <span class="grow"></span>
+            <a href="https://github.com/jemberton" title="jemberton's github" class="flex">
+                <font-awesome-icon icon="fa-brands fa-github" class="svg-sm" />
+            </a>
         </div>
     </div>
     <div class="right grow">
