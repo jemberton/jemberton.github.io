@@ -13,6 +13,7 @@ globalState.screenOverlayPanel = false
         <span class="text-green">jemberton@github ~$</span>
         <span>echo $PROJECTS</span>
     </div>
+    <div class="mt-md">projects</div>
 </div>
 </template>
 

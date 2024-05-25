@@ -29,9 +29,7 @@ const blogstuff = async (file: string) => {
 const markdownToHTML = async () => {
     console.log('------------------------------MARKDOWN2HTML')
     
-    for (const file of siteConfig.post) {
-        console.log(file)
-
+    for (const file of siteConfig.posts) {
         let metadata = []
         let metadataFlag = false
 

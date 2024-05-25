@@ -19,6 +19,11 @@ const router = createRouter({
             component: GuidesVue
         },
         {
+            path: '/guides/linux',
+            name: 'guides-linux',
+            component: GuidesVue
+        },
+        {
             path: '/projects',
             name: 'projects',
             component: ProjectsVue

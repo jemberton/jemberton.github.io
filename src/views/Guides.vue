@@ -14,10 +14,7 @@ globalState.screenOverlayPanel = false
         <span class="text-green">jemberton@github ~$</span>
         <span>echo $GUIDES</span>
     </div>
-    <ul>
-        TODO LIST
-        <li>linux beginner guide</li>
-    </ul>
+    <div class="mt-md">guides</div>
 </div>
 </template>
 
