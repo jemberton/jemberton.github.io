@@ -1,3 +1,7 @@
+//! Whole file needs review
+
+import { Router } from "vue-router"
+
 export interface IMarkdownPost {
     title: string
     author?: string
@@ -94,3 +98,58 @@ export const parseMetadata = (metadata: string[]) => {
 export const parse = (markdown: string) => {
     console.log('full parser ...', markdown)
 }
+
+export function linkify(element: HTMLElement, router: Router) {
+    const links = element.getElementsByClassName('router');
+  
+    Array.from(links).forEach((link: HTMLAnchorElement) => {
+      if (link.hostname == window.location.hostname) {
+        // ignore if onclick is already set
+        // e.g. RouterLink
+        if (link.onclick) {
+          return;
+        }
+  
+        link.onclick = (event: MouseEvent) => {
+          const { altKey, ctrlKey, metaKey, shiftKey, button, defaultPrevented } = event;
+          // ignore with control keys
+          if (metaKey || altKey || ctrlKey || shiftKey) {
+            return;
+          }
+  
+          // ignore when preventDefault called
+          // e.g. if it's a router-link
+          if (defaultPrevented) {
+            return;
+          }
+  
+          // ignore right clicks
+          if (button !== undefined && button !== 0) {
+            return;
+          }
+  
+          // ignore if `target="_blank"`
+          const linkTarget = link.getAttribute('target');
+          if (linkTarget && /\b_blank\b/i.test(linkTarget)) {
+            return;
+          }
+  
+          let url = null;
+          try {
+            url = new URL(link.href);
+          } catch (err) {
+            return;
+          }
+  
+          const to = url.pathname;
+          // ignore same page links with anchors
+          if (url.hash && window.location.pathname === to) {
+            return;
+          }
+  
+          event.preventDefault();
+          router.push(to);
+        }
+      }
+    });
+  }

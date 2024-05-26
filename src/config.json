@@ -1,12 +1,12 @@
 {
     "posts": [
-        "posts/test2.md",
-        "posts/test.md"
+        "p/test2.md",
+        "p/test.md"
     ],
     "guides": {
-        "index": "guides/index.md",
+        "index": "g/index.md",
         "linux": [
-            "guides/linux/index.md"
+            "g/linux/index.md"
         ]
     },
     "projects": [

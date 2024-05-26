@@ -84,6 +84,9 @@ $svg:
     }
 }
 .border { border: 2px solid transparent; }
+.border-dotted { border-style: dotted; }
+.border-double { border-style: double; }
+.border-dashed { border-style: dashed; }
 
 //# Build colors from Catppuccin Mocha
 //# bg text
@@ -201,6 +204,10 @@ $svg:
 .font-bold { font-weight: bold; }
 
 .circle { clip-path: circle(40%); }
+
+.capitalize { text-transform: capitalize; }
+.uppercase { text-transform: uppercase; }
+.lowercase { text-transform: lowercase; }
 
 
 
