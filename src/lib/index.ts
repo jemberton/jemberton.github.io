@@ -100,10 +100,10 @@ export const parse = (markdown: string) => {
 }
 
 export function linkify(element: HTMLElement, router: Router) {
-    const links = element.getElementsByClassName('router');
+    const links = element.getElementsByTagName('a');
   
     Array.from(links).forEach((link: HTMLAnchorElement) => {
-      if (link.hostname == window.location.hostname) {
+      if (link.hostname == window.location.hostname && link.classList.contains('router')) {
         // ignore if onclick is already set
         // e.g. RouterLink
         if (link.onclick) {

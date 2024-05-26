@@ -62,7 +62,7 @@ onMounted(async () => {
     linkify(pageContent.value!, $router)
 })
 
-watch(() => route.params, (newParams, oldParams) => {
+watch(() => route.params, (newParams) => {
     if (newParams.category) {
         buildPage(newParams.category.toString(), newParams.page.toString())
     } else {
