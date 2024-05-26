@@ -5,7 +5,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 const $router = useRouter()
 
-import { linkify } from '../lib'
+import { linkify, parse } from '../lib'
 
 const route = useRoute()
 
@@ -15,16 +15,6 @@ globalState.screenOverlayPanel = false
 
 const pageContent: Ref<HTMLElement | null> = ref(null)
 const pageData = ref("")
-
-const getMarkdownFile = async (file: string) => {
-    if (file !== "") {
-        const data = await fetch(file)
-        const datavalue = await data.text()
-        return datavalue
-    }
-    
-    return ""
-}
 
 const buildPage = async (category: string, page: string) => {
     let file = ""
@@ -46,10 +36,7 @@ const buildPage = async (category: string, page: string) => {
     }
 
     if (file !== "") {
-        let markdown = await getMarkdownFile(file)
-
-        // TODO add markdown parsing
-
+        let markdown = await parse(file)
         pageData.value = markdown
     }
 }
@@ -77,8 +64,8 @@ watch(() => pageData.value, () => {
 </script>
 
 <template>
-<div class="sheet" :class="globalState.windowSize.width < 1024 ? 'w-full p-md' : 'w-80 p-md'">
-    <div class="border-thick border-surface0 border-dashed p-lg" ref="pageContent" v-html="pageData"></div>
+<div class="grow" :class="globalState.windowSize.width < 1024 ? 'w-100 p-md' : 'w-80 p-md'">
+    <div class="border-thick border-surface0 border-dashed" ref="pageContent" v-html="pageData"></div>
 </div>
 </template>
 

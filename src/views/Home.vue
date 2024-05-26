@@ -9,25 +9,15 @@ globalState.hanselGretel = [{ name: 'Home', url: '/' }]
 globalState.navigationPanel = false
 globalState.screenOverlayPanel = false
 
-import { parseImage, parseHeadings, parseBlockQuote, parseHorizontalRule, parseMetadata } from '../lib'
+import { getFileContents, parseImage, parseHeadings, parseBlockQuote, parseHorizontalRule, parseMetadata, parse } from '../lib'
 
 import { IMarkdownPost } from '../lib'
 import MarkdownPost from '../components/MarkdownPost.vue'
 
 const markdownPosts = ref([<IMarkdownPost>{}])
 
-const blogstuff = async (file: string) => {
-    if (file !== "") {
-        const data = await fetch(file)
-        const datavalue = await data.text()
-        return datavalue
-    }
-    
-    return ""
-}
-
 const markdownToHTML = async () => {
-    console.log('------------------------------MARKDOWN2HTML')
+    console.log('-- MARKDOWN2HTML --------------------')
     
     for (const file of siteConfig.posts) {
         let metadata = []
@@ -40,7 +30,8 @@ const markdownToHTML = async () => {
             body: ''
         }
 
-        const markdown = await blogstuff(file)
+        const markdown = await getFileContents(file)
+        parse(file, true)
         let test = markdown.split('\n')
 
         for (const [index, line] of test.entries()) {
@@ -86,19 +77,19 @@ const markdownToHTML = async () => {
                     if (matches.length > 0) {
                         if (matches[1].startsWith('![')) { parseImage() }
                         else {
-                            newline = `<a href="${ matches[2] }" class="md-a">${ matches[1] }</a>`
+                            newline = `<a href="${ matches[2] }" class="text-red m-font">${ matches[1] }</a>`
                         }
                     }
                 }
 
                 //# If line does contain a Markdown starting character, make it a content paragraph
-                if (newline === "" && line !== "") { newline = `<p class="p-md pt-none">${ line }</p>` }
+                if (newline === "" && line !== "") { newline = `<p class="m-font mb-xxl">${ line }</p>` }
 
                 //# Parse other Markdown triggers
                 newline = newline.replace(/\*\*\*([a-zA-Z0-9_\s-]+?)\*\*\*/g, '<strong><em>$1</em></strong>')
                 newline = newline.replace(/\*\*([a-zA-Z0-9_\s-]+?)\*\*/g, '<strong>$1</strong>')
                 newline = newline.replace(/\*([a-zA-Z0-9_\s-]+?)\*/g, `<em>$1</em>`)
-                newline = newline.replace(/\`([a-zA-Z0-9_\s-]+?)\`/g, `<div class="code p-md rounded-xxs font-mono text-sm m-md bg-crust">$1</div>`)
+                newline = newline.replace(/\`([a-zA-Z0-9_\s-]+?)\`/g, `<div class="code p-md rounded-xxs font-mono text-sm m-font bg-crust">$1</div>`)
 
                 //# Add to HTML array
                 if (newline !== "") { newHTMLArray.push(newline) }
@@ -138,7 +129,7 @@ markdownToHTML()
 </script>
 
 <template>
-<div class="sheet" :class="globalState.windowSize.width < 1024 ? 'w-full p-md' : 'w-80 p-md'">
+<div class="grow" :class="globalState.windowSize.width < 1024 ? 'w-100 p-md' : 'w-80 p-md'">
     <div class="code row gap-md p-md rounded-xs bg-crust">
         <span class="text-green">jemberton@github ~$</span>
         <span>echo $BLOG</span>

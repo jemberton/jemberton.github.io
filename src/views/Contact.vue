@@ -8,7 +8,7 @@ globalState.screenOverlayPanel = false
 </script>
 
 <template>
-<div class="sheet" :class="globalState.windowSize.width < 1024 ? 'w-full p-md' : 'w-80 p-md'">
+<div class="grow" :class="globalState.windowSize.width < 1024 ? 'w-100 p-md' : 'w-80 p-md'">
     <div class="code row gap-md p-md rounded-xs bg-crust">
         <span class="text-green">jemberton@github ~$</span>
         <span>echo $CONTACT</span>

@@ -35,10 +35,11 @@ $filters:
     "bw" "grayscale(100%)";
 
 $borders:
-    "none" "none",
-    "thin" "1px solid",
-    "thick" "3px solid",
-    "thicker" "4px solid";
+    "none" "0px",
+    "thinner" "1px",
+    "thin" "2px",
+    "thick" "3px",
+    "thicker" "4px";
 
 $letter-spacings:
     "narrow" "-1",
@@ -77,10 +78,10 @@ $svg:
 //@=============================================================================
 
 @each $border_name, $border in $borders {
-    .border-#{$border_name} { border: #{$border} transparent; }
+    .border-#{$border_name} { border: #{$border} solid transparent; }
 
     @each $face_letter, $face in $faces {
-        .border-#{$face_letter}-#{$border_name} { border-#{$face}: #{$border} transparent; }
+        .border-#{$face_letter}-#{$border_name} { border-#{$face}: #{$border} solid transparent; }
     }
 }
 .border { border: 2px solid transparent; }
@@ -116,6 +117,7 @@ $svg:
     .m-#{$size_name} { margin: #{$size}em; }
     .rounded-#{$size_name} { border-radius: #{$size}em; }
     .gap-#{$size_name} { gap: #{$size}em; }
+    .icon-#{$size_name} { width: #{$size}em; height: #{$size}em; }
 
     @each $face_letter, $face in $faces {
         .p#{$face_letter}-#{$size_name} { padding-#{$face}: #{$size}em; }
@@ -133,6 +135,7 @@ $svg:
 .rounded-full { border-radius: 50%; }
 .p-font { padding: $global-font-size; }
 .m-font { margin: $global-font-size; }
+.icon-font { width: $global-font-size; height: $global-font-size; }
 
 @each $face_letter, $face in $faces {
     .p#{$face_letter}-none { padding-#{$face}: 0; }
@@ -162,12 +165,10 @@ $svg:
     .align-#{$alignment} { align-items: #{$alignment}; }
 }
 
-@for $percent from 1 through 9 {
+@for $percent from 1 through 10 {
     .w-#{$percent * 10} { width: #{$percent * 10}#{"%"}; }
     .h-#{$percent * 10} { height: #{$percent * 10}#{"%"}; }
 }
-.w-full { width: 100%; }
-.h-full { height: 100%; }
 
 @for $level from 0 through 10 {
     .z-#{$level} { z-index: #{$level}; }
@@ -186,6 +187,10 @@ $svg:
 .gutters-v { margin: 1em 0; }
 .gutters-h { margin: 0 1em; }
 .gutters { margin: 1em; }
+
+.overflow-none { overflow: hidden; }
+.overflow-x-none { overflow-x: none; }
+.overflow-y-none { overflow-y: none; }
 
 .flex { display: flex; }
 
@@ -209,59 +214,4 @@ $svg:
 .uppercase { text-transform: uppercase; }
 .lowercase { text-transform: lowercase; }
 
-
-
-.md-img {
-    padding: 0; margin: 0;
-    margin-bottom: calc($global-font-size * 2);
-    justify-content: center; align-items: center;
-
-    img {
-        max-width: 100%;
-        padding: 0;
-        margin: 0;
-        border-radius: inherit;
-        margin-bottom: calc($global-font-size / 2);
-    }
-}
-
-.md-a {
-    color: $red;
-    padding: 0; margin: 0;
-    margin-bottom: $global-font-size;
-}
-
-.sheet {
-    display: flex; position: relative;
-    flex-direction: column;
-    flex-grow: 1;
-}
-
-.card {
-    display: flex; position: relative;
-    margin: 1em 0;
-    flex-direction: column;
-    background: $mantle;
-}
-
-.button {
-    span {
-        z-index: 2;
-    }
-
-    &:hover {
-        cursor: pointer;
-
-        &::before {
-            content: "";
-            margin: 0; padding: 0;
-            position: absolute;
-            background: inherit;
-            filter: saturate(0.5);
-            display: flex;
-            border-radius: inherit;
-            width: 100%; height: 100%;
-            z-index: 1;
-        }
-    }
-}
+.justify-text { text-align: justify; text-justify: inter-word; }

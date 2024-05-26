@@ -1,7 +1,9 @@
 //! Whole file needs review
-
 import { Router } from "vue-router"
 
+//@ ============================================================================
+//@  Interfaces
+//@ ============================================================================
 export interface IMarkdownPost {
     title: string
     author?: string
@@ -12,15 +14,40 @@ export interface IMarkdownPost {
     body: string
 }
 
+export interface IMarkdownPage {
+  body: string
+}
+
+//@ ============================================================================
+//@  Getters
+//@ ============================================================================
+export const getFileContents = async (file: string) => {
+  if (file !== "") {
+    const data = await fetch(file)
+    const datavalue = await data.text()
+    return datavalue
+  }
+
+  return ""
+}
+
+//@ ============================================================================
+//@  Parsers
+//@ ============================================================================
+export const parseBlockQuote = (line: string) => {
+  if (line.startsWith('>')) {
+      return line.replace(/^\>\s(.+)/, '<blockquote class="bg-base p-lg rounded-xs font-retina m-font border-thin border-crust">$1</blockquote>')
+  }
+
+  return line
+}
+
 export const parseDate = (datestamp: number) => {
     let parsedObject = new Date(datestamp)
     return parsedObject.toISOString()
 }
 
-export const parseImage = () => {
-    console.log('lib/index.ts --> parseImage()')
-}
-
+// TODO add anchor link and show on hover 
 export const parseHeadings = (line: string) => {
     if (line.startsWith('#')) {
         let symbols = line.match(/^\#+/g) || []
@@ -35,20 +62,16 @@ export const parseHeadings = (line: string) => {
     return line
 }
 
-export const parseBlockQuote = (line: string) => {
-    if (line.startsWith('>')) {
-        return line.replace(/^\>\s(.+)/, '<blockquote class="bg-base p-lg rounded-xs font-retina m-md border-thin border-crust">$1</blockquote>')
+export const parseHorizontalRule = (line: string) => {
+    if (line.startsWith('---')) {
+        return "<hr class='w-100 border-none border-t-thin border-dashed border-crust m-none p-none my-lg'>"
     }
 
     return line
 }
 
-export const parseHorizontalRule = (line: string) => {
-    if (line.startsWith('---')) {
-        return "<hr>"
-    }
-
-    return line
+export const parseImage = () => {
+  console.log('lib/index.ts --> parseImage()')
 }
 
 export const parseMetadata = (metadata: string[]) => {
@@ -95,61 +118,121 @@ export const parseMetadata = (metadata: string[]) => {
     return metadataHTML
 }
 
-export const parse = (markdown: string) => {
-    console.log('full parser ...', markdown)
+export const parseParagraphs = (line: string) => {
+  if (line !== '') {
+    return `<p class="m-font mb-xxl flex row gap-xs justify-text">${ line }</p>`
+  }
+
+  return line
 }
 
-export function linkify(element: HTMLElement, router: Router) {
-    const links = element.getElementsByTagName('a');
+//@ ============================================================================
+//@  Automations
+//@ ============================================================================
+export const parse = async (file: string, hasMetadata: boolean = false) => {
+  if (hasMetadata) {
+    console.log('parse with metadata')
+  } else {
+    console.log('parse without metadata')
+  }
+
+  let newHTMLArray = []
+
+  let fileContents = await getFileContents(file)
+  let markdown = ""
+  
+  let lines = fileContents.split('\n')
+
+  for (const [index, line] of lines.entries()) {
+    let newline = ""
+
+    //# Process each line
+    //# Check for "startsWith" triggers
+    let isHeading = parseHeadings(line)
+    if (isHeading !== line) { newline = isHeading }
+
+    //# Check for paragraphs
+    if (newline === "" && line !== "") { newline = parseParagraphs(line) }
+
+    //# Check for inline triggers
+
+    //# Add to HTML array
+    if (newline !== "") { newHTMLArray.push(newline) }
+  }
+
+  //# TODO build line and add to array
+  markdown = newHTMLArray.join("")
+
+  return markdown
+}
+
+
+// TODO Review this and look to improve 
+// NOTE This function replaces dynamically generated HTML and adds in an onclick listener that extends vue-router-link 
+export const linkify = (element: HTMLElement, router: Router) => {
+    const links = element.getElementsByTagName('a')
   
     Array.from(links).forEach((link: HTMLAnchorElement) => {
       if (link.hostname == window.location.hostname && link.classList.contains('router')) {
         // ignore if onclick is already set
         // e.g. RouterLink
         if (link.onclick) {
-          return;
+          return
         }
   
         link.onclick = (event: MouseEvent) => {
-          const { altKey, ctrlKey, metaKey, shiftKey, button, defaultPrevented } = event;
+          const { altKey, ctrlKey, metaKey, shiftKey, button, defaultPrevented } = event
           // ignore with control keys
           if (metaKey || altKey || ctrlKey || shiftKey) {
-            return;
+            return
           }
   
           // ignore when preventDefault called
           // e.g. if it's a router-link
           if (defaultPrevented) {
-            return;
+            return
           }
   
           // ignore right clicks
           if (button !== undefined && button !== 0) {
-            return;
+            return
           }
   
           // ignore if `target="_blank"`
-          const linkTarget = link.getAttribute('target');
+          const linkTarget = link.getAttribute('target')
           if (linkTarget && /\b_blank\b/i.test(linkTarget)) {
-            return;
+            return
           }
   
-          let url = null;
+          let url = null
           try {
-            url = new URL(link.href);
+            url = new URL(link.href)
           } catch (err) {
-            return;
+            return
           }
   
-          const to = url.pathname;
+          const to = url.pathname
           // ignore same page links with anchors
           if (url.hash && window.location.pathname === to) {
-            return;
+            return
           }
   
-          event.preventDefault();
-          router.push(to);
+          event.preventDefault()
+          router.push(to)
+        }
+      } else {
+        link.innerHTML = `
+          <span class="flex row align-center gap-xs">
+          ${ link.innerText }
+          <svg class="icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M352 0c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9L370.7 96 201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L416 141.3l41.4 41.4c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V32c0-17.7-14.3-32-32-32H352zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z"/></svg>
+          </span>
+        `
+
+        link.onclick = (event: MouseEvent) => {
+          event.preventDefault()
+
+          window.open(link.href, '_blank')
         }
       }
-    });
+    })
   }
