@@ -103,11 +103,11 @@ const navigation = [
             </a>
         </div>
     </div>
-    <div class="right grow">
-        <div class="menu p-md text-sm row gap-sm align-center">
+    <div class="right grow graph-paper">
+        <div class="menu p-md text-sm row gap-xs align-center border-none border-b-thin border-crust">
             <font-awesome-icon icon="fa-solid fa-location-arrow fa-fw" class="text-md text-overlay2" />
             <template v-for="(item, index) in globalState.hanselGretel">
-                <RouterLink v-if="item.url" :to="item.url" :title="item.name" class="text-text capitalize">{{ item.name }}</RouterLink>
+                <RouterLink v-if="item.url" :to="item.url" :title="item.name" class="text-text capitalize ">{{ item.name }}</RouterLink>
                 <div v-else :title="item.name">{{ item.name }}</div>
                 <div v-if="index < globalState.hanselGretel.length - 1">
                     <font-awesome-icon icon="fa-solid fa-arrow-right-long fa-fw" class="text-surface1" />

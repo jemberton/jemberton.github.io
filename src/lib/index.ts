@@ -36,7 +36,14 @@ export const getFileContents = async (file: string) => {
 //@ ============================================================================
 export const parseBlockQuote = (line: string) => {
   if (line.startsWith('>')) {
-      return line.replace(/^\>\s(.+)/, '<blockquote class="bg-base p-lg rounded-xs font-retina m-font border-thin border-crust">$1</blockquote>')
+    let quoteSvg = `<svg class="icon-font3x" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 216C0 149.7 53.7 96 120 96h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V320 288 216zm256 0c0-66.3 53.7-120 120-120h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H320c-35.3 0-64-28.7-64-64V320 288 216z"/></svg>`
+
+    return line.replace(/^\>\s(.+)/, `
+      <blockquote class="bg-mantle p-xxl rounded-xs font-retina m-font flex row gap-sm zig-zag">
+        <span class="text-surface1">${ quoteSvg }</span>
+        <span class="grow">$1</span>
+      </blockquote>
+    `)
   }
 
   return line
@@ -64,7 +71,7 @@ export const parseHeadings = (line: string) => {
 
 export const parseHorizontalRule = (line: string) => {
     if (line.startsWith('---')) {
-        return "<hr class='w-100 border-none border-t-thin border-dashed border-crust m-none p-none my-lg'>"
+        return "<hr class='w-100 border-none border-t-thick border-dashed border-mantle m-none p-none my-lg'>"
     }
 
     return line
@@ -120,7 +127,7 @@ export const parseMetadata = (metadata: string[]) => {
 
 export const parseParagraphs = (line: string) => {
   if (line !== '') {
-    return `<p class="m-font mb-xxl flex row gap-xs justify-text">${ line }</p>`
+    return `<p class="m-font mb-xxl justify-text">${ line }</p>`
   }
 
   return line
@@ -130,12 +137,6 @@ export const parseParagraphs = (line: string) => {
 //@  Automations
 //@ ============================================================================
 export const parse = async (file: string, hasMetadata: boolean = false) => {
-  if (hasMetadata) {
-    console.log('parse with metadata')
-  } else {
-    console.log('parse without metadata')
-  }
-
   let newHTMLArray = []
 
   let fileContents = await getFileContents(file)
@@ -146,15 +147,29 @@ export const parse = async (file: string, hasMetadata: boolean = false) => {
   for (const [index, line] of lines.entries()) {
     let newline = ""
 
+    if (hasMetadata && index === 0) {
+      console.log('parse with metadata')
+    } else {
+      console.log('parse without metadata')
+    }
+
     //# Process each line
     //# Check for "startsWith" triggers
     let isHeading = parseHeadings(line)
     if (isHeading !== line) { newline = isHeading }
 
+    let isBlockQuote = parseBlockQuote(line)
+    if (isBlockQuote !== line) { newline = isBlockQuote }
+
+    let isHorizontalRule = parseHorizontalRule(line)
+    if (isHorizontalRule !== line) { newline = isHorizontalRule }
+
     //# Check for paragraphs
     if (newline === "" && line !== "") { newline = parseParagraphs(line) }
 
     //# Check for inline triggers
+    newline = newline.replace(/\*\*([a-zA-Z0-9_\s-]+?)\*\*/g, '<strong>$1</strong>')
+    newline = newline.replace(/\*([a-zA-Z0-9_\s-]+?)\*/g, `<em>$1</em>`)
 
     //# Add to HTML array
     if (newline !== "") { newHTMLArray.push(newline) }
@@ -222,9 +237,9 @@ export const linkify = (element: HTMLElement, router: Router) => {
         }
       } else {
         link.innerHTML = `
-          <span class="flex row align-center gap-xs">
-          ${ link.innerText }
-          <svg class="icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M352 0c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9L370.7 96 201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L416 141.3l41.4 41.4c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V32c0-17.7-14.3-32-32-32H352zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z"/></svg>
+          <span class="flex-inline align-center gap-xxs">
+            ${ link.innerText }
+            <svg class="icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M352 0c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9L370.7 96 201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L416 141.3l41.4 41.4c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V32c0-17.7-14.3-32-32-32H352zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z"/></svg>
           </span>
         `
 
@@ -232,6 +247,7 @@ export const linkify = (element: HTMLElement, router: Router) => {
           event.preventDefault()
 
           window.open(link.href, '_blank')
+          // window.location.href = link.href
         }
       }
     })

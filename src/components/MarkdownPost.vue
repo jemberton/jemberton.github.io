@@ -15,7 +15,7 @@ const postData = defineProps<{
 
 <template>
     <template v-if="postData.data.body">
-        <div class="bg-mantle rounded border-thinner border-crust shadow gutters-v pb-sm">
+        <div class="paper-torn border-none gutters-v shadow-higher">
             <template v-if="postData.data.author || postData.data.date">
                 <div class="md-header">
                     <div class="row align-center gap-md p-md border-thinner border-b-crust">
