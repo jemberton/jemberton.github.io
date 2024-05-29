@@ -145,7 +145,7 @@ onMounted(async () => {
 
 <template>
 <div class="grow" :class="globalState.windowSize.width < 1024 ? 'w-100 p-md' : 'w-80 p-md'">
-    <div class="code row gap-md p-md rounded-xs bg-crust">
+    <div class="code row gap-md p-md rounded-xs bg-crust border-thin border-base">
         <span class="text-green">jemberton@github ~$</span>
         <span>echo $BLOG</span>
     </div>

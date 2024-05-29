@@ -15,7 +15,7 @@ const postData = defineProps<{
 
 <template>
     <template v-if="postData.data.body">
-        <div class="paper-torn border-none gutters-v shadow-higher">
+        <div class="paper-torn border-none gutters-v shadow-low rounded-t-xs">
             <template v-if="postData.data.author || postData.data.date">
                 <div class="md-header">
                     <div class="row align-center gap-md p-md border-thinner border-b-crust">
@@ -54,7 +54,7 @@ const postData = defineProps<{
                     </div>
                 </div>
             </template>
-            <div v-html="postData.data.body"></div>
+            <div v-html="postData.data.body" class=""></div>
         </div>
     </template>
 </template>

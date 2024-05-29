@@ -39,7 +39,7 @@ export const parseBlockQuote = (line: string) => {
     let quoteSvg = `<svg class="icon-font3x" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 216C0 149.7 53.7 96 120 96h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V320 288 216zm256 0c0-66.3 53.7-120 120-120h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H320c-35.3 0-64-28.7-64-64V320 288 216z"/></svg>`
 
     return line.replace(/^\>\s(.+)/, `
-      <blockquote class="bg-mantle p-xxl rounded-xs font-retina m-font flex row gap-sm zig-zag">
+      <blockquote class="bg-mantle p-xxl rounded-xs font-retina m-font flex row gap-sm shadow border-thinner border-crust">
         <span class="text-surface1">${ quoteSvg }</span>
         <span class="grow">$1</span>
       </blockquote>
