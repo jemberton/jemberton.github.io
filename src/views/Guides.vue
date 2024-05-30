@@ -5,7 +5,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 const $router = useRouter()
 
-import { linkify, parse } from '../lib'
+import { IMarkdownPost, linkify, parse } from '../lib'
 
 const route = useRoute()
 
@@ -14,7 +14,7 @@ globalState.navigationPanel = false
 globalState.screenOverlayPanel = false
 
 const pageContent: Ref<HTMLElement | null> = ref(null)
-const pageData = ref("")
+const pageData = ref(<string | IMarkdownPost> "")
 
 const buildPage = async (category: string, page: string) => {
     let file = ""

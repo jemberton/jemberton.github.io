@@ -1,5 +1,5 @@
 //! Whole file needs review
-import { Router } from "vue-router"
+import { useRouter, Router } from "vue-router"
 
 //@ ============================================================================
 //@  Interfaces
@@ -11,7 +11,7 @@ export interface IMarkdownPost {
     date: string
     email?: string[]
     github?: string[]
-    body: string
+    body: string | IMarkdownPost
 }
 
 export interface IMarkdownPage {
@@ -36,12 +36,14 @@ export const getFileContents = async (file: string) => {
 //@ ============================================================================
 export const parseBlockQuote = (line: string) => {
   if (line.startsWith('>')) {
+    // TODO use regex `^\>(\s|\w+)(.+)` to split special blockquotes with syntax like `>warning lorem ipsum` 
+
     let quoteSvg = `<svg class="icon-font3x" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 216C0 149.7 53.7 96 120 96h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V320 288 216zm256 0c0-66.3 53.7-120 120-120h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H320c-35.3 0-64-28.7-64-64V320 288 216z"/></svg>`
 
     return line.replace(/^\>\s(.+)/, `
-      <blockquote class="bg-mantle p-xxl rounded-xs font-retina m-font flex row gap-sm shadow border-thinner border-crust">
-        <span class="text-surface1">${ quoteSvg }</span>
-        <span class="grow">$1</span>
+      <blockquote class="bg-mantle p-xxl rounded-xs font-retina m-font flex row gap-sm shadow border-thinner border-crust align-center">
+        <span class="text-surface1 align-self-start">${ quoteSvg }</span>
+        <span class="grow justify-text ">$1</span>
       </blockquote>
     `)
   }
@@ -136,22 +138,35 @@ export const parseParagraphs = (line: string) => {
 //@ ============================================================================
 //@  Automations
 //@ ============================================================================
-export const parse = async (file: string, hasMetadata: boolean = false) => {
+export const parse = async (file: string, withMetadata: boolean = false) => {
   let newHTMLArray = []
+  let markdownPost: IMarkdownPost = {
+    title: '',
+    date: '',
+    body: ''
+  }
 
   let fileContents = await getFileContents(file)
   let markdown = ""
   
   let lines = fileContents.split('\n')
 
-  for (const [index, line] of lines.entries()) {
-    let newline = ""
+  if (withMetadata) {
+    let metadataArray = []
 
-    if (hasMetadata && index === 0) {
-      console.log('parse with metadata')
-    } else {
-      console.log('parse without metadata')
+    for (const [index, line] of lines.entries()) {
+      if (line.startsWith('}')) {
+        lines.splice(0, index + 1)
+        break
+      }
+      if (!line.startsWith('{') && !line.startsWith('}')) metadataArray.push(line)
     }
+
+    markdownPost = parseMetadata(metadataArray)
+  }
+
+  for (const line of lines) {
+    let newline = ""
 
     //# Process each line
     //# Check for "startsWith" triggers
@@ -175,10 +190,14 @@ export const parse = async (file: string, hasMetadata: boolean = false) => {
     if (newline !== "") { newHTMLArray.push(newline) }
   }
 
-  //# TODO build line and add to array
   markdown = newHTMLArray.join("")
+  markdownPost.body = markdown
 
-  return markdown
+  if (withMetadata === true) {
+    return markdownPost
+  } else {
+    return markdown
+  }
 }
 
 
@@ -252,3 +271,85 @@ export const linkify = (element: HTMLElement, router: Router) => {
       }
     })
   }
+
+
+// for (const file of siteConfig.posts) {
+//     let metadata = []
+//     let metadataFlag = false
+
+//     let newHTMLArray = []
+//     let newMetadata: IMarkdownPost = {
+//         title: '',
+//         date: '',
+//         body: ''
+//     }
+
+//     const markdown = await getFileContents(file)
+//     parse(file, true)
+//     let test = markdown.split('\n')
+
+//     for (const [index, line] of test.entries()) {
+//         let newline = ""
+
+//         // FIXME this is very broken for processing metadata ....
+//         if (index === 0 && line.startsWith('{')) { metadataFlag = true; continue; }
+
+//         if (metadataFlag === true && line.startsWith('}')) {
+//             metadataFlag = false
+//             newMetadata = parseMetadata(metadata)
+//             // newHTMLArray.push(newMetadata)
+//             continue
+//         }
+//         if (metadataFlag === true && !line.startsWith('}')) {
+//             metadata.push(line)
+//         } else {
+//             let isHeading = parseHeadings(line)
+//             if (isHeading !== line) { newline = isHeading }
+
+//             let isBlockQuote = parseBlockQuote(line)
+//             if (isBlockQuote !== line) { newline = isBlockQuote }
+
+//             let isHorizontalRule = parseHorizontalRule(line)
+//             if (isHorizontalRule !== line) { newline = isHorizontalRule }
+
+//             // TODO FIXME All of these should be put into seperate function calls to parse EVERYTHING
+
+//             // FIXME this is needing some consideration for <ul> tags
+//             if (line.startsWith('- ')) {
+//                 newline = line.replace(/^-\s(.+)/, '<li>$1</li>')
+//             }
+
+//             if (line.startsWith('![')) {
+//                 let matches = line.match(/^!\[(.+?)\]\((.+?)\)/) || []
+//                 if (matches.length > 0) {
+//                     newline = `<div class="md-img rounded-xxs"><img src="${ matches[2] }" alt="${ matches[1] }" /><span class="text-subtext0 text-sm"><em>${ matches[1] }</em></span></div>`
+//                 }
+//             }
+
+//             if (line.startsWith('[')) {
+//                 let matches = line.match(/^\[(.+?)\]\((.+?)\)/) || []
+//                 if (matches.length > 0) {
+//                     if (matches[1].startsWith('![')) { parseImage() }
+//                     else {
+//                         newline = `<a href="${ matches[2] }" class="text-red m-font">${ matches[1] }</a>`
+//                     }
+//                 }
+//             }
+
+//             //# If line does contain a Markdown starting character, make it a content paragraph
+//             if (newline === "" && line !== "") { newline = `<p class="m-font mb-xxl">${ line }</p>` }
+
+//             //# Parse other Markdown triggers
+//             newline = newline.replace(/\*\*\*([a-zA-Z0-9_\s-]+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+//             newline = newline.replace(/\*\*([a-zA-Z0-9_\s-]+?)\*\*/g, '<strong>$1</strong>')
+//             newline = newline.replace(/\*([a-zA-Z0-9_\s-]+?)\*/g, `<em>$1</em>`)
+//             newline = newline.replace(/\`([a-zA-Z0-9_\s-]+?)\`/g, `<div class="code p-md rounded-xxs font-mono text-sm m-font bg-crust">$1</div>`)
+
+//             //# Add to HTML array
+//             if (newline !== "") { newHTMLArray.push(newline) }
+//         }
+//     }
+
+//     newMetadata.body = newHTMLArray.join("")
+//     markdownPosts.value.push(newMetadata)
+// }

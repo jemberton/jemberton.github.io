@@ -170,6 +170,9 @@ $svg:
 @each $alignment in $alignments {
     .justify-#{$alignment} { justify-content: #{$alignment}; }
     .align-#{$alignment} { align-items: #{$alignment}; }
+
+    .justify-self-#{$alignment} { justify-self: #{$alignment}; }
+    .align-self-#{$alignment} { align-self: #{$alignment}; }
 }
 
 @for $percent from 1 through 10 {

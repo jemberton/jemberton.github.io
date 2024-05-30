@@ -31,7 +31,7 @@ This sentence has both **bold** and *italic* text in it. This sentence has a sin
 
 This sentence has an asterisk * in it, but never has a closing mark. Until now ... * there is a closing mark.
 
-> This is a blockquote that contains **bold**, *italic*, ***bold italic***, and regular text!
+> This is a blockquote that contains **bold**, *italic*, ***bold italic***, and regular text! How much text is needed to break into a new line? I suppose that really varies as it will be greatly affected by the window size. Is this enough text to break on the current viewable window size? What about text that spans multiple lines? We need this to push the SVG icon into an uncomfortable position to make sure it stays at the top of the element vs centering.
 
 1. Ordered List Item 1
 2. Ordered List Item 2

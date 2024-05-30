@@ -1,14 +1,8 @@
 <script setup lang="ts">
+import { IMarkdownPost } from '../lib'
+
 const postData = defineProps<{
-    data: {
-        title?: string,
-        author?: string,
-        avatar?: string,
-        date?: string,
-        email?: string[],
-        github?: string[],
-        body?: string
-    }
+    data: IMarkdownPost
 }>()
 
 </script>
