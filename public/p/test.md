@@ -29,7 +29,7 @@ Let's take a second and create a full markdown example ...
 
 This sentence has both **bold** and *italic* text in it. This sentence has a single ***bold italic*** text entry.
 
-This sentence has an asterisk * in it, but never has a closing mark. Until now ... * there is a closing mark.
+This sentence has an asterisk *in it, but never has a closing mark. Until now ...* there is a closing mark.
 
 > This is a blockquote that contains **bold**, *italic*, ***bold italic***, and regular text! How much text is needed to break into a new line? I suppose that really varies as it will be greatly affected by the window size. Is this enough text to break on the current viewable window size? What about text that spans multiple lines? We need this to push the SVG icon into an uncomfortable position to make sure it stays at the top of the element vs centering.
 
@@ -41,11 +41,17 @@ This sentence has an asterisk * in it, but never has a closing mark. Until now .
 - Unordered List Item 2
 - Unordered List Item 3
 
-`inline code block`
+`inline code block with <b>html</b> style tags`
+
+This is a line with `inline code` in it. This sentence has `inline code with <b>html</b> tags in it and *a bold* markdown` too!
+
+Here is an inline code line that has `$variable = something.otherthing;` complex code.
 
 ```plaintext
 This is a plaintext codeblock
 ```
+
+This is a [[(keyboard)]] key
 
 ---
 

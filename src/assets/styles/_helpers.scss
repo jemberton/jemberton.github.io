@@ -123,6 +123,7 @@ $svg:
     .rounded-r-#{$size_name} { border-top-right-radius: #{$size}em; border-bottom-right-radius: #{$size}em; }
     .gap-#{$size_name} { gap: #{$size}em; }
     .icon-#{$size_name} { width: #{$size}em; height: #{$size}em; }
+    .line-#{$size_name} { line-height: #{$size}em; }
 
     @each $face_letter, $face in $faces {
         .p#{$face_letter}-#{$size_name} { padding-#{$face}: #{$size}em; }
@@ -140,6 +141,7 @@ $svg:
 .rounded-full { border-radius: 50%; }
 .p-font { padding: $global-font-size; }
 .m-font { margin: $global-font-size; }
+.line-font { line-height: $global-font-size; }
 .icon-font { width: $global-font-size; height: $global-font-size; }
 .icon-font2x { width: calc($global-font-size * 2); height: calc($global-font-size * 2); }
 .icon-font3x { width: calc($global-font-size * 3); height: calc($global-font-size * 3); }
@@ -204,6 +206,9 @@ $svg:
 
 .flex { display: flex; }
 .flex-inline { display: inline-flex; }
+.flex-nowrap { flex-wrap: nowrap; }
+
+.nowrap { text-wrap: nowrap; }
 
 .absolute { position: absolute; }
 .fixed { position: fixed; }

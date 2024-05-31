@@ -43,12 +43,12 @@ const postData = defineProps<{
                             </template>
                         </div>
                     </div>
-                    <div class="p-md">
-                        <div class="title font-bold text-xxl">{{ postData.data.title }}</div>
+                    <div class="p-md pb-none">
+                        <div class="title font-bold text-xxl m-font mb-none">{{ postData.data.title }}</div>
                     </div>
                 </div>
             </template>
-            <div v-html="postData.data.body" class=""></div>
+            <div v-html="postData.data.body" class="p-md"></div>
         </div>
     </template>
 </template>

@@ -34,6 +34,15 @@ export const getFileContents = async (file: string) => {
 //@ ============================================================================
 //@  Parsers
 //@ ============================================================================
+export const escapeHTML = (line: string) => {
+  line = line.replace(/\`/g, '')
+  line = line.replace(/\&/g, '&amp;')
+  line = line.replace(/\</g, '&lt;')
+  line = line.replace(/\>/g, '&gt;')
+
+  return line
+}
+
 export const parseBlockQuote = (line: string) => {
   if (line.startsWith('>')) {
     // TODO use regex `^\>(\s|\w+)(.+)` to split special blockquotes with syntax like `>warning lorem ipsum` 
@@ -129,7 +138,7 @@ export const parseMetadata = (metadata: string[]) => {
 
 export const parseParagraphs = (line: string) => {
   if (line !== '') {
-    return `<p class="m-font mb-xxl justify-text">${ line }</p>`
+    return `<p class="m-font justify-text">${ line }</p>`
   }
 
   return line
@@ -183,8 +192,14 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
     if (newline === "" && line !== "") { newline = parseParagraphs(line) }
 
     //# Check for inline triggers
+    newline = newline.replace(/\*\*\*([a-zA-Z0-9_\s-]+?)\*\*\*/g, '<strong><em>$1</em></strong>')
     newline = newline.replace(/\*\*([a-zA-Z0-9_\s-]+?)\*\*/g, '<strong>$1</strong>')
     newline = newline.replace(/\*([a-zA-Z0-9_\s-]+?)\*/g, `<em>$1</em>`)
+    // TODO maybe add support for syntax highlighting?! 
+    newline = newline.replace(/\`([a-zA-Z0-9_<>/\\!@#$%^&*():;'"?~+=.,\s-]+?)\`/g, (temp) => { return `<span class="rounded-xs font-mono text-sm px-xs py-xxs bg-crust">${ escapeHTML(temp) }</span>` })
+
+    let doof = newline.match(/(?<!`)(`(?:`{2})?)(?:(?!\1).)*?\1|\[[a-zA-Z0-9_.:\/;#&,]+?\]\([a-zA-Z0-9_.:\/;#&,]+?\)/g)
+    console.log(doof)
 
     //# Add to HTML array
     if (newline !== "") { newHTMLArray.push(newline) }
