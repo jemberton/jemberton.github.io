@@ -7,10 +7,6 @@
     avatar: josh.jpg
 }
 
-this is a markdown file to be used as the blog content. I liked the idea of the metadata in JSON format, but that lacks an easy editing mode like Markdown.
-
-Let's take a second and create a full markdown example ...
-
 # heading 1
 
 ## heading 2
@@ -34,6 +30,32 @@ This sentence has an asterisk *in it, but never has a closing mark. Until now ..
 Here is a line with complex italic text *this should all be italic, if things are working correctly* and it is likely they will not due to the current regex expression
 
 > This is a blockquote that contains **bold**, *italic*, ***bold italic,*** and regular text! How much text is needed to break into a new line? I suppose that really varies as it will be greatly affected by the window size. Is this enough text to break on the current viewable window size? What about text that spans multiple lines? We need this to push the SVG icon into an uncomfortable position to make sure it stays at the top of the element vs centering.
+
+---
+
+>{warning} This is a warning blockquote
+
+---
+
+>{danger} This is a danger blockquote
+
+---
+
+>{info} This is an info blockquote
+
+---
+
+>{success} This is a success blockquote
+
+---
+
+>{question} This is a question blockquote
+
+---
+
+>{radiation} This is a radiation blockquote
+
+---
 
 1. Ordered List Item 1
 2. Ordered List Item 2
