@@ -1,6 +1,10 @@
 //! Whole file needs review
 import { Router } from "vue-router"
 
+export const isCode = (line: string) => {
+  return line.startsWith('`')
+}
+
 //@ ============================================================================
 //@  Interfaces
 //@ ============================================================================
@@ -47,12 +51,80 @@ export const parseBlockQuote = (line: string) => {
   if (line.startsWith('>')) {
     // TODO use regex `^\>(\s|\w+)(.+)` to split special blockquotes with syntax like `>warning lorem ipsum` 
 
-    let quoteSvg = `<svg class="icon-font3x" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 216C0 149.7 53.7 96 120 96h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V320 288 216zm256 0c0-66.3 53.7-120 120-120h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H320c-35.3 0-64-28.7-64-64V320 288 216z"/></svg>`
+    // let quoteSvg = `<svg class="icon-font3x" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 216C0 149.7 53.7 96 120 96h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V320 288 216zm256 0c0-66.3 53.7-120 120-120h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H320c-35.3 0-64-28.7-64-64V320 288 216z"/></svg>`
+
+    // return line.replace(/^\>\s(.+)/, `
+    //   <blockquote class="bg-mantle p-xxl rounded-xs font-retina m-font flex row gap-sm shadow border-thinner border-crust align-center">
+    //     <span class="text-surface1 align-self-start">${ quoteSvg }</span>
+    //     <span class="grow justify-text ">$1</span>
+    //   </blockquote>
+    // `)
+
+    if (line.startsWith('>{')) {
+      let quoteSvg = ''
+      for (const match of line.matchAll(/\>\{(.+?)\}\s(.+)?/g)) {
+        switch (match[1]) {
+          case 'warning':
+            quoteSvg = `<svg class="icon-font2x" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>`
+            return `
+              <blockquote class="pl-md py-sm font-retina m-font flex row gap-sm border-none border-l-thicker border-peach text-subtext0 align-center">
+                <span class="text-peach align-self-start">${ quoteSvg }</span>
+                <span class="grow justify-text">${ match[2] }</span>
+              </blockquote>
+            `
+          case 'radiation':
+            quoteSvg = `<svg class="icon-font2x" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 64a192 192 0 1 1 0 384 192 192 0 1 1 0-384zm0 448A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM200 256c0-20.7 11.3-38.8 28-48.5l-36-62.3c-8.8-15.3-28.7-20.8-42-9c-25.6 22.6-43.9 53.3-50.9 88.1C95.7 241.5 110.3 256 128 256l72 0zm28 48.5l-36 62.4c-8.8 15.3-3.6 35.2 13.1 40.8c16 5.4 33.1 8.3 50.9 8.3s34.9-2.9 50.9-8.3c16.7-5.6 21.9-25.5 13.1-40.8l-36-62.4c-8.2 4.8-17.8 7.5-28 7.5s-19.8-2.7-28-7.5zM312 256l72 0c17.7 0 32.3-14.5 28.8-31.8c-7-34.8-25.3-65.5-50.9-88.1c-13.2-11.7-33.1-6.3-42 9l-36 62.3c16.7 9.7 28 27.8 28 48.5zm-56 32a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"/></svg>`
+            return `
+              <blockquote class="pl-md py-sm font-retina m-font flex row gap-sm border-none border-l-thicker border-yellow text-subtext0 align-center">
+                <span class="text-yellow align-self-start">${ quoteSvg }</span>
+                <span class="grow justify-text">${ match[2] }</span>
+              </blockquote>
+            `
+          case 'danger':
+            quoteSvg = `<svg class="icon-font2x" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg>`
+            return `
+              <blockquote class="pl-md py-sm font-retina m-font flex row gap-sm border-none border-l-thicker border-red text-subtext0 align-center">
+                <span class="text-red align-self-start">${ quoteSvg }</span>
+                <span class="grow justify-text">${ match[2] }</span>
+              </blockquote>
+            `
+          case 'info':
+            quoteSvg = `<svg class="icon-font2x" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>`
+            return `
+              <blockquote class="pl-md py-sm font-retina m-font flex row gap-sm border-none border-l-thicker border-blue text-subtext0 align-center">
+                <span class="text-blue align-self-start">${ quoteSvg }</span>
+                <span class="grow justify-text">${ match[2] }</span>
+              </blockquote>
+            `
+          case 'success':
+            quoteSvg = `<svg class="icon-font2x" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>`
+            return `
+              <blockquote class="pl-md py-sm font-retina m-font flex row gap-sm border-none border-l-thicker border-green text-subtext0 align-center">
+                <span class="text-green align-self-start">${ quoteSvg }</span>
+                <span class="grow justify-text">${ match[2] }</span>
+              </blockquote>
+            `
+          case 'question':
+            quoteSvg = `<svg class="icon-font2x" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM169.8 165.3c7.9-22.3 29.1-37.3 52.8-37.3h58.3c34.9 0 63.1 28.3 63.1 63.1c0 22.6-12.1 43.5-31.7 54.8L280 264.4c-.2 13-10.9 23.6-24 23.6c-13.3 0-24-10.7-24-24V250.5c0-8.6 4.6-16.5 12.1-20.8l44.3-25.4c4.7-2.7 7.6-7.7 7.6-13.1c0-8.4-6.8-15.1-15.1-15.1H222.6c-3.4 0-6.4 2.1-7.5 5.3l-.4 1.2c-4.4 12.5-18.2 19-30.6 14.6s-19-18.2-14.6-30.6l.4-1.2zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg>`
+            return `
+              <blockquote class="pl-md py-sm font-retina m-font flex row gap-sm border-none border-l-thicker border-mauve text-subtext0 align-center">
+                <span class="text-mauve align-self-start">${ quoteSvg }</span>
+                <span class="grow justify-text">${ match[2] }</span>
+              </blockquote>
+            `
+          default:
+            return `
+              <blockquote class="pl-md py-xs font-retina m-font flex row gap-sm border-none border-l-thicker border-overlay1 text-overlay1 align-center">
+                <span class="grow justify-text">${ match[2] }</span>
+              </blockquote>
+            `
+        }
+      }
+    }
 
     return line.replace(/^\>\s(.+)/, `
-      <blockquote class="bg-mantle p-xxl rounded-xs font-retina m-font flex row gap-sm shadow border-thinner border-crust align-center">
-        <span class="text-surface1 align-self-start">${ quoteSvg }</span>
-        <span class="grow justify-text ">$1</span>
+      <blockquote class="pl-md py-xs font-retina m-font flex row gap-sm border-none border-l-thicker border-overlay1 text-overlay1 align-center">
+        <span class="grow justify-text">$1</span>
       </blockquote>
     `)
   }
@@ -192,42 +264,12 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
     if (newline === "" && line !== "") { newline = parseParagraphs(line) }
 
     //# Check for inline triggers
-    // newline = newline.replace(/\*\*\*([a-zA-Z0-9_\s-]+?)\*\*\*/g, '<strong><em>$1</em></strong>')
-    // NOTE this is an experimental method to try and mitigate valid markdown syntax in code blocks 
-    // NOTE currently configured to look for bold italic or strongly emphasized markdown code NOT in code 
-    newline = newline.replace(/`[^`]*`|\*\*\*([^*]+?)\*\*\*/g, (match) => {
-      if (!match.startsWith('`')) {
-        return `<strong><em>${ match.replace(/\*/g, '') }</em></strong>`
-      }
-
-      return match
-    })
-    // NOTE END 
-
-    // newline = newline.replace(/\*\*([a-zA-Z0-9_\s-]+?)\*\*/g, '<strong>$1</strong>')
-    // NOTE this is an experimental method to try and mitigate valid markdown syntax in code blocks 
-    // NOTE currently configured to look for bold or strong markdown code NOT in code 
-    newline = newline.replace(/`[^`]*`|\*\*([^*]+?)\*\*/g, (match) => {
-      if (!match.startsWith('`')) {
-        return `<strong>${ match.replace(/\*/g, '') }</strong>`
-      }
-
-      return match
-    })
-    // NOTE END 
-
-    // newline = newline.replace(/\*([a-zA-Z0-9_\s-]+?)\*/g, `<em>$1</em>`)
-
-    // NOTE this is an experimental method to try and mitigate valid markdown syntax in code blocks 
-    // NOTE currently configured to look for italic or emphasized markdown code NOT in code 
-    newline = newline.replace(/`[^`]*`|\*([^*]+?)\*/g, (match) => {
-      if (!match.startsWith('`')) {
-        return `<em>${ match.replace(/\*/g, '') }</em>`
-      }
-
-      return match
-    })
-    // NOTE END 
+    // Strongly Emphasized (bold italic)
+    newline = newline.replace(/`[^`]*`|\*\*\*([^*]+?)\*\*\*/g, (match) => { return isCode(match) ? match : `<strong><em>${ match.replace(/\*/g, '') }</em></strong>` })
+    // Strong (bold)
+    newline = newline.replace(/`[^`]*`|\*\*([^*]+?)\*\*/g, (match) => { return isCode(match) ? match : `<strong>${ match.replace(/\*/g, '') }</strong>` })
+    // Emphasized (italic)
+    newline = newline.replace(/`[^`]*`|\*([^*]+?)\*/g, (match) => { return isCode(match) ? match : `<em>${ match.replace(/\*/g, '') }</em>` })
 
     // TODO maybe add support for syntax highlighting?! 
     newline = newline.replace(/\`([a-zA-Z0-9_<>/\\!@#$%^&*():;'"?~+=.,{}\[\]\s-]+?)\`/g, (temp) => { return `<span class="rounded-xs font-mono text-sm text-subtext1 p-xs bg-crust line-xxxl">${ escapeHTML(temp) }</span>` })
