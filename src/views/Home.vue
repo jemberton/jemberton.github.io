@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useGlobalState } from '../stores/globalState'
-import { useRouter } from 'vue-router'
 
 import siteConfig from '../config.json'
-
-const $router = useRouter()
 
 const globalState = useGlobalState()
 globalState.hanselGretel = [{ name: 'Home', url: '/' }]

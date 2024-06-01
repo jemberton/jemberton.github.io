@@ -1,5 +1,5 @@
 //! Whole file needs review
-import { useRouter, Router } from "vue-router"
+import { Router } from "vue-router"
 
 //@ ============================================================================
 //@  Interfaces
@@ -138,7 +138,7 @@ export const parseMetadata = (metadata: string[]) => {
 
 export const parseParagraphs = (line: string) => {
   if (line !== '') {
-    return `<p class="m-font justify-text">${ line }</p>`
+    return `<p class="m-font">${ line }</p>`
   }
 
   return line
@@ -192,14 +192,45 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
     if (newline === "" && line !== "") { newline = parseParagraphs(line) }
 
     //# Check for inline triggers
-    newline = newline.replace(/\*\*\*([a-zA-Z0-9_\s-]+?)\*\*\*/g, '<strong><em>$1</em></strong>')
-    newline = newline.replace(/\*\*([a-zA-Z0-9_\s-]+?)\*\*/g, '<strong>$1</strong>')
-    newline = newline.replace(/\*([a-zA-Z0-9_\s-]+?)\*/g, `<em>$1</em>`)
-    // TODO maybe add support for syntax highlighting?! 
-    newline = newline.replace(/\`([a-zA-Z0-9_<>/\\!@#$%^&*():;'"?~+=.,\s-]+?)\`/g, (temp) => { return `<span class="rounded-xs font-mono text-sm px-xs py-xxs bg-crust">${ escapeHTML(temp) }</span>` })
+    // newline = newline.replace(/\*\*\*([a-zA-Z0-9_\s-]+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+    // NOTE this is an experimental method to try and mitigate valid markdown syntax in code blocks 
+    // NOTE currently configured to look for bold italic or strongly emphasized markdown code NOT in code 
+    newline = newline.replace(/`[^`]*`|\*\*\*([^*]+?)\*\*\*/g, (match) => {
+      if (!match.startsWith('`')) {
+        return `<strong><em>${ match.replace(/\*/g, '') }</em></strong>`
+      }
 
-    let doof = newline.match(/(?<!`)(`(?:`{2})?)(?:(?!\1).)*?\1|\[[a-zA-Z0-9_.:\/;#&,]+?\]\([a-zA-Z0-9_.:\/;#&,]+?\)/g)
-    console.log(doof)
+      return match
+    })
+    // NOTE END 
+
+    // newline = newline.replace(/\*\*([a-zA-Z0-9_\s-]+?)\*\*/g, '<strong>$1</strong>')
+    // NOTE this is an experimental method to try and mitigate valid markdown syntax in code blocks 
+    // NOTE currently configured to look for bold or strong markdown code NOT in code 
+    newline = newline.replace(/`[^`]*`|\*\*([^*]+?)\*\*/g, (match) => {
+      if (!match.startsWith('`')) {
+        return `<strong>${ match.replace(/\*/g, '') }</strong>`
+      }
+
+      return match
+    })
+    // NOTE END 
+
+    // newline = newline.replace(/\*([a-zA-Z0-9_\s-]+?)\*/g, `<em>$1</em>`)
+
+    // NOTE this is an experimental method to try and mitigate valid markdown syntax in code blocks 
+    // NOTE currently configured to look for italic or emphasized markdown code NOT in code 
+    newline = newline.replace(/`[^`]*`|\*([^*]+?)\*/g, (match) => {
+      if (!match.startsWith('`')) {
+        return `<em>${ match.replace(/\*/g, '') }</em>`
+      }
+
+      return match
+    })
+    // NOTE END 
+
+    // TODO maybe add support for syntax highlighting?! 
+    newline = newline.replace(/\`([a-zA-Z0-9_<>/\\!@#$%^&*():;'"?~+=.,{}\[\]\s-]+?)\`/g, (temp) => { return `<span class="rounded-xs font-mono text-sm text-subtext1 p-xs bg-crust line-xxxl">${ escapeHTML(temp) }</span>` })
 
     //# Add to HTML array
     if (newline !== "") { newHTMLArray.push(newline) }
