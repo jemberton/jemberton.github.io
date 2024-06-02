@@ -38,28 +38,25 @@ export const getFileContents = async (file: string) => {
 //@ ============================================================================
 //@  Parsers
 //@ ============================================================================
-export const escapeHTML = (line: string) => {
+export const escapeHTML = (line: string, preserveSpaces: boolean = false) => {
   line = line.replace(/\`/g, '')
   line = line.replace(/\&/g, '&amp;')
   line = line.replace(/\</g, '&lt;')
   line = line.replace(/\>/g, '&gt;')
+
+  if (preserveSpaces) {
+    let leading = line.match(/^(\s+?)\S/g)
+    if (leading) {
+      let whitespace = leading[0].slice(0,-1)
+      line = `${ '&nbsp;'.repeat(whitespace.length) }${ line.slice(whitespace.length) }`
+    }
+  }
 
   return line
 }
 
 export const parseBlockQuote = (line: string) => {
   if (line.startsWith('>')) {
-    // TODO use regex `^\>(\s|\w+)(.+)` to split special blockquotes with syntax like `>warning lorem ipsum` 
-
-    // let quoteSvg = `<svg class="icon-font3x" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 216C0 149.7 53.7 96 120 96h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V320 288 216zm256 0c0-66.3 53.7-120 120-120h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H320c-35.3 0-64-28.7-64-64V320 288 216z"/></svg>`
-
-    // return line.replace(/^\>\s(.+)/, `
-    //   <blockquote class="bg-mantle p-xxl rounded-xs font-retina m-font flex row gap-sm shadow border-thinner border-crust align-center">
-    //     <span class="text-surface1 align-self-start">${ quoteSvg }</span>
-    //     <span class="grow justify-text ">$1</span>
-    //   </blockquote>
-    // `)
-
     if (line.startsWith('>{')) {
       let quoteSvg = ''
       for (const match of line.matchAll(/\>\{(.+?)\}\s(.+)?/g)) {
@@ -278,7 +275,7 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
           for (const [index, option] of optionsArray.entries()) {
             switch (index) {
               case 0:
-                if (option !== "") { headerHTML = `<span class="text-subtext0 text-sm px-xs py-xxxs flex row justify-end">${ option }</span>` }
+                if (option !== "") { headerHTML = `<span class="text-peach text-sm px-xs py-xxxs flex row justify-end">${ option }</span>` }
                 break
               case 1:
                 let lines = option.split(',')
@@ -313,7 +310,7 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
         ${ codeBlockHTML }
         <div class="flex row align-stretch font-mono gap-xxs border-none border-l-thick border-r-thick border-hover-blue bghover-surface0 ${ highlight.includes(codeBlockLine) ? 'border-mauve bg-mantle' : '' }">
           <span class="flex row noselect border-none border-r-thinner align-center justify-center py-xs px-sm text-sm m-none ${ highlight.includes(codeBlockLine) ? 'text-mauve border-base' : 'border-mantle text-overlay1' }">${ codeBlockLine }</span>
-          <span class="flex row py-xs px-xs grow align-center text-sm">${ escapeHTML(line.trim() ) }</span>
+          <span class="flex row py-xs px-xs grow align-center text-sm">${ escapeHTML(line, true) }</span>
         </div>
       `
       codeBlockLine += 1
