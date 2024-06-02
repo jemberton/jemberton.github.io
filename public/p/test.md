@@ -33,15 +33,15 @@ Here is a line with complex italic text *this should all be italic, if things ar
 
 ---
 
->{warning} This is a warning blockquote
-
----
-
 >{danger} This is a danger blockquote
 
 ---
 
->{info} This is an info blockquote
+>{warning} This is a warning blockquote
+
+---
+
+>{radiation} This is a radiation blockquote
 
 ---
 
@@ -49,11 +49,11 @@ Here is a line with complex italic text *this should all be italic, if things ar
 
 ---
 
->{question} This is a question blockquote
+>{info} This is an info blockquote
 
 ---
 
->{radiation} This is a radiation blockquote
+>{question} This is a question blockquote
 
 ---
 
@@ -75,11 +75,37 @@ Here is a line with complex italic `text *this should all be italic, if things a
 
 Complex code `variable["sub"] = mything("woohoo", { "text": "some text" })` is nice to show, but without syntax highlighting, it can be a bit difficult to read.
 
-```plaintext
+```plaintext 3-6
 This is a plaintext codeblock
+
+*weehoo*
+
+myVariable = someValue + 'wee'
+console.log(myVariable)
 ```
 
-This is a [[(keyboard)]] key
+``` 2
+firstLine = doNotHighlight()
+secondLine = highlight()
+thirdLine = doNotHighlight()
+```
+
+```plaintext
+plain
+```
+
+```plaintext 1-3,5
+line1
+line2
+line3
+line4
+line5
+line6
+```
+
+This is a [[SHIFT]] [[ctrl]] keyboard key
+
+Here is a `keyboard key [[alt]] in` a code block
 
 ---
 

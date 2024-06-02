@@ -50,6 +50,16 @@ h1, h2, h3, h4, h5, h6 { margin: 0; padding: 0; }
 blockquote, p, pre { padding: 0; margin: 0; }
 li { list-style: square; padding: 0; margin: 0; margin-bottom: $global-font-size; margin-left: $global-font-size; }
 
+kbd {
+    background: $surface0; color: $text;
+    padding: 0.25em 0.5em;
+    border-radius: 4px;
+    font-size: 0.9em;
+    border: 1px solid $crust;
+    box-shadow: 0px 2px 2px rgba(0,0,0,0.2);
+    text-transform: uppercase;
+}
+
 .md-header {
     border-top-left-radius: inherit;
     border-top-right-radius: inherit;

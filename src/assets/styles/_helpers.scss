@@ -14,6 +14,7 @@ $global-font-family-retina: 'Fira Sans', sans-serif;
 
 //# SIZE_NAME LAYOUT_SIZE TEXT_SIZE
 $sizes: 
+    "xxxs" "0.15" "0.3",
     "xxs" "0.25" "0.5",
     "xs" "0.5" "0.7",
     "sm" "0.75" "0.9",
@@ -57,7 +58,8 @@ $headings:
 $alignments:
     "start",
     "end",
-    "center";
+    "center",
+    "stretch";
 
 $faces:
     "t" "top",
@@ -105,6 +107,7 @@ $svg:
         }
     }
     .hover-#{$color_name} { &:hover { color: $color_hex; } }
+    .bghover-#{$color_name} { &:hover { background: $color_hex; } }
 
     @each $face_letter, $face in $faces {
         .border-#{$face_letter}-#{$color_name} { border-#{$face}-color: $color_hex; }

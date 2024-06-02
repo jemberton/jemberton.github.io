@@ -132,6 +132,10 @@ export const parseBlockQuote = (line: string) => {
   return line
 }
 
+export const parseCodeBlock = (line: string) => {
+  console.log('parse code block ...')
+}
+
 export const parseDate = (datestamp: number) => {
     let parsedObject = new Date(datestamp)
     return parsedObject.toISOString()
@@ -246,33 +250,106 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
     markdownPost = parseMetadata(metadataArray)
   }
 
+  let openCodeBlock = false
+  let codeBlockHTML = ""
+  let codeBlockLine = 1
+  let highlight = []
+
   for (const line of lines) {
     let newline = ""
 
     //# Process each line
     //# Check for "startsWith" triggers
-    let isHeading = parseHeadings(line)
-    if (isHeading !== line) { newline = isHeading }
+    let isCodeBlock = line.startsWith('```')
+    if (isCodeBlock) {
+      if (openCodeBlock) {
+        newline = `${ codeBlockHTML }<div class="p-xxs border-none border-t-thinner border-mantle text-overlay0">${ codeBlockLine - 1 } total</div></div>`
+        codeBlockHTML = ""
+        codeBlockLine = 1
+        highlight = []
+      } else {
+        let options = line.replace(/`{3}/, '')
+        let headerHTML = ""
+        if (options !== "") {
+          let optionsArray = options.split(" ")
+          for (const [index, option] of optionsArray.entries()) {
+            switch (index) {
+              case 0:
+                if (option !== "") { headerHTML = `<span class="text-overlay0 text-sm px-xs py-xxxs flex row justify-end">${ option }</span>` }
+                break
+              case 1:
+                let lines = option.split(',')
+                for (const lineNumber of lines) {
+                  let range = lineNumber.split('-')
+                  if (range.length > 1) {
+                    let rangeIndex = parseInt(range[0])
+                    while (rangeIndex <= parseInt(range[1])) {
+                      highlight.push(rangeIndex)
+                      rangeIndex = rangeIndex + 1
+                    }
+                  } else {
+                    highlight.push(parseInt(range[0]))
+                  }
+                }
+                break
+              default:
+                console.log('dunno', option)
+                break
+            }
+          }
+        }
 
-    let isBlockQuote = parseBlockQuote(line)
-    if (isBlockQuote !== line) { newline = isBlockQuote }
+        newline = `<div class="bg-crust m-font rounded-xs border-thinner border-mantle"><div class="p-xxs border-none border-b-thinner border-mantle">${ headerHTML }</div>`
+      }
 
-    let isHorizontalRule = parseHorizontalRule(line)
-    if (isHorizontalRule !== line) { newline = isHorizontalRule }
+      openCodeBlock = !openCodeBlock
+    }
 
-    //# Check for paragraphs
-    if (newline === "" && line !== "") { newline = parseParagraphs(line) }
+    if (openCodeBlock && newline === "") {
+      codeBlockHTML = `
+        ${ codeBlockHTML }
+        <div class="flex row align-stretch pr-xs font-mono bghover-mantle hover-text gap-xxs ${ highlight.includes(codeBlockLine) ? 'bg-mantle text-mauve' : '' }">
+          <span class="flex row border-none border-r-thinner border-mantle align-center justify-center py-xs px-sm text-xs m-none">${ codeBlockLine }</span>
+          <span class="flex row p-xxs grow align-center">${ escapeHTML(line.trim() ) }</span>
+        </div>
+      `
+      codeBlockLine += 1
+    } else if (!isCodeBlock && !openCodeBlock) {
+      let isHeading = parseHeadings(line)
+      if (isHeading !== line) { newline = isHeading }
 
-    //# Check for inline triggers
-    // Strongly Emphasized (bold italic)
-    newline = newline.replace(/`[^`]*`|\*\*\*([^*]+?)\*\*\*/g, (match) => { return isCode(match) ? match : `<strong><em>${ match.replace(/\*/g, '') }</em></strong>` })
-    // Strong (bold)
-    newline = newline.replace(/`[^`]*`|\*\*([^*]+?)\*\*/g, (match) => { return isCode(match) ? match : `<strong>${ match.replace(/\*/g, '') }</strong>` })
-    // Emphasized (italic)
-    newline = newline.replace(/`[^`]*`|\*([^*]+?)\*/g, (match) => { return isCode(match) ? match : `<em>${ match.replace(/\*/g, '') }</em>` })
+      let isBlockQuote = parseBlockQuote(line)
+      if (isBlockQuote !== line) { newline = isBlockQuote }
 
-    // TODO maybe add support for syntax highlighting?! 
-    newline = newline.replace(/\`([a-zA-Z0-9_<>/\\!@#$%^&*():;'"?~+=.,{}\[\]\s-]+?)\`/g, (temp) => { return `<span class="rounded-xs font-mono text-sm text-subtext1 p-xs bg-crust line-xxxl">${ escapeHTML(temp) }</span>` })
+      let isHorizontalRule = parseHorizontalRule(line)
+      if (isHorizontalRule !== line) { newline = isHorizontalRule }
+
+      //# Check for paragraphs
+      if (newline === "" && line !== "") { newline = parseParagraphs(line) }
+
+      //# Check for lists (ordered, unordered, and checklist)
+
+      //# Check for code blocks
+
+      //# Check for inline triggers
+      // Strongly Emphasized (bold italic)
+      newline = newline.replace(/`[^`]*`|\*\*\*([^*]+?)\*\*\*/g, (match) => { return isCode(match) ? match : `<strong><em>${ match.replace(/\*/g, '') }</em></strong>` })
+      // Strong (bold)
+      newline = newline.replace(/`[^`]*`|\*\*([^*]+?)\*\*/g, (match) => { return isCode(match) ? match : `<strong>${ match.replace(/\*/g, '') }</strong>` })
+      // Emphasized (italic)
+      newline = newline.replace(/`[^`]*`|\*([^*]+?)\*/g, (match) => { return isCode(match) ? match : `<em>${ match.replace(/\*/g, '') }</em>` })
+
+      //# Check for keyboard keys (custom syntax using `[[KEY]]`)
+      newline = newline.replace(/`[^`]*`|\[\[([^\]]+?)\]\]/g, (match)=> { return isCode(match) ? match : `<kbd>${ match.replace(/\[/g, '').replace(/\]/g, '') }</kbd>` })
+
+      //# Check for images
+
+      //# Check for links
+
+      //# Check for inline code
+      // TODO maybe add support for syntax highlighting?! 
+      newline = newline.replace(/\`([a-zA-Z0-9_<>/\\!@#$%^&*():;'"?~+=.,{}\[\]\s-]+?)\`/g, (temp) => { return `<span class="rounded-xs font-mono text-sm text-subtext1 p-xs bg-crust line-xxxl">${ escapeHTML(temp) }</span>` })
+    }
 
     //# Add to HTML array
     if (newline !== "") { newHTMLArray.push(newline) }
