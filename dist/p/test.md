@@ -2,10 +2,10 @@
     title: Markdown Parser
     date: 1715124732378
     author: Josh
-    email: @email real@email.com
-    github: @jemberton https://github.com/jemberton
     avatar: josh.jpg
 }
+
+## StartsWith Triggers
 
 # heading 1
 
@@ -33,23 +33,11 @@ Here is a line with complex italic text *this should all be italic, if things ar
 
 ---
 
->{warning} This is a warning blockquote
-
----
-
 >{danger} This is a danger blockquote
 
 ---
 
->{info} This is an info blockquote
-
----
-
->{success} This is a success blockquote
-
----
-
->{question} This is a question blockquote
+>{warning} This is a warning blockquote
 
 ---
 
@@ -57,13 +45,19 @@ Here is a line with complex italic text *this should all be italic, if things ar
 
 ---
 
-1. Ordered List Item 1
-2. Ordered List Item 2
-3. Ordered List Item 3
+>{success} This is a success blockquote
 
-- Unordered List Item 1
-- Unordered List Item 2
-- Unordered List Item 3
+---
+
+>{info} This is an info blockquote
+
+---
+
+>{question} This is a question blockquote
+
+---
+
+## Inline Triggers
 
 `inline code block with <b>html</b> style tags`
 
@@ -75,11 +69,45 @@ Here is a line with complex italic `text *this should all be italic, if things a
 
 Complex code `variable["sub"] = mything("woohoo", { "text": "some text" })` is nice to show, but without syntax highlighting, it can be a bit difficult to read.
 
-```plaintext
+```plaintext 3-6
 This is a plaintext codeblock
+
+*weehoo*
+
+myVariable = someValue + 'wee'
+console.log(myVariable)
 ```
 
-This is a [[(keyboard)]] key
+```typescript 2
+firstLine = doNotHighlight()
+secondLine = highlight()
+thirdLine = doNotHighlight()
+```
+
+```plaintext
+plain
+```
+
+```plaintext 1-2,4-5
+line1
+line2
+line3
+line4
+line5
+line6
+```
+
+```json
+{
+  "firstName": "John",
+  "lastName": "Smith",
+  "age": 25
+}
+```
+
+This is a [[SHIFT]] [[ctrl]] keyboard key
+
+Here is a `keyboard key [[alt]] in` a code block
 
 ---
 
@@ -87,9 +115,17 @@ This is a [[(keyboard)]] key
 
 We should also use a link [in the middle](#) of a sentence.
 
-![Gramp's Porsche](/gramps-porsche.png)
+my image ![Gramp's Porsche](/gramps-porsche.png)
 
 [![Gramp's Porsche](/gramps-porsche.png)](https://google.com)
+
+1. Ordered List Item 1
+2. Ordered List Item 2
+3. Ordered List Item 3
+
+- Unordered List Item 1
+- Unordered List Item 2
+- Unordered List Item 3
 
 ## Extended Syntax
 
@@ -101,16 +137,6 @@ These elements extend the basic syntax by adding additional features. Not all Ma
 | ----------- | ----------- |
 | Header | Title |
 | Paragraph | Text |
-
-### Fenced Code Block
-
-```
-{
-  "firstName": "John",
-  "lastName": "Smith",
-  "age": 25
-}
-```
 
 ### Footnote
 
