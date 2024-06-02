@@ -108,6 +108,7 @@ $svg:
     }
     .hover-#{$color_name} { &:hover { color: $color_hex; } }
     .bghover-#{$color_name} { &:hover { background: $color_hex; } }
+    .border-hover-#{$color_name} { &:hover { border-color: $color_hex; } }
 
     @each $face_letter, $face in $faces {
         .border-#{$face_letter}-#{$color_name} { border-#{$face}-color: $color_hex; }
@@ -213,6 +214,8 @@ $svg:
 .flex-nowrap { flex-wrap: nowrap; }
 
 .nowrap { text-wrap: nowrap; }
+
+.noselect { user-select: none; }
 
 .absolute { position: absolute; }
 .fixed { position: fixed; }

@@ -2,10 +2,10 @@
     title: Markdown Parser
     date: 1715124732378
     author: Josh
-    email: @email real@email.com
-    github: @jemberton https://github.com/jemberton
     avatar: josh.jpg
 }
+
+## StartsWith Triggers
 
 # heading 1
 
@@ -57,13 +57,7 @@ Here is a line with complex italic text *this should all be italic, if things ar
 
 ---
 
-1. Ordered List Item 1
-2. Ordered List Item 2
-3. Ordered List Item 3
-
-- Unordered List Item 1
-- Unordered List Item 2
-- Unordered List Item 3
+## Inline Triggers
 
 `inline code block with <b>html</b> style tags`
 
@@ -84,7 +78,7 @@ myVariable = someValue + 'wee'
 console.log(myVariable)
 ```
 
-``` 2
+```typescript 2
 firstLine = doNotHighlight()
 secondLine = highlight()
 thirdLine = doNotHighlight()
@@ -94,13 +88,21 @@ thirdLine = doNotHighlight()
 plain
 ```
 
-```plaintext 1-3,5
+```plaintext 1-2,4-5
 line1
 line2
 line3
 line4
 line5
 line6
+```
+
+```json
+{
+  "firstName": "John",
+  "lastName": "Smith",
+  "age": 25
+}
 ```
 
 This is a [[SHIFT]] [[ctrl]] keyboard key
@@ -113,9 +115,17 @@ Here is a `keyboard key [[alt]] in` a code block
 
 We should also use a link [in the middle](#) of a sentence.
 
-![Gramp's Porsche](/gramps-porsche.png)
+my image ![Gramp's Porsche](/gramps-porsche.png)
 
 [![Gramp's Porsche](/gramps-porsche.png)](https://google.com)
+
+1. Ordered List Item 1
+2. Ordered List Item 2
+3. Ordered List Item 3
+
+- Unordered List Item 1
+- Unordered List Item 2
+- Unordered List Item 3
 
 ## Extended Syntax
 
@@ -127,16 +137,6 @@ These elements extend the basic syntax by adding additional features. Not all Ma
 | ----------- | ----------- |
 | Header | Title |
 | Paragraph | Text |
-
-### Fenced Code Block
-
-```
-{
-  "firstName": "John",
-  "lastName": "Smith",
-  "age": 25
-}
-```
 
 ### Footnote
 

@@ -133,7 +133,7 @@ export const parseBlockQuote = (line: string) => {
 }
 
 export const parseCodeBlock = (line: string) => {
-  console.log('parse code block ...')
+  console.log('parse code block ...', line)
 }
 
 export const parseDate = (datestamp: number) => {
@@ -260,10 +260,13 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
 
     //# Process each line
     //# Check for "startsWith" triggers
+
+    // FIXME move into callable parser method 
+    // TODO Add syntax highlighting support 
     let isCodeBlock = line.startsWith('```')
     if (isCodeBlock) {
       if (openCodeBlock) {
-        newline = `${ codeBlockHTML }<div class="p-xxs border-none border-t-thinner border-mantle text-overlay0">${ codeBlockLine - 1 } total</div></div>`
+        newline = `${ codeBlockHTML }<div class="p-xxs border-none border-t-thinner border-mantle text-overlay0"></div></div>`
         codeBlockHTML = ""
         codeBlockLine = 1
         highlight = []
@@ -275,7 +278,7 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
           for (const [index, option] of optionsArray.entries()) {
             switch (index) {
               case 0:
-                if (option !== "") { headerHTML = `<span class="text-overlay0 text-sm px-xs py-xxxs flex row justify-end">${ option }</span>` }
+                if (option !== "") { headerHTML = `<span class="text-subtext0 text-sm px-xs py-xxxs flex row justify-end">${ option }</span>` }
                 break
               case 1:
                 let lines = option.split(',')
@@ -299,7 +302,7 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
           }
         }
 
-        newline = `<div class="bg-crust m-font rounded-xs border-thinner border-mantle"><div class="p-xxs border-none border-b-thinner border-mantle">${ headerHTML }</div>`
+        newline = `<div class="bg-crust m-font rounded-xs border-thinner border-mantle font-mono"><div class="p-xxs border-none border-b-thinner border-mantle">${ headerHTML }</div>`
       }
 
       openCodeBlock = !openCodeBlock
@@ -308,9 +311,9 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
     if (openCodeBlock && newline === "") {
       codeBlockHTML = `
         ${ codeBlockHTML }
-        <div class="flex row align-stretch pr-xs font-mono bghover-mantle hover-text gap-xxs ${ highlight.includes(codeBlockLine) ? 'bg-mantle text-mauve' : '' }">
-          <span class="flex row border-none border-r-thinner border-mantle align-center justify-center py-xs px-sm text-xs m-none">${ codeBlockLine }</span>
-          <span class="flex row p-xxs grow align-center">${ escapeHTML(line.trim() ) }</span>
+        <div class="flex row align-stretch font-mono gap-xxs border-none border-l-thick border-r-thick border-hover-blue bghover-surface0 ${ highlight.includes(codeBlockLine) ? 'border-mauve bg-mantle' : '' }">
+          <span class="flex row noselect border-none border-r-thinner align-center justify-center py-xs px-sm text-sm m-none ${ highlight.includes(codeBlockLine) ? 'text-mauve border-base' : 'border-mantle text-overlay1' }">${ codeBlockLine }</span>
+          <span class="flex row py-xs px-xs grow align-center text-sm">${ escapeHTML(line.trim() ) }</span>
         </div>
       `
       codeBlockLine += 1
@@ -324,12 +327,9 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
       let isHorizontalRule = parseHorizontalRule(line)
       if (isHorizontalRule !== line) { newline = isHorizontalRule }
 
-      //# Check for paragraphs
       if (newline === "" && line !== "") { newline = parseParagraphs(line) }
 
-      //# Check for lists (ordered, unordered, and checklist)
-
-      //# Check for code blocks
+      // TODO Check for lists (ordered, unordered, and checklist)
 
       //# Check for inline triggers
       // Strongly Emphasized (bold italic)
@@ -338,17 +338,16 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
       newline = newline.replace(/`[^`]*`|\*\*([^*]+?)\*\*/g, (match) => { return isCode(match) ? match : `<strong>${ match.replace(/\*/g, '') }</strong>` })
       // Emphasized (italic)
       newline = newline.replace(/`[^`]*`|\*([^*]+?)\*/g, (match) => { return isCode(match) ? match : `<em>${ match.replace(/\*/g, '') }</em>` })
-
-      //# Check for keyboard keys (custom syntax using `[[KEY]]`)
+      // Check for keyboard keys (custom syntax using `[[KEY]]`)
       newline = newline.replace(/`[^`]*`|\[\[([^\]]+?)\]\]/g, (match)=> { return isCode(match) ? match : `<kbd>${ match.replace(/\[/g, '').replace(/\]/g, '') }</kbd>` })
 
-      //# Check for images
+      // TODO Check for images
 
-      //# Check for links
+      // TODO Check for links
 
-      //# Check for inline code
+      // Check for inline code
       // TODO maybe add support for syntax highlighting?! 
-      newline = newline.replace(/\`([a-zA-Z0-9_<>/\\!@#$%^&*():;'"?~+=.,{}\[\]\s-]+?)\`/g, (temp) => { return `<span class="rounded-xs font-mono text-sm text-subtext1 p-xs bg-crust line-xxxl">${ escapeHTML(temp) }</span>` })
+      newline = newline.replace(/\`([a-zA-Z0-9_<>/\\!@#$%^&*():;'"?~+=.,{}\[\]\s-]+?)\`/g, (temp) => { return `<span class="rounded-xs font-mono text-sm text-subtext1 py-xxs px-xs mx-xxs bg-mantle line-xxxl border-thinner border-crust">${ escapeHTML(temp) }</span>` })
     }
 
     //# Add to HTML array
@@ -436,85 +435,3 @@ export const linkify = (element: HTMLElement, router: Router) => {
       }
     })
   }
-
-
-// for (const file of siteConfig.posts) {
-//     let metadata = []
-//     let metadataFlag = false
-
-//     let newHTMLArray = []
-//     let newMetadata: IMarkdownPost = {
-//         title: '',
-//         date: '',
-//         body: ''
-//     }
-
-//     const markdown = await getFileContents(file)
-//     parse(file, true)
-//     let test = markdown.split('\n')
-
-//     for (const [index, line] of test.entries()) {
-//         let newline = ""
-
-//         // FIXME this is very broken for processing metadata ....
-//         if (index === 0 && line.startsWith('{')) { metadataFlag = true; continue; }
-
-//         if (metadataFlag === true && line.startsWith('}')) {
-//             metadataFlag = false
-//             newMetadata = parseMetadata(metadata)
-//             // newHTMLArray.push(newMetadata)
-//             continue
-//         }
-//         if (metadataFlag === true && !line.startsWith('}')) {
-//             metadata.push(line)
-//         } else {
-//             let isHeading = parseHeadings(line)
-//             if (isHeading !== line) { newline = isHeading }
-
-//             let isBlockQuote = parseBlockQuote(line)
-//             if (isBlockQuote !== line) { newline = isBlockQuote }
-
-//             let isHorizontalRule = parseHorizontalRule(line)
-//             if (isHorizontalRule !== line) { newline = isHorizontalRule }
-
-//             // TODO FIXME All of these should be put into seperate function calls to parse EVERYTHING
-
-//             // FIXME this is needing some consideration for <ul> tags
-//             if (line.startsWith('- ')) {
-//                 newline = line.replace(/^-\s(.+)/, '<li>$1</li>')
-//             }
-
-//             if (line.startsWith('![')) {
-//                 let matches = line.match(/^!\[(.+?)\]\((.+?)\)/) || []
-//                 if (matches.length > 0) {
-//                     newline = `<div class="md-img rounded-xxs"><img src="${ matches[2] }" alt="${ matches[1] }" /><span class="text-subtext0 text-sm"><em>${ matches[1] }</em></span></div>`
-//                 }
-//             }
-
-//             if (line.startsWith('[')) {
-//                 let matches = line.match(/^\[(.+?)\]\((.+?)\)/) || []
-//                 if (matches.length > 0) {
-//                     if (matches[1].startsWith('![')) { parseImage() }
-//                     else {
-//                         newline = `<a href="${ matches[2] }" class="text-red m-font">${ matches[1] }</a>`
-//                     }
-//                 }
-//             }
-
-//             //# If line does contain a Markdown starting character, make it a content paragraph
-//             if (newline === "" && line !== "") { newline = `<p class="m-font mb-xxl">${ line }</p>` }
-
-//             //# Parse other Markdown triggers
-//             newline = newline.replace(/\*\*\*([a-zA-Z0-9_\s-]+?)\*\*\*/g, '<strong><em>$1</em></strong>')
-//             newline = newline.replace(/\*\*([a-zA-Z0-9_\s-]+?)\*\*/g, '<strong>$1</strong>')
-//             newline = newline.replace(/\*([a-zA-Z0-9_\s-]+?)\*/g, `<em>$1</em>`)
-//             newline = newline.replace(/\`([a-zA-Z0-9_\s-]+?)\`/g, `<div class="code p-md rounded-xxs font-mono text-sm m-font bg-crust">$1</div>`)
-
-//             //# Add to HTML array
-//             if (newline !== "") { newHTMLArray.push(newline) }
-//         }
-//     }
-
-//     newMetadata.body = newHTMLArray.join("")
-//     markdownPosts.value.push(newMetadata)
-// }

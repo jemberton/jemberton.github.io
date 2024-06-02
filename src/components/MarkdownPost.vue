@@ -9,7 +9,7 @@ const postData = defineProps<{
 
 <template>
     <template v-if="postData.data.body">
-        <div class="paper-torn border-none gutters-v shadow-low rounded-t-xs">
+        <div class="paper-torn border-none gutters-v shadow-low rounded-t-xs font-retina">
             <template v-if="postData.data.author || postData.data.date">
                 <div class="md-header">
                     <div class="row align-center gap-md p-md border-thinner border-b-crust">
@@ -20,14 +20,14 @@ const postData = defineProps<{
                             <template v-if="postData.data.author">
                                 <div class="author text-lg">{{ postData.data.author }}</div>
                             </template>
-                            <div class="row align-center gap-md">
+                            <div class="row align-center gap-md" v-if="postData.data.github || postData.data.email">
                                 <template v-if="postData.data.github">
                                     <div v-if="postData.data.github.length > 1" class="text-xl">
                                         <a :href="postData.data.github[1]" :title="'Github : ' + postData.data.github[0]" class="text-green">
                                             <font-awesome-icon icon="fa-brands fa-square-github" />
                                         </a>
                                     </div>
-                                    <div v-else class="text-sm text-subtext1">{{ postData.data.github }}</div>
+                                    <div v-else></div>
                                 </template>
                                 <template v-if="postData.data.email">
                                     <div v-if="postData.data.email.length > 1" class="text-lg">
