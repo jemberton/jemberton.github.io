@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { faNotEqual } from '@fortawesome/free-solid-svg-icons';
 import { IMarkdownPost } from '../lib'
 
 const postData = defineProps<{

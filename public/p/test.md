@@ -116,6 +116,8 @@ Here is a `keyboard key [[alt]] in` a code block
 
 We should also use a link [in the middle](#) of a sentence.
 
+And here is `[a link](#)` in a code block
+
 my image ![Gramp's Porsche](/gramps-porsche.png)
 
 [![Gramp's Porsche](/gramps-porsche.png)](https://google.com)

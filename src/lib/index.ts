@@ -377,6 +377,10 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
       // TODO Check for images
 
       // TODO Check for links
+      // FIXME check for linkify options 
+      newline = newline.replace(/`[^`]*`|\[([^\]]+?)\]\(([^\)])\)/g, (match, text, link) => {
+        return isCode(match) ? match : `<a href="${ link }" class="text-red">${ text }</a>`
+      })
 
       // Check for inline code
       // TODO maybe add support for syntax highlighting?! 
