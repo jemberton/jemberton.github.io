@@ -145,7 +145,11 @@ $svg:
 .rounded { border-radius: 1.0em; }
 .rounded-full { border-radius: 50%; }
 .p-font { padding: $global-font-size; }
+.px-font { padding: 0 $global-font-size; }
+.py-font { padding: $global-font-size 0; }
 .m-font { margin: $global-font-size; }
+.mx-font { margin: 0 $global-font-size; }
+.my-font { margin: $global-font-size 0; }
 .line-font { line-height: $global-font-size; }
 .icon-font { width: $global-font-size; height: $global-font-size; }
 .icon-font2x { width: calc($global-font-size * 2); height: calc($global-font-size * 2); }

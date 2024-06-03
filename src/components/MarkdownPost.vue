@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { faNotEqual } from '@fortawesome/free-solid-svg-icons';
 import { IMarkdownPost } from '../lib'
 
 const postData = defineProps<{
@@ -27,7 +28,6 @@ const postData = defineProps<{
                                             <font-awesome-icon icon="fa-brands fa-square-github" />
                                         </a>
                                     </div>
-                                    <div v-else></div>
                                 </template>
                                 <template v-if="postData.data.email">
                                     <div v-if="postData.data.email.length > 1" class="text-lg">
@@ -35,7 +35,6 @@ const postData = defineProps<{
                                             <font-awesome-icon icon="fa-solid fa-paper-plane" />
                                         </a>
                                     </div>
-                                    <div v-else></div>
                                 </template>
                             </div>
                             <template v-if="postData.data.date">
@@ -49,6 +48,15 @@ const postData = defineProps<{
                 </div>
             </template>
             <div v-html="postData.data.body" class="p-md"></div>
+            <template v-if="postData.data.footnotes">
+                <div class="flex column p-xxl text-sm border-none border-t-thick border-mantle text-subtext0">
+                    <div v-for="note in postData.data.footnotes" class="flex row gap-xs">
+                        <a :name="note.name" />
+                        <span>{{ note.shortname }}</span>
+                        <span>{{ note.text }}</span>
+                    </div>
+                </div>
+            </template>
         </div>
     </template>
 </template>

@@ -1,5 +1,6 @@
 //! Whole file needs review
 import { Router } from "vue-router"
+import { nanoid } from "nanoid"
 
 export const isCode = (line: string) => {
   return line.startsWith('`')
@@ -8,6 +9,12 @@ export const isCode = (line: string) => {
 //@ ============================================================================
 //@  Interfaces
 //@ ============================================================================
+export interface Footnote {
+  text: string
+  url: string
+  name: string
+  shortname: string
+}
 export interface IMarkdownPost {
     title: string
     author?: string
@@ -16,6 +23,7 @@ export interface IMarkdownPost {
     email?: string[]
     github?: string[]
     body: string | IMarkdownPost
+    footnotes: Footnote[]
 }
 
 export interface IMarkdownPage {
@@ -33,6 +41,18 @@ export const getFileContents = async (file: string) => {
   }
 
   return ""
+}
+
+export const getFootnoteId = (footnotes: Footnote[], id: string) => {
+  if (footnotes) {
+    if (footnotes[parseInt(id) - 1].name) {
+      return footnotes[parseInt(id) - 1].name
+    }
+
+    return ''
+  }
+
+  return ''
 }
 
 //@ ============================================================================
@@ -173,7 +193,8 @@ export const parseMetadata = (metadata: string[]) => {
         date: "",
         email: [""],
         github: [""],
-        body: ""
+        body: "",
+        footnotes: []
     }
 
     for (const data of metadata) {
@@ -225,7 +246,8 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
   let markdownPost: IMarkdownPost = {
     title: '',
     date: '',
-    body: ''
+    body: '',
+    footnotes: []
   }
 
   let fileContents = await getFileContents(file)
@@ -245,6 +267,15 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
     }
 
     markdownPost = parseMetadata(metadataArray)
+  }
+
+  for (const line of lines) {
+    if ((/^\[\^([0-9]+?)\]/gm).exec(line)) {
+      for (const matches of line.matchAll(/^\[\^([0-9]+?)\]\:\s(.+?)$/gm)) {
+        let id = nanoid(11)
+        markdownPost.footnotes?.push({ text: matches[2], name: `${ id }`, url: `#f-${ id }`, shortname: `${ matches[1] }` })
+      }
+    }
   }
 
   let openCodeBlock = false
@@ -324,6 +355,9 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
       let isHorizontalRule = parseHorizontalRule(line)
       if (isHorizontalRule !== line) { newline = isHorizontalRule }
 
+      // Do not display footnote definitions
+      if ((/^\[\^([0-9]+?)\]/gm).exec(line)) { newline = "~skip" }
+
       if (newline === "" && line !== "") { newline = parseParagraphs(line) }
 
       // TODO Check for lists (ordered, unordered, and checklist)
@@ -337,6 +371,8 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
       newline = newline.replace(/`[^`]*`|\*([^*]+?)\*/g, (match) => { return isCode(match) ? match : `<em>${ match.replace(/\*/g, '') }</em>` })
       // Check for keyboard keys (custom syntax using `[[KEY]]`)
       newline = newline.replace(/`[^`]*`|\[\[([^\]]+?)\]\]/g, (match)=> { return isCode(match) ? match : `<kbd>${ match.replace(/\[/g, '').replace(/\]/g, '') }</kbd>` })
+      // Check for footnotes 
+      newline = newline.replace(/`[^`]*`|\[\^(\d+?)\]/g, (match) => { return isCode(match) ? match : `<sup><a href="#${ getFootnoteId(markdownPost.footnotes, match[2]) }" class="router text-blue" name="f-${ match[2] }">[${ match[2] }]</a></sup>` })
 
       // TODO Check for images
 
@@ -348,7 +384,7 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
     }
 
     //# Add to HTML array
-    if (newline !== "") { newHTMLArray.push(newline) }
+    if (newline !== "" && newline !== "~skip") { newHTMLArray.push(newline) }
   }
 
   markdown = newHTMLArray.join("")

@@ -3,6 +3,7 @@
     date: 1715124732378
     author: Josh
     avatar: josh.jpg
+    email: josh josh@josh.josh
 }
 
 ## StartsWith Triggers
@@ -148,8 +149,6 @@ Here's a sentence with a footnote. [^1]
 Here's a second sentence with a footnote. [^2] This footnote is in the middle of a paragraph as opposed to being at the end.
 
 [^2]: This is the second footnote definition.
-
-Here is a footnote inside `[^3]` a code block
 
 ### Heading ID
 
