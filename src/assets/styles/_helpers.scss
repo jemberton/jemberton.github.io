@@ -234,6 +234,7 @@ $svg:
 .font-retina { font-family: $global-font-family-retina; }
 
 .font-bold { font-weight: bold; }
+.font-italic { font-style: italic; }
 
 .circle { clip-path: circle(40%); }
 
@@ -363,4 +364,21 @@ $svg:
         background-color: var(--b);
         bottom: -2px;
       }
+}
+
+.rainbow {
+    height: 0.5em;
+    margin-bottom: 1em;
+
+    background-image: repeating-linear-gradient(to right,
+        $red 0px, $red 14.3%,
+        $peach 14.3%, $peach 28.6%,
+        $yellow 28.6%, $yellow 42.9%,
+        $green 42.9%, $green 57.2%,
+        $blue 57.2%, $blue 71.5%,
+        $lavender 71.5%, $lavender 85.8%,
+        $mauve 85.8%, $mauve 100%
+    );
+    background-size: 100%;
+    background-repeat:no-repeat;
 }

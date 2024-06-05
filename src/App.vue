@@ -114,6 +114,7 @@ const navigation = [
                 </div>
             </template>
         </div>
+        <div v-if="globalState.prideRainbow" class="rainbow"></div>
         <div class="main grow">
             <RouterView />
         </div>

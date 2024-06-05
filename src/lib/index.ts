@@ -55,6 +55,7 @@ export const getFootnoteId = (footnotes: Footnote[], id: string) => {
   return ''
 }
 
+// TODO add support for table of contents generation from headings 
 //@ ============================================================================
 //@  Parsers
 //@ ============================================================================
@@ -375,9 +376,20 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
       newline = newline.replace(/`[^`]*`|\[\^(\d+?)\]/g, (match) => { return isCode(match) ? match : `<sup><a href="#${ getFootnoteId(markdownPost.footnotes, match[2]) }" class="router text-blue" name="f-${ match[2] }">[${ match[2] }]</a></sup>` })
 
       // TODO Check for images
+      newline = newline.replace(/`[^`]*`|!\[([^\]]+?)\]\(([^\)]+?)\)/g, (match, caption, image) => {
+        if (image) {
+          return `
+            <span class="my-xxl flex column justify-center align-center">
+              <img src="${ image }" class="w-100 rounded-xxs border-thinner border-mantle" />
+              <span class="text-overlay2 text-sm mt-sm font-italic">${ caption }</span>
+            </span>
+          `
+        }
+
+        return match
+      })
 
       // TODO Check for links
-      // FIXME check for linkify options 
       newline = newline.replace(/`[^`]*`|\[([^\]]+?)\]\(([^\)]+?)\)/g, (match, text, link) => {
         if (isCode(match)) return match
 
@@ -385,6 +397,9 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
         if (link) {
           if (link.startsWith('/') || link.startsWith('#')) {
             linkContent = `<a href="${ link }" class="text-blue underline m-xxs">${ text }</a>`
+          } else if (text.trim().startsWith('<span')) {
+            console.log('image in link')
+            linkContent = 'WOOF'
           } else {
             linkContent = `
               <a href="${ link }" class="text-blue m-xxs" target="_blank">
