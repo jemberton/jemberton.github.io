@@ -160,6 +160,7 @@ export const parseDate = (datestamp: number) => {
 }
 
 // TODO add anchor link and show on hover 
+// TODO add custom ID for headings 
 export const parseHeadings = (line: string) => {
     if (line.startsWith('#')) {
         let symbols = line.match(/^\#+/g) || []
@@ -363,6 +364,8 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
 
       // TODO Check for lists (ordered, unordered, and checklist)
 
+      // TODO Check for tables 
+
       //# Check for inline triggers
       // Strongly Emphasized (bold italic)
       newline = newline.replace(/`[^`]*`|\*\*\*([^*]+?)\*\*\*/g, (match) => { return isCode(match) ? match : `<strong><em>${ match.replace(/\*/g, '') }</em></strong>` })
@@ -370,16 +373,23 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
       newline = newline.replace(/`[^`]*`|\*\*([^*]+?)\*\*/g, (match) => { return isCode(match) ? match : `<strong>${ match.replace(/\*/g, '') }</strong>` })
       // Emphasized (italic)
       newline = newline.replace(/`[^`]*`|\*([^*]+?)\*/g, (match) => { return isCode(match) ? match : `<em>${ match.replace(/\*/g, '') }</em>` })
+      // Strikeout
+      newline = newline.replace(/`[^`]*`|~~(.+?)~~/g, (match) => { return isCode(match) ? match : `<span class="strikethrough">${ match.replace(/~{2}/g, '') }</span>` })
+      // TODO add superscript support 
+      // TODO add subscript support 
+      // TODO add highlight (mark) support 
       // Check for keyboard keys (custom syntax using `[[KEY]]`)
       newline = newline.replace(/`[^`]*`|\[\[([^\]]+?)\]\]/g, (match)=> { return isCode(match) ? match : `<kbd>${ match.replace(/\[/g, '').replace(/\]/g, '') }</kbd>` })
       // Check for footnotes 
       newline = newline.replace(/`[^`]*`|\[\^(\d+?)\]/g, (match) => { return isCode(match) ? match : `<sup><a href="#${ getFootnoteId(markdownPost.footnotes, match[2]) }" class="router text-blue" name="f-${ match[2] }">[${ match[2] }]</a></sup>` })
 
+      // TODO add emojify support 
+
       // TODO Check for images
       newline = newline.replace(/`[^`]*`|!\[([^\]]+?)\]\(([^\)]+?)\)/g, (match, caption, image) => {
         if (image) {
           return `
-            <span class="my-xxl flex column justify-center align-center">
+            <span class="my-lg flex column justify-center align-center">
               <img src="${ image }" class="w-100 rounded-xxs border-thinner border-mantle" />
               <span class="text-overlay2 text-sm mt-sm font-italic">${ caption }</span>
             </span>
@@ -399,7 +409,7 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
             linkContent = `<a href="${ link }" class="text-blue underline m-xxs">${ text }</a>`
           } else if (text.trim().startsWith('<span')) {
             console.log('image in link')
-            linkContent = 'WOOF'
+            linkContent = `<a href="${ link }" class="m-none p-none" target="_blank">${ text }</a>`
           } else {
             linkContent = `
               <a href="${ link }" class="text-blue m-xxs" target="_blank">
