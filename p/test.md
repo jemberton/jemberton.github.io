@@ -122,6 +122,8 @@ This is an [external](https://google.com) link
 
 my image ![Gramp's Porsche](/gramps-porsche.png)
 
+image in code `![Gramp's Porsche](/gramps-porsche.png)` block
+
 [![Gramp's Porsche](/gramps-porsche.png)](https://google.com)
 
 1. Ordered List Item 1
