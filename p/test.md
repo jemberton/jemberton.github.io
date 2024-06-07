@@ -85,7 +85,7 @@ thirdLine = doNotHighlight()
 ```
 
 ```plaintext
-plain
+this is a code line that is hopefully longer than a mobile device's screen is wide
 ```
 
 ```plaintext 1-2,4-5
