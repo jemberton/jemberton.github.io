@@ -8,4 +8,4 @@ Here is a collection of guides with no particular connection to any other. At le
 
 Internal link using Vue Router <a href="/guides/linux" class="text-blue router underline">Linux</a>
 
-External link with added 'external' link icon from FontAwesome <a href="https://google.com" class="text-blue underline">Google</a>
+External link with added 'external' link icon from FontAwesome [Google](https://google.com)
