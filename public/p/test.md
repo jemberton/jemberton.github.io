@@ -188,8 +188,12 @@ I need to highlight these ==very important words==.
 
 ### Subscript
 
-H~2~O
+Water is H~2~O
 
 ### Superscript
 
-X^2^
+My equation is X^2^ = 5 + 3
+
+### Superscript Subscript
+
+This is a custom syntax for a combined super and subscript. For example Voltage~RMS~&^2^ or Voltage^2^&~RMS~

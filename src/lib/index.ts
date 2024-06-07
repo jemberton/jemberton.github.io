@@ -293,6 +293,7 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
 
     // FIXME move into callable parser method 
     // TODO Add syntax highlighting support 
+    // TODO add +/- syntax to mimick git style add/remove lines 
     let isCodeBlock = line.startsWith('```')
     if (isCodeBlock) {
       if (openCodeBlock) {
@@ -375,8 +376,11 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
       newline = newline.replace(/`[^`]*`|\*([^*]+?)\*/g, (match) => { return isCode(match) ? match : `<em>${ match.replace(/\*/g, '') }</em>` })
       // Strikeout
       newline = newline.replace(/`[^`]*`|~~(.+?)~~/g, (match) => { return isCode(match) ? match : `<span class="strikethrough">${ match.replace(/~{2}/g, '') }</span>` })
+      // TODO add superscript + subscript combo support (custom syntax TBD) 
       // TODO add superscript support 
+      newline = newline.replace(/`[^`]*`|\S(\^{1}.+?\^{1}).+?/g, (match, superscript) => { return isCode(match) ? match : match.replace(superscript, `<span><sup>${ superscript.replace(/\^/g, '') }</sup></span>`) })
       // TODO add subscript support 
+      newline = newline.replace(/`[^`]*`|\S(~{1}.+?~{1}).+?/g, (match, subscript) => { return isCode(match) ? match : match.replace(subscript, `<span><sub>${ subscript.replace(/~/g, '') }</sub></span>`) })
       // TODO add highlight (mark) support 
       // Check for keyboard keys (custom syntax using `[[KEY]]`)
       newline = newline.replace(/`[^`]*`|\[\[([^\]]+?)\]\]/g, (match)=> { return isCode(match) ? match : `<kbd>${ match.replace(/\[/g, '').replace(/\]/g, '') }</kbd>` })

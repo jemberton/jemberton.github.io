@@ -1,7 +1,7 @@
 {
     "posts": [
-        "p/test2.md",
-        "p/test.md"
+        "p/test.md",
+        "p/test2.md"
     ],
     "guides": {
         "index": "g/index.md",
