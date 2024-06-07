@@ -97,6 +97,24 @@ line5
 line6
 ```
 
+```plaintext 5-10
+--- Line 1
++++ line1
+line2
+line3
+line4
+line5
+line6
+line7
+--- Line 8
++++ line8
+line9
+line10
+line11
+--- Line 12
++++ line12
+```
+
 ```json
 {
   "firstName": "John",
@@ -120,25 +138,17 @@ And here is `[a link](#)` in a code block
 
 This is an [external](https://google.com) link
 
-my image ![Gramp's Porsche](/gramps-porsche.png)
+my image ![Project Smok - Top Songs (Apple Music)](/img/test-small.png)
 
 image in code `![Gramp's Porsche](/gramps-porsche.png)` block
 
 [![Gramp's Porsche](/gramps-porsche.png)](https://google.com)
 
-1. Ordered List Item 1
-2. Ordered List Item 2
-3. Ordered List Item 3
-
-- Unordered List Item 1
-- Unordered List Item 2
-- Unordered List Item 3
-
 ## Extended Syntax
 
 These elements extend the basic syntax by adding additional features. Not all Markdown applications support these elements.
 
-### Table
+### ! Table
 
 | Syntax | Description |
 | ----------- | ----------- |
@@ -159,9 +169,9 @@ Here is a footnote inside `[^3]` a code block
 
 ### Heading ID
 
-### My Great Heading {#custom-id}
+### ! My Great Heading {#custom-id}
 
-### Definition List
+### ! Definition List
 
 term
 : definition
@@ -170,7 +180,17 @@ term
 
 ~~The world is flat.~~
 
-### Task List
+### ! Lists
+
+1. Ordered List Item 1
+2. Ordered List Item 2
+3. Ordered List Item 3
+
+- Unordered List Item 1
+- Unordered List Item 2
+- Unordered List Item 3
+
+### ! Task List
 
 - [x] Write the press release
 - [ ] Update the website
@@ -180,6 +200,10 @@ term
 
 That is so funny! :joy:
 
+We :heart: emojis!
+
+Emjoi support provided by [node-emoji](https://github.com/omnidan/node-emoji)
+
 (See also [Copying and Pasting Emoji](https://www.markdownguide.org/extended-syntax/#copying-and-pasting-emoji))
 
 ### Highlight
@@ -188,8 +212,12 @@ I need to highlight these ==very important words==.
 
 ### Subscript
 
-H~2~O
+Water is H~2~O
 
 ### Superscript
 
-X^2^
+My equation is X^2^ = 5 + 3
+
+### ! Superscript Subscript
+
+This is a custom syntax for a combined super and subscript. For example Voltage~RMS~&^2^ or Voltage^2^&~RMS~

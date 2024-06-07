@@ -4,6 +4,7 @@
     author: Josh
     avatar: josh.jpg
     email: josh josh@josh.josh
+    github: @jemberton http://github.com/jemberton
 }
 
 ## StartsWith Triggers
