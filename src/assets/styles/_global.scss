@@ -29,6 +29,10 @@ body {
     border: 3px solid $overlay0;
 }
 
+*::selection {
+    background: $lavender; color: $mantle;
+}
+
 div {
     box-sizing: border-box;
     display: flex; position: relative;

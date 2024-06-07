@@ -12,7 +12,7 @@ export const useGlobalState = defineStore('globalState', () => {
     const windowScroll = ref(useWindowScroll({ behavior: 'smooth' }))
     const hanselGretel = ref([<HanselGretelItem>{}])
 
-    const prideRainbow = ref(true)
+    const prideRainbow = ref(new Date().getMonth() === 5)
 
     const navigationPanel = ref(false)
     const screenOverlayPanel = ref(false)

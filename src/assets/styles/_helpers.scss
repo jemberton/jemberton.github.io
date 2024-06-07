@@ -96,6 +96,14 @@ $svg:
 //# bg text
 @each $color_name, $color_hex, $hover in $mocha {
     .bg-#{$color_name} { background: $color_hex; }
+
+    @for $percent from 1 through 10 {
+        .w-#{$percent}em { width: #{$percent}em; }
+        .h-#{$percent}em { height: #{$percent}em; }
+
+        .bg-#{$color_name}-#{$percent * 10} { background: rgba($color_hex, calc($percent / 10)) }
+    }
+
     .border-#{$color_name} { border-color: $color_hex; }
     .text-#{$color_name} { color: $color_hex; }
     a {
@@ -114,6 +122,7 @@ $svg:
         .border-#{$face_letter}-#{$color_name} { border-#{$face}-color: $color_hex; }
     }
 }
+.bg-none { background: transparent; }
 
 //# Build size based classes
 //# text p rounded
@@ -189,10 +198,17 @@ $svg:
 @for $percent from 1 through 10 {
     .w-#{$percent * 10} { width: #{$percent * 10}#{"%"}; }
     .h-#{$percent * 10} { height: #{$percent * 10}#{"%"}; }
+
+    .max-w-#{$percent * 10} { max-width: #{$percent * 10}#{"%"}; }
+    .max-h-#{$percent * 10} { max-height: #{$percent * 10}#{"%"}; }
+
+    .w-#{$percent}em { width: #{$percent}em; }
+    .h-#{$percent}em { height: #{$percent}em; }
 }
 
 @for $level from 0 through 10 {
     .z-#{$level} { z-index: #{$level}; }
+    .opacity-#{$level} { opacity: #{$level}; }
 }
 
 @each $svg_name, $svg_size in $svg {
@@ -369,7 +385,6 @@ $svg:
 
 .rainbow {
     height: 0.5em;
-    margin-bottom: 1em;
 
     background-image: repeating-linear-gradient(to right,
         $red 0px, $red 14.3%,

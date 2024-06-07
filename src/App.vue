@@ -104,6 +104,7 @@ const navigation = [
         </div>
     </div>
     <div class="right grow graph-paper">
+        <div v-if="globalState.prideRainbow" class="rainbow"></div>
         <div class="menu p-md text-sm row gap-xs align-center border-none border-b-thin border-crust">
             <font-awesome-icon icon="fa-solid fa-location-arrow fa-fw" class="text-md text-overlay2" />
             <template v-for="(item, index) in globalState.hanselGretel">
@@ -114,11 +115,10 @@ const navigation = [
                 </div>
             </template>
         </div>
-        <div v-if="globalState.prideRainbow" class="rainbow"></div>
         <div class="main grow">
             <RouterView />
         </div>
-        <div class="bg-yellow text-mantle p-md">$footer</div>
+        <div class="bg-mantle text-overlay1 p-md border-none border-t-thin border-crust">$footer</div>
     </div>
 </div>
 </template>

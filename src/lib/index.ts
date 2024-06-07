@@ -1,6 +1,7 @@
 //! Whole file needs review
 import { Router } from "vue-router"
 import { nanoid } from "nanoid"
+import { emojify } from "node-emoji"
 
 export const isCode = (line: string) => {
   return line.startsWith('`')
@@ -283,6 +284,7 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
   let openCodeBlock = false
   let codeBlockHTML = ""
   let codeBlockLine = 1
+  let markLine = false
   let highlight = []
 
   for (const line of lines) {
@@ -293,15 +295,16 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
 
     // FIXME move into callable parser method 
     // TODO Add syntax highlighting support 
-    // TODO add +/- syntax to mimick git style add/remove lines 
     let isCodeBlock = line.startsWith('```')
     if (isCodeBlock) {
       if (openCodeBlock) {
+        // Close code block
         newline = `${ codeBlockHTML }<div class="p-xxs border-none border-t-thinner border-mantle text-overlay0"></div></div>`
         codeBlockHTML = ""
         codeBlockLine = 1
         highlight = []
       } else {
+        // Open code block and build highlight array
         let options = line.replace(/`{3}/, '')
         let headerHTML = ""
         if (options !== "") {
@@ -340,14 +343,36 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
     }
 
     if (openCodeBlock && newline === "") {
-      codeBlockHTML = `
-        ${ codeBlockHTML }
-        <div class="flex row align-stretch font-mono gap-xxs border-none border-l-thick border-r-thick border-hover-blue bghover-surface0 ${ highlight.includes(codeBlockLine) ? 'border-mauve bg-mantle' : '' }">
-          <span class="flex row noselect border-none border-r-thinner align-center justify-center py-xs px-sm text-sm m-none ${ highlight.includes(codeBlockLine) ? 'text-mauve border-base' : 'border-mantle text-overlay1' }">${ codeBlockLine }</span>
-          <span class="flex row py-xs px-xs grow align-center text-sm">${ escapeHTML(line, true) }</span>
-        </div>
-      `
-      codeBlockLine += 1
+      if (line.startsWith('+++')) {
+        codeBlockHTML = `
+          ${ codeBlockHTML }
+          <div class="flex row align-stretch font-mono gap-xxs border-none border-l-thick border-r-thick border-hover-blue bghover-surface0 bg-green-10">
+            <span class="w-1em flex row noselect border-none border-r-thinner align-center justify-center py-xs px-sm text-sm m-none text-green border-mantle">${ markLine ? '&nbsp;' : codeBlockLine }</span>
+            <span class="flex row py-xs px-xs grow align-center text-sm text-green code">${ escapeHTML(line, true).replace(/^\+{3}(.+?)/g, '<span class="noselect">+&nbsp;</span><span>$1</span>') }</span>
+          </div>
+        `
+        markLine = false
+        codeBlockLine += 1
+      } else if (line.startsWith('---')) {
+        codeBlockHTML = `
+          ${ codeBlockHTML }
+          <div class="flex row align-stretch font-mono gap-xxs border-none border-l-thick border-r-thick border-hover-blue bghover-surface0 bg-red-10">
+            <span class="w-1em flex row noselect border-none border-r-thinner align-center justify-center py-xs px-sm text-sm m-none text-red border-mantle">${ markLine ? '&nbsp;' : codeBlockLine }</span>
+            <span class="flex row py-xs px-xs grow align-center text-sm text-red noselect">${ escapeHTML(line, true).replace(/^\-{3}(.+?)/g, '<span>-&nbsp;</span><span>$1</span>') }</span>
+          </div>
+        `
+        markLine = true
+      } else {
+        codeBlockHTML = `
+          ${ codeBlockHTML }
+          <div class="flex row align-stretch font-mono gap-xxs border-none border-l-thick border-r-thick border-hover-blue bghover-surface0 ${ highlight.includes(codeBlockLine) ? 'border-mauve bg-mantle' : '' }">
+            <span class="w-1em flex row noselect border-none border-r-thinner align-center justify-center py-xs px-sm text-sm m-none ${ highlight.includes(codeBlockLine) ? 'text-mauve border-base' : 'border-mantle text-overlay1' }">${ codeBlockLine }</span>
+            <span class="flex row py-xs px-xs grow align-center text-sm code">${ escapeHTML(line, true) }</span>
+          </div>
+        `
+        codeBlockLine += 1
+        markLine = false
+      }
     } else if (!isCodeBlock && !openCodeBlock) {
       let isHeading = parseHeadings(line)
       if (isHeading !== line) { newline = isHeading }
@@ -377,24 +402,24 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
       // Strikeout
       newline = newline.replace(/`[^`]*`|~~(.+?)~~/g, (match) => { return isCode(match) ? match : `<span class="strikethrough">${ match.replace(/~{2}/g, '') }</span>` })
       // TODO add superscript + subscript combo support (custom syntax TBD) 
-      // TODO add superscript support 
+      // Superscript 
       newline = newline.replace(/`[^`]*`|\S(\^{1}.+?\^{1}).+?/g, (match, superscript) => { return isCode(match) ? match : match.replace(superscript, `<span><sup>${ superscript.replace(/\^/g, '') }</sup></span>`) })
-      // TODO add subscript support 
+      // Subscript
       newline = newline.replace(/`[^`]*`|\S(~{1}.+?~{1}).+?/g, (match, subscript) => { return isCode(match) ? match : match.replace(subscript, `<span><sub>${ subscript.replace(/~/g, '') }</sub></span>`) })
-      // TODO add highlight (mark) support 
+      // Highlight (mark)
+      newline = newline.replace(/`[^`]*`|={2}([^\s].+?)={2}/g, (match, text) => { return isCode(match) ? match : `<mark class="bg-yellow text-crust p-xxs">${ text }</mark>` })
       // Check for keyboard keys (custom syntax using `[[KEY]]`)
       newline = newline.replace(/`[^`]*`|\[\[([^\]]+?)\]\]/g, (match)=> { return isCode(match) ? match : `<kbd>${ match.replace(/\[/g, '').replace(/\]/g, '') }</kbd>` })
       // Check for footnotes 
       newline = newline.replace(/`[^`]*`|\[\^(\d+?)\]/g, (match) => { return isCode(match) ? match : `<sup><a href="#${ getFootnoteId(markdownPost.footnotes, match[2]) }" class="router text-blue" name="f-${ match[2] }">[${ match[2] }]</a></sup>` })
 
-      // TODO add emojify support 
-
-      // TODO Check for images
+      // Images
+      // FIXME move to dedicated parser 
       newline = newline.replace(/`[^`]*`|!\[([^\]]+?)\]\(([^\)]+?)\)/g, (match, caption, image) => {
         if (image) {
           return `
-            <span class="my-lg flex column justify-center align-center">
-              <img src="${ image }" class="w-100 rounded-xxs border-thinner border-mantle" />
+            <span class="my-lg flex column justify-center align-center" title="${ caption }">
+              <img src="${ image }" class="max-w-100 rounded-xxs border-thinner border-mantle" />
               <span class="text-overlay2 text-sm mt-sm font-italic">${ caption }</span>
             </span>
           `
@@ -403,7 +428,8 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
         return match
       })
 
-      // TODO Check for links
+      // Hyperlinks
+      // FIXME move to dedicated parser 
       newline = newline.replace(/`[^`]*`|\[([^\]]+?)\]\(([^\)]+?)\)/g, (match, text, link) => {
         if (isCode(match)) return match
 
@@ -412,7 +438,6 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
           if (link.startsWith('/') || link.startsWith('#')) {
             linkContent = `<a href="${ link }" class="text-blue underline m-xxs">${ text }</a>`
           } else if (text.trim().startsWith('<span')) {
-            console.log('image in link')
             linkContent = `<a href="${ link }" class="m-none p-none" target="_blank">${ text }</a>`
           } else {
             linkContent = `
@@ -432,6 +457,9 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
       // Check for inline code
       // TODO maybe add support for syntax highlighting?! 
       newline = newline.replace(/\`([a-zA-Z0-9_<>/\\!@#$%^&*():;'"?~+=.,{}\[\]\s-]+?)\`/g, (temp) => { return `<span class="rounded-xs font-mono text-sm text-subtext1 py-xxs px-xs mx-xxs bg-mantle line-xxxl border-thinner border-crust">${ escapeHTML(temp) }</span>` })
+    
+      // Emojis via emojify
+      newline = emojify(newline)
     }
 
     //# Add to HTML array
@@ -450,7 +478,7 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
 
 
 // TODO Review this and look to improve 
-// NOTE This function replaces dynamically generated HTML and adds in an onclick listener that extends vue-router-link 
+//# This function replaces dynamically generated HTML and adds in an onclick listener that extends vue-router-link 
 export const linkify = (element: HTMLElement, router: Router) => {
     const links = element.getElementsByTagName('a')
   
