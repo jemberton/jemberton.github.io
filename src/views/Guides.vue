@@ -65,7 +65,7 @@ watch(() => pageData.value, () => {
 
 <template>
 <div class="grow" :class="globalState.windowSize.width < 1024 ? 'w-100 p-md' : 'w-80 p-md'">
-    <div class="border-thick border-surface0 border-dashed" ref="pageContent" v-html="pageData"></div>
+    <div class="paper-torn border-none gutters-v shadow-low rounded-t-xs font-retina p-md" ref="pageContent" v-html="pageData"></div>
 </div>
 </template>
 

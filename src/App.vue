@@ -118,7 +118,12 @@ const navigation = [
         <div class="main grow">
             <RouterView />
         </div>
-        <div class="bg-mantle text-overlay1 p-md border-none border-t-thin border-crust">$footer</div>
+        <div class="bg-mantle text-overlay1 p-md border-none border-t-thin border-crust">
+            <div>footer</div>
+            <div>Wee</div>
+            <div>Woo</div>
+            <div>Womp</div>
+        </div>
     </div>
 </div>
 </template>

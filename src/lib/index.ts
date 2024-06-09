@@ -287,6 +287,9 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
   let markLine = false
   let highlight = []
 
+  let openTable = false
+  let tableHTML = ""
+
   for (const line of lines) {
     let newline = ""
 
@@ -312,7 +315,12 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
           for (const [index, option] of optionsArray.entries()) {
             switch (index) {
               case 0:
-                if (option !== "") { headerHTML = `<span class="text-peach text-sm px-xs py-xxxs flex row justify-end">${ option }</span>` }
+                if (option !== "") { headerHTML = `
+                  <span class="text-sm px-xs py-xs flex row justify-end align-stretch gap-sm">
+                    <span class="text-overlay1"><svg class="icon-font" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M192 0c-41.8 0-77.4 26.7-90.5 64H64C28.7 64 0 92.7 0 128V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H282.5C269.4 26.7 233.8 0 192 0zm0 64a32 32 0 1 1 0 64 32 32 0 1 1 0-64zM112 192H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg></span>
+                    <span class="text-peach">${ option }</span>
+                  </span>
+                ` }
                 break
               case 1:
                 let lines = option.split(',')
@@ -342,6 +350,25 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
       openCodeBlock = !openCodeBlock
     }
 
+    // TODO Check for tables 
+    let isTable = line.startsWith('| ')
+    if (isTable) {
+      if (openTable) {
+        console.log('table is open')
+        tableHTML = `${ tableHTML }<div>${ line }</div>`
+      } else {
+        console.log('table opening ...')
+        tableHTML = `${ tableHTML }<div class="text-peach"><div>${ line }</div>`
+        openTable = true
+      }
+    } else {
+      if (openTable) {
+        newline = `${ tableHTML }</div>`
+        tableHTML = ""
+        openTable = false
+      }
+    }
+
     if (openCodeBlock && newline === "") {
       if (line.startsWith('+++')) {
         codeBlockHTML = `
@@ -366,14 +393,14 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
         codeBlockHTML = `
           ${ codeBlockHTML }
           <div class="flex row align-stretch font-mono gap-xxs border-none border-l-thick border-r-thick border-hover-blue bghover-surface0 ${ highlight.includes(codeBlockLine) ? 'border-mauve bg-mantle' : '' }">
-            <span class="w-1em flex row noselect border-none border-r-thinner align-center justify-center py-xs px-sm text-sm m-none ${ highlight.includes(codeBlockLine) ? 'text-mauve border-base' : 'border-mantle text-overlay1' }">${ codeBlockLine }</span>
+            <span class="w-1em flex row noselect border-none border-r-thinner align-start justify-center py-xs px-sm text-sm m-none ${ highlight.includes(codeBlockLine) ? 'text-mauve border-base' : 'border-mantle text-overlay1' }">${ codeBlockLine }</span>
             <span class="flex row py-xs px-xs grow align-center text-sm code">${ escapeHTML(line, true) }</span>
           </div>
         `
         codeBlockLine += 1
         markLine = false
       }
-    } else if (!isCodeBlock && !openCodeBlock) {
+    } else if (!isCodeBlock && !openCodeBlock && !isTable && !openTable) {
       let isHeading = parseHeadings(line)
       if (isHeading !== line) { newline = isHeading }
 
@@ -389,8 +416,6 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
       if (newline === "" && line !== "") { newline = parseParagraphs(line) }
 
       // TODO Check for lists (ordered, unordered, and checklist)
-
-      // TODO Check for tables 
 
       //# Check for inline triggers
       // Strongly Emphasized (bold italic)
@@ -436,12 +461,12 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
         let linkContent = ""
         if (link) {
           if (link.startsWith('/') || link.startsWith('#')) {
-            linkContent = `<a href="${ link }" class="text-blue underline m-xxs">${ text }</a>`
+            linkContent = `<a href="${ link }" class="text-blue underline m-xxxs">${ text }</a>`
           } else if (text.trim().startsWith('<span')) {
             linkContent = `<a href="${ link }" class="m-none p-none" target="_blank">${ text }</a>`
           } else {
             linkContent = `
-              <a href="${ link }" class="text-blue m-xxs" target="_blank">
+              <a href="${ link }" class="text-blue m-xxxs" target="_blank">
                 <span class="flex-inline align-center gap-xxs">
                   <span class="underline">${ text }</span>
                   <svg class="icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M352 0c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9L370.7 96 201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L416 141.3l41.4 41.4c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V32c0-17.7-14.3-32-32-32H352zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z"/></svg>
@@ -456,7 +481,7 @@ export const parse = async (file: string, withMetadata: boolean = false) => {
 
       // Check for inline code
       // TODO maybe add support for syntax highlighting?! 
-      newline = newline.replace(/\`([a-zA-Z0-9_<>/\\!@#$%^&*():;'"?~+=.,{}\[\]\s-]+?)\`/g, (temp) => { return `<span class="rounded-xs font-mono text-sm text-subtext1 py-xxs px-xs mx-xxs bg-mantle line-xxxl border-thinner border-crust">${ escapeHTML(temp) }</span>` })
+      newline = newline.replace(/\`([a-zA-Z0-9_<>/\\!@#$%^&*():;'"?~+=.,{}\[\]\s-]+?)\`/g, (temp) => { return `<span class="rounded-xs font-mono text-sm text-subtext1 py-xxxs px-xxs mx-xxxs bg-mantle line-xxl border-thinner border-crust">${ escapeHTML(temp) }</span>` })
     
       // Emojis via emojify
       newline = emojify(newline)
@@ -530,20 +555,21 @@ export const linkify = (element: HTMLElement, router: Router) => {
           event.preventDefault()
           router.push(to)
         }
-      } else {
-        link.innerHTML = `
-          <span class="flex-inline align-center gap-xxs">
-            ${ link.innerText }
-            <svg class="icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M352 0c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9L370.7 96 201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L416 141.3l41.4 41.4c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V32c0-17.7-14.3-32-32-32H352zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z"/></svg>
-          </span>
-        `
-
-        link.onclick = (event: MouseEvent) => {
-          event.preventDefault()
-
-          window.open(link.href, '_blank')
-          // window.location.href = link.href
-        }
       }
+      // } else {
+      //   link.innerHTML = `
+      //     <span class="flex-inline align-center gap-xxs">
+      //       ${ link.innerText }
+      //       <svg class="icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M352 0c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9L370.7 96 201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L416 141.3l41.4 41.4c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V32c0-17.7-14.3-32-32-32H352zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z"/></svg>
+      //     </span>
+      //   `
+
+      //   link.onclick = (event: MouseEvent) => {
+      //     event.preventDefault()
+
+      //     window.open(link.href, '_blank')
+      //     // window.location.href = link.href
+      //   }
+      // }
     })
   }
