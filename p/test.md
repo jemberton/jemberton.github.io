@@ -1,9 +1,8 @@
-{
-    title: Markdown Parser
-    date: 1715124732378
-    author: Josh
-    avatar: josh.jpg
-}
+# Test Post (dev)
+
+Author: Josh
+
+date: 1715124732378
 
 ## StartsWith Triggers
 
@@ -33,29 +32,43 @@ Here is a line with complex italic text *this should all be italic, if things ar
 
 ---
 
->{danger} This is a danger blockquote
+> This is a danger blockquote
+{.danger}
 
 ---
 
->{warning} This is a warning blockquote
+> This is a warning blockquote
+{.warning}
 
 ---
 
->{radiation} This is a radiation blockquote
+> This is a radiation blockquote
+{.radioactive}
 
 ---
 
->{success} This is a success blockquote
+> This is a success blockquote
+{.success}
 
 ---
 
->{info} This is an info blockquote
+> This is an info blockquote
+{.info}
 
 ---
 
->{question} This is a question blockquote
+> This is a question blockquote
+{.question}
 
 ---
+
+::: warning
+*here be dragons*
+:::
+
+::: info
+dragons are gone
+:::
 
 ## Inline Triggers
 
@@ -69,7 +82,9 @@ Here is a line with complex italic `text *this should all be italic, if things a
 
 Complex code `variable["sub"] = mything("woohoo", { "text": "some text" })` is nice to show, but without syntax highlighting, it can be a bit difficult to read.
 
-```plaintext 3-6
+Here is a bit of code to `(see) => { return hljsIsWorking }`{.js} is working
+
+```python 3-6
 This is a plaintext codeblock
 
 *weehoo*
@@ -97,7 +112,7 @@ line5
 line6
 ```
 
-```plaintext 5-10
+```cpp 5-10
 --- Line 1
 +++ line1
 line2
@@ -120,7 +135,7 @@ line11
   "firstName": "John",
   "lastName": "Smith",
   "age": 25,
-    noquotes: true
+  noquotes: true
 }
 ```
 
@@ -148,10 +163,18 @@ image in code `![Gramp's Porsche](/gramps-porsche.png)` block
 
 These elements extend the basic syntax by adding additional features. Not all Markdown applications support these elements.
 
+### Abbreviations
+
+*[HTML]: Hyper Text Markup Language
+
+*[W3C]:  World Wide Web Consortium
+
+The HTML specification is maintained by the W3C.
+
 ### ! Table
 
 | Syntax | Description |
-| ----------- | ----------- |
+| --- | --- |
 | Header | Title |
 | Paragraph | Text |
 

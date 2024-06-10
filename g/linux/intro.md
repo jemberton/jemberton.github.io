@@ -28,9 +28,31 @@ Prompts are the actual line where commands are entered. It is completely customi
 
 `username@hostname ~: `
 
-This is pretty straight-forward. The first bit is the currently logged in user's username. Then, the device's hostname or computer name. Then the current working directory `~` is shown. This symbol, `~`, represents the user's "home" directory.
-
+This is pretty straight-forward. The first bit is the currently logged in user's username. Then, the device's hostname or computer name. Then the current working directory `~` is shown.
 
 ### Common Paths
+
+If you come from a background using Microsoft Windows, the filesystem layout is quite different. 
+
+For example, on Windows, storage for the system is mounted to a drive letter (default `C:`). The system files and userspace files are all on this drive/partition by default. Windows treats that storage device and/or partition as an individual location. The system can be at `C:` and your personal files could be another storage device named `D:`. To access any of the data on either drive, you must address the drive letter first.
+
+By contrast, Linux treats the entire filesystem (even across multiple storage devices) as one big directory. Any additional partitions or storage devices are "mounted" at a "mountpoint" within the filesystem. For example, the Linux filesystem might be mounted at `/` and your personal files at `/home/me`. This method doesn't indicate anything about the physical device that stores any of the files. No drive letters to represent other storage locations. The system at `/` is on storage device 1, and the files at `/home/me` are on storage device 2. So what, big deal?! A benefit of this approach is that references to files, applications, or paths are always relevant even when the physical storage device is different (which would usually mean a drive letter change on a Windows system). If you need more storage and want to migrate all your data to a new hard drive, you could just:
+
+1. temporarily mount a filesystem on the new device
+2. copy the contents from the source to the target
+3. create a new mountpoint or use the original
+4. unmount the original device
+5. mount the new device
+6. automount the new device upon restarts
+7. restart the system (remove old device before if desired)
+
+BOOM! :boom: Done. New bigger drive with all the files you had before and no reason to update shortcuts or references to those files. This also means that even parts of the underlying system could be broken up across many drives. *Nevermind the performance impact from inter-device communication latency* ... :smile:
+
+About those common paths ... the table below shows common system paths. These locations are usually intended to not be modified directly by the user. We can call them "reserved" or "system" paths.
+
+| Linux Path | Windows Path | Description |
+| --- | --- | --- |
+| `/` | `C:\` | The main/root operating system |
+| `/home` | `C:\Users\` | The userspace root. Each user will have a folder at this path |
 
 ### Keyboard Shortcuts
