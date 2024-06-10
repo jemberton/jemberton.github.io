@@ -1,9 +1,8 @@
-{
-    title: Markdown Parser
-    date: 1715124732378
-    author: Josh
-    avatar: josh.jpg
-}
+# Test Post (dev)
+
+Author: Josh
+
+date: 1715124732378
 
 ## StartsWith Triggers
 
@@ -62,6 +61,14 @@ Here is a line with complex italic text *this should all be italic, if things ar
 {.question}
 
 ---
+
+::: warning
+*here be dragons*
+:::
+
+::: info
+dragons are gone
+:::
 
 ## Inline Triggers
 

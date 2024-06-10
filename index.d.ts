@@ -5,3 +5,4 @@ declare module 'markdown-it-footnote';
 declare module 'markdown-it-abbr';
 declare module 'markdown-it-attrs';
 declare module 'markdown-it-kbd';
+declare module 'markdown-it-container';
