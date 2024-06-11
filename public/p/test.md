@@ -1,8 +1,7 @@
 # Test Post (dev)
 
-Author: Josh
-
-date: 1715124732378
+::: metadata [Author: Josh;Date: 1715124732378]
+:::
 
 ## StartsWith Triggers
 

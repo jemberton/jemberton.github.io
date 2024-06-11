@@ -39,6 +39,28 @@ const md = markdownit()
     .use(mdkbd)
     .use(mdcontainer, 'info')
     .use(mdcontainer, 'warning')
+    .use(mdcontainer, 'metadata', {
+        render: (tokens: any, idx: any) => {
+            let m = tokens[idx].info.trim().match(/^metadata\s+(.*)$/)
+
+            if (tokens[idx].nesting === 1) {
+                let data = (/\[(.+?)\]/g).exec(m[1]) || []
+                if (data.length > 1) {
+                    let tags = data[1].split(';')
+                    for (const tag of tags) {
+                        console.log(tag)
+                        let tagTokens = ""
+                    }
+                }
+
+                // opening tag
+                return '<div class="p-md bg-red text-mantle">' + md.utils.escapeHtml(m[1])
+            } else {
+                // closing tag
+                return '</div>'
+            }
+        }
+    })
 
 const markdownPosts = ref([<IMarkdownPost>{}])
 
@@ -89,4 +111,6 @@ onMounted(async () => {
 
 <style lang="scss">
 @import '../assets/styles/_global.scss';
+
+.metadata { background: red; }
 </style>
