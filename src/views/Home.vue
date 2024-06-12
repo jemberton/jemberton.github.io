@@ -9,68 +9,13 @@ globalState.hanselGretel = [{ name: 'Home', url: '/' }]
 globalState.navigationPanel = false
 globalState.screenOverlayPanel = false
 
-import { IMarkdownPost, getFileContents } from '../lib'
-import MarkdownPost from '../components/MarkdownPost.vue'
-
-import markdownit from 'markdown-it'
+import { getFileContents, md } from '../lib'
 import { emojify } from 'node-emoji'
-
-import mdfootnote from 'markdown-it-footnote'
-import mdsup from 'markdown-it-sup'
-import mdsub from 'markdown-it-sub'
-import mdmark from 'markdown-it-mark'
-import mdhljs from 'markdown-it-highlightjs'
-import mdabbr from 'markdown-it-abbr'
-import mdattr from 'markdown-it-attrs'
-import mdkbd from 'markdown-it-kbd'
-import mdcontainer from 'markdown-it-container'
-
-import "highlight.js/styles/atom-one-dark.css"
-import '@catppuccin/highlightjs/sass/catppuccin-mocha.scss'
-
-const md = markdownit()
-    .use(mdhljs, { auto: false, inline: true })
-    .use(mdattr)
-    .use(mdfootnote)
-    .use(mdsub)
-    .use(mdsup)
-    .use(mdmark)
-    .use(mdabbr)
-    .use(mdkbd)
-    .use(mdcontainer, 'info')
-    .use(mdcontainer, 'warning')
-    .use(mdcontainer, 'metadata', {
-        render: (tokens: any, idx: any) => {
-            let m = tokens[idx].info.trim().match(/^metadata\s+(.*)$/)
-
-            if (tokens[idx].nesting === 1) {
-                let data = (/\[(.+?)\]/g).exec(m[1]) || []
-                if (data.length > 1) {
-                    let tags = data[1].split(';')
-                    for (const tag of tags) {
-                        console.log(tag)
-                        let tagTokens = ""
-                    }
-                }
-
-                // opening tag
-                return '<div class="p-md bg-red text-mantle">' + md.utils.escapeHtml(m[1])
-            } else {
-                // closing tag
-                return '</div>'
-            }
-        }
-    })
-
-const markdownPosts = ref([<IMarkdownPost>{}])
 
 const markdownitHTML = ref([""])
 
 const markdownToHTML = async () => {
     for (const file of siteConfig.posts) {
-        // let markdown = await parse(file, true)
-        // TODO linkify content
-        // markdownPosts.value.push(<IMarkdownPost>markdown)
         if (markdownitHTML.value[0] !== "") {
             markdownitHTML.value.push(emojify(md.render(await getFileContents(file))))
         } else {
@@ -93,13 +38,7 @@ onMounted(async () => {
     </div>
     <div class="blogPost">
         <template v-for="post in markdownitHTML">
-            <div v-html="post" class="paper-torn border-none gutters-v shadow-low rounded-t-xs p-md font-retina"></div>
-        </template>
-    </div>
-    <hr class="border-red">
-    <div class="my-lg" v-if="markdownitHTML.length === 0">
-        <template v-for="post in markdownPosts">
-            <MarkdownPost :data="post" />
+            <div v-html="post" class="paper-torn border-none gutters-v shadow-low rounded-t-xs font-retina p-md"></div>
         </template>
     </div>
 </div>
@@ -111,6 +50,4 @@ onMounted(async () => {
 
 <style lang="scss">
 @import '../assets/styles/_global.scss';
-
-.metadata { background: red; }
 </style>

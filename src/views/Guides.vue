@@ -5,7 +5,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 const $router = useRouter()
 
-import { IMarkdownPost, linkify, parse } from '../lib'
+import { linkify } from '../lib'
 
 const route = useRoute()
 
@@ -13,8 +13,11 @@ const globalState = useGlobalState()
 globalState.navigationPanel = false
 globalState.screenOverlayPanel = false
 
+import { getFileContents, md } from '../lib'
+import { emojify } from 'node-emoji'
+
 const pageContent: Ref<HTMLElement | null> = ref(null)
-const pageData = ref(<string | IMarkdownPost> "")
+const pageData = ref("")
 
 const buildPage = async (category: string, page: string) => {
     let file = ""
@@ -36,7 +39,7 @@ const buildPage = async (category: string, page: string) => {
     }
 
     if (file !== "") {
-        let markdown = await parse(file)
+        let markdown = emojify(md.render(await getFileContents(file)))
         pageData.value = markdown
     }
 }
@@ -64,7 +67,7 @@ watch(() => pageData.value, () => {
 </script>
 
 <template>
-<div class="grow" :class="globalState.windowSize.width < 1024 ? 'w-100 p-md' : 'w-80 p-md'">
+<div class="grow" :class="globalState.windowSize.width < 1024 ? 'w-100 p-md' : 'w-90 p-md'">
     <div class="paper-torn border-none gutters-v shadow-low rounded-t-xs font-retina p-md" ref="pageContent" v-html="pageData"></div>
 </div>
 </template>

@@ -1,11 +1,11 @@
-# Test Post (dev)
-
-::: metadata [Author: Josh;Date: 1715124732378]
+::: metadata
+:::: author: Josh
+:::: date: 1715124732378
+:::: email: josh.emberton@proton.me
+:::: avatar: josh.jpg
 :::
 
-## StartsWith Triggers
-
-# heading 1
+# Test Post (dev)
 
 ## heading 2
 
@@ -60,14 +60,6 @@ Here is a line with complex italic text *this should all be italic, if things ar
 {.question}
 
 ---
-
-::: warning
-*here be dragons*
-:::
-
-::: info
-dragons are gone
-:::
 
 ## Inline Triggers
 

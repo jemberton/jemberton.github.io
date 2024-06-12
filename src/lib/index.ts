@@ -1,8 +1,72 @@
+//! New for markdown-it
+
+import markdownit from 'markdown-it'
+import { emojify } from 'node-emoji'
+
+import mdfootnote from 'markdown-it-footnote'
+import mdsup from 'markdown-it-sup'
+import mdsub from 'markdown-it-sub'
+import mdmark from 'markdown-it-mark'
+import mdhljs from 'markdown-it-highlightjs'
+import mdabbr from 'markdown-it-abbr'
+import mdattr from 'markdown-it-attrs'
+import mdkbd from 'markdown-it-kbd'
+import mdcontainer from 'markdown-it-container'
+
+import "highlight.js/styles/atom-one-dark.css"
+import '@catppuccin/highlightjs/sass/catppuccin-mocha.scss'
+
+let dataObject = { avatar: "", email: "", author: "", date: "" }
+
+export const md = markdownit()
+    .use(mdhljs, { auto: false, inline: true })
+    .use(mdattr)
+    .use(mdfootnote)
+    .use(mdsub)
+    .use(mdsup)
+    .use(mdmark)
+    .use(mdabbr)
+    .use(mdkbd)
+    .use(mdcontainer, 'metadata', {
+        validate: () => { return true }, //return params.trim() !== "metadata" && params.trim() !== "" ? true : false 
+        
+        render: (tokens: any, idx: any) => {
+            if (tokens[idx].nesting === 1) {
+                if (tokens[idx].level === 0) {
+                    return `<div class="text-red flex column">`
+                } else {
+                    let metadata = tokens[idx].info.trim().match(/^(.+?):\s(.+?)$/)
+                    if (metadata) {
+                        let token = metadata[1].toLowerCase()
+                        let data = metadata[2]
+
+                        switch (token) {
+                            case "author": dataObject.author = `<span>${ data }</span>`; break
+                            case "avatar": dataObject.avatar = `<span>${ data }</span>`; break
+                            case "date": dataObject.date = `<span>${ data }</span>`; break
+                            case "email": dataObject.email = `<span>${ data }</span>`; break
+                            default: break
+                        }
+                    }
+                }
+            }
+
+            if (tokens[idx].nesting === -1 && tokens[idx].level === 0) {
+                let data = `${ dataObject.avatar }${ dataObject.author }${ dataObject.date }${ dataObject.email }`
+                dataObject = { avatar: "", email: "", author: "", date: "" }
+
+                return `${ data }</div>`
+            }
+
+            return ""
+        }
+    })
+
 //! Whole file needs review
 import { Router } from "vue-router"
-import { nanoid } from "nanoid"
-import { emojify } from "node-emoji"
+import { nanoid } from "nanoid" // FIXME Prep for removal 
 
+// FIXME Prep for removal 
 export const isCode = (line: string) => {
   return line.startsWith('`')
 }
@@ -10,12 +74,14 @@ export const isCode = (line: string) => {
 //@ ============================================================================
 //@  Interfaces
 //@ ============================================================================
+// FIXME Prep for removal 
 export interface Footnote {
   text: string
   url: string
   name: string
   shortname: string
 }
+// FIXME Prep for removal 
 export interface IMarkdownPost {
     title: string
     author?: string
@@ -27,6 +93,7 @@ export interface IMarkdownPost {
     footnotes: Footnote[]
 }
 
+// FIXME Prep for removal 
 export interface IMarkdownPage {
   body: string
 }
@@ -44,6 +111,7 @@ export const getFileContents = async (file: string) => {
   return ""
 }
 
+// FIXME Prep for removal 
 export const getFootnoteId = (footnotes: Footnote[], id: string) => {
   if (footnotes) {
     if (footnotes[parseInt(id) - 1].name) {
@@ -77,6 +145,7 @@ export const escapeHTML = (line: string, preserveSpaces: boolean = false) => {
   return line
 }
 
+// FIXME Prep for removal 
 export const parseBlockQuote = (line: string) => {
   if (line.startsWith('>')) {
     if (line.startsWith('>{')) {
@@ -151,15 +220,18 @@ export const parseBlockQuote = (line: string) => {
   return line
 }
 
+// FIXME Prep for removal 
 export const parseCodeBlock = (line: string) => {
   console.log('parse code block ...', line)
 }
 
+// FIXME Prep for removal 
 export const parseDate = (datestamp: number) => {
     let parsedObject = new Date(datestamp)
     return parsedObject.toISOString()
 }
 
+// FIXME Prep for removal 
 // TODO add anchor link and show on hover 
 // TODO add custom ID for headings 
 export const parseHeadings = (line: string) => {
@@ -176,6 +248,7 @@ export const parseHeadings = (line: string) => {
     return line
 }
 
+// FIXME Prep for removal 
 export const parseHorizontalRule = (line: string) => {
     if (line.startsWith('---')) {
         return "<hr class='w-100 border-none border-t-thick border-dashed border-mantle m-none p-none my-lg'>"
@@ -184,10 +257,12 @@ export const parseHorizontalRule = (line: string) => {
     return line
 }
 
+// FIXME Prep for removal 
 export const parseImage = () => {
   console.log('lib/index.ts --> parseImage()')
 }
 
+// FIXME Prep for removal 
 export const parseMetadata = (metadata: string[]) => {
     let metadataHTML: IMarkdownPost = {
         title: "",
@@ -233,6 +308,7 @@ export const parseMetadata = (metadata: string[]) => {
     return metadataHTML
 }
 
+// FIXME Prep for removal 
 export const parseParagraphs = (line: string) => {
   if (line !== '') {
     return `<p class="m-font">${ line }</p>`
@@ -244,6 +320,7 @@ export const parseParagraphs = (line: string) => {
 //@ ============================================================================
 //@  Automations
 //@ ============================================================================
+// FIXME Prep for removal 
 export const parse = async (file: string, withMetadata: boolean = false) => {
   let newHTMLArray = []
   let markdownPost: IMarkdownPost = {
@@ -555,21 +632,20 @@ export const linkify = (element: HTMLElement, router: Router) => {
           event.preventDefault()
           router.push(to)
         }
+      } else {
+        link.innerHTML = `
+          <span class="flex-inline align-center gap-xxs">
+            ${ link.innerText }
+            <svg class="icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M352 0c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9L370.7 96 201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L416 141.3l41.4 41.4c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V32c0-17.7-14.3-32-32-32H352zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z"/></svg>
+          </span>
+        `
+
+        link.onclick = (event: MouseEvent) => {
+          event.preventDefault()
+
+          window.open(link.href, '_blank')
+          // window.location.href = link.href
+        }
       }
-      // } else {
-      //   link.innerHTML = `
-      //     <span class="flex-inline align-center gap-xxs">
-      //       ${ link.innerText }
-      //       <svg class="icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M352 0c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9L370.7 96 201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L416 141.3l41.4 41.4c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V32c0-17.7-14.3-32-32-32H352zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z"/></svg>
-      //     </span>
-      //   `
-
-      //   link.onclick = (event: MouseEvent) => {
-      //     event.preventDefault()
-
-      //     window.open(link.href, '_blank')
-      //     // window.location.href = link.href
-      //   }
-      // }
     })
   }
