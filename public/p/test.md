@@ -75,7 +75,7 @@ Complex code `variable["sub"] = mything("woohoo", { "text": "some text" })` is n
 
 Here is a bit of code to `(see) => { return hljsIsWorking }`{.js} is working
 
-```python 3-6
+```python
 This is a plaintext codeblock
 
 *weehoo*
@@ -84,7 +84,7 @@ myVariable = someValue + 'wee'
 console.log(myVariable)
 ```
 
-```typescript 2
+```typescript
 firstLine = doNotHighlight()
 secondLine = highlight()
 thirdLine = doNotHighlight()
@@ -94,7 +94,7 @@ thirdLine = doNotHighlight()
 this is a code line that is hopefully longer than a mobile device's screen is wide
 ```
 
-```plaintext 1-2,4-5
+```plaintext
 line1
 line2
 line3
@@ -103,7 +103,7 @@ line5
 line6
 ```
 
-```cpp 5-10
+```cpp
 --- Line 1
 +++ line1
 line2
@@ -136,15 +136,17 @@ Here is a `keyboard key [[alt]] in` a code block
 
 ---
 
-[title](#)
+[title](/#)
 
-We should also use a link [in the middle](#) of a sentence.
+[Guides](/guides){.router}
 
-And here is `[a link](#)` in a code block
+We should also use a link [in the middle](/#) of a sentence.
+
+And here is `[a link](/#)` in a code block
 
 This is an [external](https://google.com) link
 
-my image ![Project Smok - Top Songs (Apple Music)](/img/test-small.png)
+![Project Smok - Top Songs (Apple Music)](/img/test-small.png)
 
 image in code `![Gramp's Porsche](/gramps-porsche.png)` block
 

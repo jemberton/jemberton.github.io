@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, Ref } from 'vue'
 import { useGlobalState } from '../stores/globalState'
+
+import { useRouter } from 'vue-router'
+const $router = useRouter()
 
 import siteConfig from '../config.json'
 
@@ -9,9 +12,10 @@ globalState.hanselGretel = [{ name: 'Home', url: '/' }]
 globalState.navigationPanel = false
 globalState.screenOverlayPanel = false
 
-import { getFileContents, md } from '../lib'
+import { getFileContents, linkify, md } from '../lib'
 import { emojify } from 'node-emoji'
 
+const pageLinks: Ref<HTMLElement | null> = ref(null)
 const markdownitHTML = ref([""])
 
 const markdownToHTML = async () => {
@@ -25,7 +29,8 @@ const markdownToHTML = async () => {
 }
 
 onMounted(async () => {
-    markdownToHTML()
+    await markdownToHTML()
+    linkify(pageLinks.value!, $router)
 })
 
 </script>
@@ -36,7 +41,7 @@ onMounted(async () => {
         <span class="text-green">jemberton@github ~$</span>
         <span>echo $BLOG</span>
     </div>
-    <div class="blogPost">
+    <div class="blogPost" ref="pageLinks">
         <template v-for="post in markdownitHTML">
             <div v-html="post" class="paper-torn border-none gutters-v shadow-low rounded-t-xs font-retina p-md"></div>
         </template>
