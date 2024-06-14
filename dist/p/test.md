@@ -1,12 +1,11 @@
+::: metadata
+:::: author: Josh
+:::: date: 1715124732378
+:::: email: josh.emberton@proton.me
+:::: avatar: josh.jpg
+:::
+
 # Test Post (dev)
-
-Author: Josh
-
-date: 1715124732378
-
-## StartsWith Triggers
-
-# heading 1
 
 ## heading 2
 
@@ -62,14 +61,6 @@ Here is a line with complex italic text *this should all be italic, if things ar
 
 ---
 
-::: warning
-*here be dragons*
-:::
-
-::: info
-dragons are gone
-:::
-
 ## Inline Triggers
 
 `inline code block with <b>html</b> style tags`
@@ -84,7 +75,7 @@ Complex code `variable["sub"] = mything("woohoo", { "text": "some text" })` is n
 
 Here is a bit of code to `(see) => { return hljsIsWorking }`{.js} is working
 
-```python 3-6
+```python
 This is a plaintext codeblock
 
 *weehoo*
@@ -93,7 +84,7 @@ myVariable = someValue + 'wee'
 console.log(myVariable)
 ```
 
-```typescript 2
+```ts
 firstLine = doNotHighlight()
 secondLine = highlight()
 thirdLine = doNotHighlight()
@@ -103,7 +94,7 @@ thirdLine = doNotHighlight()
 this is a code line that is hopefully longer than a mobile device's screen is wide
 ```
 
-```plaintext 1-2,4-5
+```plaintext
 line1
 line2
 line3
@@ -112,9 +103,7 @@ line5
 line6
 ```
 
-```cpp 5-10
---- Line 1
-+++ line1
+```cpp
 line2
 line3
 line4
@@ -145,23 +134,31 @@ Here is a `keyboard key [[alt]] in` a code block
 
 ---
 
-[title](#)
+[title](/#)
 
-We should also use a link [in the middle](#) of a sentence.
+[Guides](/guides){.router}
 
-And here is `[a link](#)` in a code block
+We should also use a link [in the middle](/#) of a sentence.
+
+And here is `[a link](/#)` in a code block
 
 This is an [external](https://google.com) link
 
-my image ![Project Smok - Top Songs (Apple Music)](/img/test-small.png)
+![Project Smok - Top Songs (Apple Music)](/img/test-small.png "Project Smok - Top Songs (Apple Music)"){.center}
 
 image in code `![Gramp's Porsche](/gramps-porsche.png)` block
 
-[![Gramp's Porsche](/gramps-porsche.png)](https://google.com)
+[![Gramp's Porsche](/gramps-porsche.png "Gramp's Porsche")](https://google.com)
 
 ## Extended Syntax
 
 These elements extend the basic syntax by adding additional features. Not all Markdown applications support these elements.
+
+### !Insert and Delete
+
+-- Line 1 --
+
+++ line1 ++
 
 ### Abbreviations
 
@@ -171,12 +168,15 @@ These elements extend the basic syntax by adding additional features. Not all Ma
 
 The HTML specification is maintained by the W3C.
 
-### ! Table
+### Table
 
-| Syntax | Description |
-| --- | --- |
-| Header | Title |
-| Paragraph | Text |
+| Syntax | Description | Column3 |
+| :--- | :--- | :--- |
+| Header | Title | Text |
+| Paragraph | Text | Text |
+| Footer | Text | Text |
+| some other thing | more text | Text |
+| less text | more text | Text |
 
 ### Footnote
 
@@ -203,7 +203,7 @@ term
 
 ~~The world is flat.~~
 
-### ! Lists
+### Lists
 
 1. Ordered List Item 1
 2. Ordered List Item 2
