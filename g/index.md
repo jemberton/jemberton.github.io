@@ -8,6 +8,6 @@ I like humor (dad jokes incoming!), so keep a light heart while reading.
 
 ## Test Markdown Stuff
 
-Internal link using Vue Router <a href="/guides/linux" class="text-blue router underline">Linux</a>
+Internal Link: [Linux Index](/guides/linux){.router}
 
-External link with added 'external' link icon from FontAwesome [Google](https://google.com)
+External Link: [Google](https://google.com)
