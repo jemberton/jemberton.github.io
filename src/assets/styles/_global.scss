@@ -71,7 +71,7 @@ h5, h6 { font-size: 1em; }
 pre {
     code {
         &.hljs {
-            line-height: 1em;
+            line-height: normal;
 
             // &[class*=" language-"] {
             //     &::before {
@@ -97,6 +97,24 @@ pre {
             // &.language-plaintext { &::before { content: "plaintext"; padding: 0.5em 1em; } }
         }
     }
+}
+
+ol, ul {
+    padding: 0; margin: 1em 2em;
+
+    &.contains-task-list { list-style: none; padding: 0; margin: 1em; }
+
+    li {
+        &.task-list-item {
+            input { margin: 0; margin-right: 0.5em; }
+        }
+    }
+}
+
+mark {
+    background: $yellow; color: $mantle;
+    padding: 0 0.25em;
+    border-radius: 0.1em;
 }
 
 blockquote {

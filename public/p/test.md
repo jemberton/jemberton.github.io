@@ -154,7 +154,7 @@ image in code `![Gramp's Porsche](/gramps-porsche.png)` block
 
 These elements extend the basic syntax by adding additional features. Not all Markdown applications support these elements.
 
-### !Insert and Delete
+### ! Insert and Delete
 
 -- Line 1 --
 
@@ -213,7 +213,7 @@ term
 - Unordered List Item 2
 - Unordered List Item 3
 
-### ! Task List
+### Task List
 
 - [x] Write the press release
 - [ ] Update the website
