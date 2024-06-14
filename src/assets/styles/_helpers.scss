@@ -198,6 +198,7 @@ $svg:
     .justify-self-#{$alignment} { justify-self: #{$alignment}; }
     .align-self-#{$alignment} { align-self: #{$alignment}; }
 }
+.center { display: flex; margin: auto; }
 
 @for $percent from 1 through 10 {
     .w-#{$percent * 10} { width: #{$percent * 10}#{"%"}; }

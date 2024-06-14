@@ -84,7 +84,7 @@ myVariable = someValue + 'wee'
 console.log(myVariable)
 ```
 
-```typescript
+```ts
 firstLine = doNotHighlight()
 secondLine = highlight()
 thirdLine = doNotHighlight()
@@ -104,8 +104,6 @@ line6
 ```
 
 ```cpp
---- Line 1
-+++ line1
 line2
 line3
 line4
@@ -146,15 +144,21 @@ And here is `[a link](/#)` in a code block
 
 This is an [external](https://google.com) link
 
-![Project Smok - Top Songs (Apple Music)](/img/test-small.png)
+![Project Smok - Top Songs (Apple Music)](/img/test-small.png "Project Smok - Top Songs (Apple Music)"){.center}
 
 image in code `![Gramp's Porsche](/gramps-porsche.png)` block
 
-[![Gramp's Porsche](/gramps-porsche.png)](https://google.com)
+[![Gramp's Porsche](/gramps-porsche.png "Gramp's Porsche")](https://google.com)
 
 ## Extended Syntax
 
 These elements extend the basic syntax by adding additional features. Not all Markdown applications support these elements.
+
+### !Insert and Delete
+
+-- Line 1 --
+
+++ line1 ++
 
 ### Abbreviations
 
@@ -164,12 +168,15 @@ These elements extend the basic syntax by adding additional features. Not all Ma
 
 The HTML specification is maintained by the W3C.
 
-### ! Table
+### Table
 
-| Syntax | Description |
-| --- | --- |
-| Header | Title |
-| Paragraph | Text |
+| Syntax | Description | Column3 |
+| :--- | :--- | :--- |
+| Header | Title | Text |
+| Paragraph | Text | Text |
+| Footer | Text | Text |
+| some other thing | more text | Text |
+| less text | more text | Text |
 
 ### Footnote
 
@@ -196,7 +203,7 @@ term
 
 ~~The world is flat.~~
 
-### ! Lists
+### Lists
 
 1. Ordered List Item 1
 2. Ordered List Item 2
