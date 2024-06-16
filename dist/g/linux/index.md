@@ -2,4 +2,6 @@
 
 This is the root for /guides/linux
 
-[Linux Intro](/guides/linux/intro){.router}
+[!ref icon="page" title="Introduction"](/guides/linux/intro)
+
+[!ref icon="page" title="Basic Commands"](/guides/linux)
