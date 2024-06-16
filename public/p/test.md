@@ -181,11 +181,9 @@ This is an [external](https://google.com) link
 
 ### Reflinks
 
-[Classed Reflink](/# "wee"){.reflink}
+[!ref title="Default Icon"](/guides)
 
-<a href="">HTML LINK</a>
-
-[!ref](/#)
+[!ref icon="paper" title="Paper Icon"](/projects)
 
 ---
 
