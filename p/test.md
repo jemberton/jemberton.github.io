@@ -31,8 +31,19 @@ Here is a line with complex italic text *this should all be italic, if things ar
 
 ---
 
+> Here is an attempt at a multi
+  line
+  blockquote. Did it work?
+
+---
+
 > This is a danger blockquote
 {.danger}
+
+---
+
+> This is a danger blockquote
+{.danger-icon}
 
 ---
 
@@ -41,8 +52,18 @@ Here is a line with complex italic text *this should all be italic, if things ar
 
 ---
 
+> This is a warning blockquote
+{.warning-icon}
+
+---
+
 > This is a radiation blockquote
 {.radioactive}
+
+---
+
+> This is a radiation blockquote
+{.radioactive-icon}
 
 ---
 
@@ -51,13 +72,27 @@ Here is a line with complex italic text *this should all be italic, if things ar
 
 ---
 
+> This is a success blockquote
+{.success-icon}
+
+---
+
 > This is an info blockquote
 {.info}
+
+---
+> This is an info blockquote
+{.info-icon}
 
 ---
 
 > This is a question blockquote
 {.question}
+
+---
+
+> This is a question blockquote
+{.question-icon}
 
 ---
 
@@ -144,6 +179,18 @@ And here is `[a link](/#)` in a code block
 
 This is an [external](https://google.com) link
 
+### Reflinks
+
+[!ref title="Default Icon"](/guides)
+
+[!ref icon="page" title="Paper Icon"](/projects)
+
+[!ref icon="download" title="Download a file"](/contact)
+
+[!ref icon="external" title="Google"](https://google.com)
+
+---
+
 ![Project Smok - Top Songs (Apple Music)](/img/test-small.png "Project Smok - Top Songs (Apple Music)"){.center}
 
 image in code `![Gramp's Porsche](/gramps-porsche.png)` block
@@ -154,11 +201,11 @@ image in code `![Gramp's Porsche](/gramps-porsche.png)` block
 
 These elements extend the basic syntax by adding additional features. Not all Markdown applications support these elements.
 
-### ! Insert and Delete
+### Insert and Delete
 
--- Line 1 --
+--Line 1--
 
-++ line1 ++
+++line1++
 
 ### Abbreviations
 
