@@ -29,7 +29,6 @@
     "markdown-it-ins": "file:../markdown-it-plugins/markdown-it-ins",
     "markdown-it-kbd": "^2.2.2",
     "markdown-it-mark": "^4.0.0",
-    "markdown-it-reflink": "file:../markdown-it-plugins/markdown-it-reflink",
     "markdown-it-sub": "^2.0.0",
     "markdown-it-sup": "^2.0.0",
     "markdown-it-task-lists": "^2.1.1",

@@ -183,7 +183,11 @@ This is an [external](https://google.com) link
 
 [!ref title="Default Icon"](/guides)
 
-[!ref icon="paper" title="Paper Icon"](/projects)
+[!ref icon="page" title="Paper Icon"](/projects)
+
+[!ref icon="download" title="Download a file"](/contact)
+
+[!ref icon="external" title="Google"](https://google.com)
 
 ---
 
