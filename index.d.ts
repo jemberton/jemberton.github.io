@@ -7,3 +7,6 @@ declare module 'markdown-it-attrs';
 declare module 'markdown-it-kbd';
 declare module 'markdown-it-container';
 declare module 'markdown-it-task-lists';
+
+declare module 'markdown-it-ins';
+declare module 'markdown-it-del';

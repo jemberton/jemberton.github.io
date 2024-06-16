@@ -67,8 +67,19 @@ watch(() => pageData.value, () => {
 </script>
 
 <template>
-<div class="grow" :class="globalState.windowSize.width < 1024 ? 'w-100 p-md' : 'w-90 p-md'">
-    <div class="paper-torn border-none gutters-v shadow-low rounded-t-xs font-retina p-md" ref="pageContent" v-html="pageData"></div>
+<div class="grow row gap-md align-start" :class="globalState.windowSize.width < 1024 ? 'w-100 p-md' : 'w-90 p-md'">
+    <div class="paper-torn border-none gutters-v shadow-low rounded-t-xxs font-retina p-md grow" ref="pageContent" v-html="pageData"></div>
+    <div v-if="globalState.windowSize.width >= 1280" class="bg-crust text-subtext0 gutters-v rounded-xxs p-md sticky t-md" style="min-width: 200px; max-width: 200px;">
+        <div>Heading 1</div>
+        <div>Heading 1</div>
+        <div>Heading 1</div>
+        <div>Heading 1</div>
+        <div>Heading 1</div>
+        <div>Heading 1</div>
+        <div>Heading 1</div>
+        <div>Heading 1</div>
+        <div>Heading 1</div>
+    </div>
 </div>
 </template>
 

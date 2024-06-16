@@ -1,5 +1,3 @@
-//! New for markdown-it
-
 import markdownit from 'markdown-it'
 import { Router } from "vue-router"
 
@@ -14,12 +12,15 @@ import mdkbd from 'markdown-it-kbd'
 import mdcontainer from 'markdown-it-container'
 import mdtasklist from 'markdown-it-task-lists'
 
+import mdins from 'markdown-it-ins'
+import mddel from 'markdown-it-del'
+
 import "highlight.js/styles/atom-one-dark.css"
 import '@catppuccin/highlightjs/sass/catppuccin-mocha.scss'
 
 let dataObject = { avatar: "", email: "", author: "", date: "" }
 
-export const md = markdownit()
+export const md = markdownit({ html: true, breaks: true })
     .use(mdhljs, { auto: false, inline: true })
     .use(mdattr)
     .use(mdfootnote)
@@ -29,13 +30,15 @@ export const md = markdownit()
     .use(mdmark)
     .use(mdabbr)
     .use(mdkbd)
+    .use(mdins)
+    .use(mddel)
     .use(mdcontainer, 'metadata', {
         validate: () => { return true }, //return params.trim() !== "metadata" && params.trim() !== "" ? true : false 
         
         render: (tokens: any, idx: any) => {
             if (tokens[idx].nesting === 1) {
                 if (tokens[idx].level === 0) {
-                    return `<div class="flex column"><span class="text-red">METADATA WIP</span>`
+                    return `<div class="flex row align-center gap-md border-none border-dashed border-b-thin border-mantle pb-md mb-md">`
                 } else {
                     let metadata = tokens[idx].info.trim().match(/^(.+?):\s(.+?)$/)
                     if (metadata) {
@@ -43,9 +46,9 @@ export const md = markdownit()
                         let data = metadata[2]
 
                         switch (token) {
-                            case "author": dataObject.author = `<span>${ data }</span>`; break
-                            case "avatar": dataObject.avatar = `<span>${ data }</span>`; break
-                            case "date": dataObject.date = `<span>${ data }</span>`; break
+                            case "author": dataObject.author = `<span class="text-lg">${ data }</span>`; break
+                            case "avatar": dataObject.avatar = `<span class=""><img class="rounded-xxs border-thinner border-crust avatar" src="${ data }" /></span>`; break
+                            case "date": let stringDate = new Date(parseInt(data)).toISOString(); dataObject.date = `<span class="text-overlay0">${ stringDate }</span>`; break
                             case "email": dataObject.email = `<span>${ data }</span>`; break
                             default: break
                         }
@@ -54,10 +57,10 @@ export const md = markdownit()
             }
 
             if (tokens[idx].nesting === -1 && tokens[idx].level === 0) {
-                let data = `${ dataObject.avatar }${ dataObject.author }${ dataObject.date }${ dataObject.email }`
+                let data = `${ dataObject.avatar }<span class="flex column">${ dataObject.author }${ dataObject.email }${ dataObject.date }</span>`
                 dataObject = { avatar: "", email: "", author: "", date: "" }
 
-                return `${ data }<hr class="border-red"></div>`
+                return `${ data }</div>`
             }
 
             return ""
@@ -110,7 +113,7 @@ export const linkify = (element: HTMLElement, router: Router) => {
     Array.from(links).forEach((link: HTMLAnchorElement) => {
       if (link.innerHTML.startsWith('<img')) return
 
-      if (link.hostname == window.location.hostname && link.classList.contains('router')) {
+      if (link.hostname === window.location.hostname && link.classList.contains('router')) {
         link.innerHTML = `
           <span class="flex-inline align-center gap-xxs text-blue underline hover-mauve">
             ${ link.innerText }
@@ -163,9 +166,15 @@ export const linkify = (element: HTMLElement, router: Router) => {
           event.preventDefault()
           router.push(to)
         }
-      } else if (link.hostname == window.location.hostname) {
+      } else if (link.hostname === window.location.hostname) {
+        let decoration = true
+
+        if (link.parentElement?.tagName === "SUP" || link.parentElement?.tagName === "SUB") {
+          decoration = false
+        }
+
         link.innerHTML = `
-          <span class="flex-inline align-center gap-xxs text-blue underline hover-mauve">
+          <span class="flex-inline align-center gap-xxs text-blue ${ decoration ? 'underline' : '' } hover-mauve">
             ${ link.innerText }
           </span>
         `

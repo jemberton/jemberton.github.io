@@ -37,13 +37,13 @@ onMounted(async () => {
 
 <template>
 <div class="grow" :class="globalState.windowSize.width < 1024 ? 'w-100 p-md' : 'w-90 p-md'">
-    <div class="code row gap-md p-md rounded-xs bg-crust border-thin border-base">
+    <div class="row gap-md p-md rounded-xs bg-crust border-thin border-base">
         <span class="text-green">jemberton@github ~$</span>
         <span>echo $BLOG</span>
     </div>
-    <div class="blogPost" ref="pageLinks">
+    <div class="blogPost column gap-lg" ref="pageLinks">
         <template v-for="post in markdownitHTML">
-            <div v-html="post" class="paper-torn border-none gutters-v shadow-low rounded-t-xs font-retina p-md"></div>
+            <div v-html="post" class="paper-torn border-none gutters-v shadow-low rounded-t-xxs font-retina p-md"></div>
         </template>
     </div>
 </div>
