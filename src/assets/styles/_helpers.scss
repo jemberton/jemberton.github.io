@@ -127,6 +127,7 @@ $svg:
     }
 }
 .bg-none { background: transparent; }
+.text-none { color: transparent; }
 
 //# Build size based classes
 //# text p rounded
@@ -167,6 +168,9 @@ $svg:
 .icon-font { width: $global-font-size; height: $global-font-size; }
 .icon-font2x { width: calc($global-font-size * 2); height: calc($global-font-size * 2); }
 .icon-font3x { width: calc($global-font-size * 3); height: calc($global-font-size * 3); }
+.text-font { font-size: $global-font-size; }
+.text-font2x { font-size: $global-font-size * 2; }
+.text-font3x { font-size: $global-font-size * 3; }
 
 @each $face_letter, $face in $faces {
     .p#{$face_letter}-none { padding-#{$face}: 0; }

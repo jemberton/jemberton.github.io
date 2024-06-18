@@ -128,13 +128,15 @@ sup, sub {
 blockquote {
     border-left: 4px solid $overlay1;
     padding: 1em; margin: 1em 0;
-    color: $subtext0;
+    color: $subtext1;
+    background: rgba($surface2, 0.1);
 
     p { align-self: center; margin: 0; }
 
-    &.danger { border-color: $red; }
+    &.danger { border-color: $red; background: rgba($red, 0.1); }
     &.danger-icon {
         border-color: $red;
+        background: rgba($red, 0.1);
         gap: 1em;
         display: flex; position: relative;
         align-items: stretch;
@@ -145,9 +147,10 @@ blockquote {
         }
     }
 
-    &.radioactive { border-color: $yellow; }
+    &.radioactive { border-color: $yellow; background: rgba($yellow, 0.1); }
     &.radioactive-icon {
         border-color: $yellow;
+        background: rgba($yellow, 0.1);
         gap: 1em;
         display: flex; position: relative;
         align-items: stretch;
@@ -158,9 +161,10 @@ blockquote {
         }
     }
 
-    &.warning { border-color: $peach; }
+    &.warning { border-color: $peach; background: rgba($peach, 0.1); }
     &.warning-icon {
         border-color: $peach;
+        background: rgba($peach, 0.1);
         gap: 1em;
         display: flex; position: relative;
         align-items: stretch;
@@ -171,9 +175,10 @@ blockquote {
         }
     }
 
-    &.success { border-color: $green; }
+    &.success { border-color: $green; background: rgba($green, 0.1); }
     &.success-icon {
         border-color: $green;
+        background: rgba($green, 0.1);
         gap: 1em;
         display: flex; position: relative;
         align-items: stretch;
@@ -184,9 +189,10 @@ blockquote {
         }
     }
 
-    &.info { border-color: $blue; }
+    &.info { border-color: $blue; background: rgba($blue, 0.1); }
     &.info-icon {
         border-color: $blue;
+        background: rgba($blue, 0.1);
         gap: 1em;
         display: flex; position: relative;
         align-items: stretch;
@@ -197,9 +203,10 @@ blockquote {
         }
     }
 
-    &.question { border-color: $mauve; }
+    &.question { border-color: $mauve; background: rgba($mauve, 0.1); }
     &.question-icon {
         border-color: $mauve;
+        background: rgba($mauve, 0.1);
         gap: 1em;
         display: flex; position: relative;
         align-items: stretch;

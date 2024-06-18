@@ -5,7 +5,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 const $router = useRouter()
 
-import { linkify } from '../lib'
+import { buildTOC, linkify, TOCLink } from '../lib'
 
 const route = useRoute()
 
@@ -18,6 +18,17 @@ import { emojify } from 'node-emoji'
 
 const pageContent: Ref<HTMLElement | null> = ref(null)
 const pageData = ref("")
+const tocContent = ref<TOCLink[]>([])
+
+const generateTab = (level: number) => {
+    let tabSpace = ""
+
+    for (let i = 0; i < level + ( level % 2 === 0 ? 0 : 2 ); i++) {
+        tabSpace = `${tabSpace}&nbsp;`
+    }
+
+    return tabSpace
+}
 
 const buildPage = async (category: string, page: string) => {
     let file = ""
@@ -50,6 +61,7 @@ onMounted(() => {
 
     buildPage(category.toString(), page.toString())
     linkify(pageContent.value!, $router)
+    tocContent.value = buildTOC(pageContent.value!)
 })
 
 watch(() => route.params, (newParams) => {
@@ -61,7 +73,7 @@ watch(() => route.params, (newParams) => {
 })
 
 watch(() => pageData.value, () => {
-    nextTick(() => linkify(pageContent.value!, $router))
+    nextTick(() => { linkify(pageContent.value!, $router); tocContent.value = buildTOC(pageContent.value!) })
 })
 
 </script>
@@ -69,16 +81,13 @@ watch(() => pageData.value, () => {
 <template>
 <div class="grow row gap-lg align-start" :class="globalState.windowSize.width < 1024 ? 'w-100 p-md' : 'w-90 p-md'">
     <div class="paper-torn border-none gutters-v shadow-low rounded-t-xxs font-retina p-md grow" ref="pageContent" v-html="pageData"></div>
-    <div v-if="globalState.windowSize.width >= 1280" class="bg-crust text-subtext0 gutters-v rounded-xxs p-md sticky t-md border-thin border-base" style="min-width: 200px; max-width: 200px;">
-        <div>Heading 1</div>
-        <div>Heading 1</div>
-        <div>Heading 1</div>
-        <div>Heading 1</div>
-        <div>Heading 1</div>
-        <div>Heading 1</div>
-        <div>Heading 1</div>
-        <div>Heading 1</div>
-        <div>Heading 1</div>
+    <div v-if="globalState.windowSize.width >= 1280" class="bg-crust text-subtext0 gutters-v rounded-xxs p-md sticky t-md border-thin border-base flex column gap-xs" style="min-width: 240px; max-width: 240px;">
+        <template v-for="tocLink in tocContent">
+            <a class="text-sm font-retina hover-green gap-xs flex row" :href="`#${ tocLink.url }`">
+                <template v-if="tocLink.level > 1"><span v-html="generateTab(tocLink.level)"></span><span>{{ tocLink.text }}</span></template>
+                <template v-else>{{ tocLink.text }}</template>
+            </a>
+        </template>
     </div>
 </div>
 </template>

@@ -1,5 +1,8 @@
 # Linux Intro
 
+> This page is a work in progress
+{.warning-icon}
+
 Welcome to the Linux Intro guide! This guide is intended to aid a new user into the world of using Linux. As there are numerous distributions of Linux available, it should be noted that the target of this guide is intended to be generic. Everything learned here will apply to *most* distributions. In the case of something that might deviate from *most*, it will be noted.
 
 ## Understanding Linux
@@ -33,7 +36,7 @@ username@hostname ~:
 
 This is pretty straight-forward. The first bit is the currently logged in user's username. Then, the device's hostname or computer name. Then the current working directory `~` is shown.
 
-### Common Paths
+## Common Paths
 
 If you come from a background using Microsoft Windows, the filesystem layout is quite different. 
 
@@ -53,9 +56,12 @@ BOOM! :boom: Done. New bigger drive with all the files you had before and no rea
 
 About those common paths ... the table below shows common system paths. These locations are usually intended to not be modified directly by the user. We can call them "reserved" or "system" paths.
 
+> WIP from here below
+{.warning-icon}
+
 | Linux Path | Windows Path | Description |
 | --- | --- | --- |
 | `/` | `C:\` | The main/root operating system |
 | `/home` | `C:\Users\` | The userspace root. Each user will have a folder at this path |
 
-### Keyboard Shortcuts
+## Keyboard Shortcuts
