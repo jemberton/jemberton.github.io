@@ -1,4 +1,4 @@
-# Guides -> Linux
+# Linux
 
 This is the root for /guides/linux
 

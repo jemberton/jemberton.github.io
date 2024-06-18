@@ -13,19 +13,3 @@ I like humor (dad jokes incoming!), so keep a light heart while reading.
 [!ref icon="git" title="Git"](/guides)
 
 [!ref icon="docker" title="Docker"](/guides)
-
-## Second Heading
-
-I needed a second `h2` style heading for the TOC parser.
-
-## Third Heading
-
-How many headings do I need to get the bookmark anchor references working?
-
-## More than this
-
-Surely, it'll be more than this?!
-
-### If not, try more
-
-Wee hoo!
