@@ -67,6 +67,10 @@ code {
 }
 
 h1, h2, h3, h4, h5, h6 { margin: $global-font-size 0; padding: 0; }
+h1 { font-size: 2em; }
+h2 { font-size: 1.75em; }
+h3 { font-size: 1.5em; }
+h4 { font-size: 1.25em; }
 h5, h6 { font-size: 1em; }
 pre {
     code {
@@ -244,6 +248,7 @@ table {
     border-radius: 0.25em;
     box-shadow: 0px 1px 2px 1px rgba($crust, 0.4);
     margin: 1em 0;
+    width: 100%;
 
     thead {
         background: $crust; color: $subtext0;
@@ -251,7 +256,9 @@ table {
 
         tr, th, td { border: none; }
 
-        th { padding: 0.5em 0.65em; width: 1em; }
+        tr {
+            th { padding: 0.5em 0.65em; word-wrap: break-word; }
+        }
     }
 
     tbody {
@@ -264,7 +271,9 @@ table {
             background: rgba($mantle, 0.5);
         }
 
-        td { padding: 0.5em 0.65em; width: 1em; }
+        tr {
+            td { padding: 0.5em 0.65em; word-wrap: break-word; }
+        }
     }
 
     .hljs { background: transparent !important; padding: 0; border: none; }

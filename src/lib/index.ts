@@ -306,7 +306,7 @@ export const buildTOC = (element: HTMLElement) => {
       let level = heading.tagName[1]
 
       toc.push({ text: text, url: url, level: parseInt(level) })
-      heading.innerHTML = `<span class="flex row align-center gap-xxxs"><a class="text-none hover-blue text-font noselect" name="${ url }" href="#${ url }">#</a><span>${ text }</span></span>`
+      heading.innerHTML = `<span class="flex row align-center gap-xxxs"><a class="text-none noselect mb-lg" name="${ url }"></a><span>${ text }</span></span>`
     })
   }
 

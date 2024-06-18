@@ -12,11 +12,17 @@ At the risk of diving into some philosophical discussion, let's just start with 
 > As the process of installing Linux varies wildly on the target device/hardware/distribution, this guide will assume you have *some* working environment to follow along in. Virtual environments are a great way to learn Linux without committing to a dedicated installation. Whatever environment you have, should be able to be booted to either a command line or GUI where a terminal emulator can be used. We'll talk more about that in just a moment, but you'll likely want to jump right in ... so get that sandbox ready to play!
 {.info-icon}
 
+---
+
 ## Command Line Interface (CLI)
 
 The CLI is very powerful interface when one knows how to use it! As this interface is common across Linux, it is the best one to learn without getting into a specific distribution. The CLI is a way of using commands to perform tasks and functions. As opposed to using a mouse with windows/folders/pictures/videos/browsers/etc ...
 
 There are a number of terms that will be referenced from this point on. Let's break those down ...
+
+---
+
+## Terms
 
 ### Terminal
 
@@ -35,6 +41,8 @@ username@hostname ~:
 ```
 
 This is pretty straight-forward. The first bit is the currently logged in user's username. Then, the device's hostname or computer name. Then the current working directory `~` is shown.
+
+---
 
 ## Common Paths
 
@@ -60,8 +68,68 @@ About those common paths ... the table below shows common system paths. These lo
 {.warning-icon}
 
 | Linux Path | Windows Path | Description |
-| --- | --- | --- |
+| :--- | :--- | :--- |
 | `/` | `C:\` | The main/root operating system |
 | `/home` | `C:\Users\` | The userspace root. Each user will have a folder at this path |
+| `/opt` | `C:\Users\USERNAME\AppData\` | User application directory or optional software path |
+| `/usr/bin` | `C:\Windows\System32` | System global binaries and drivers |
+
+These paths are not direct translations of the Windows filesystem, but rather a close approximation. Software on a Linux filesystem can run from just about anywhere as long as the permissions are set to allow it. We'll dive into permissions a bit later.
+
+---
 
 ## Keyboard Shortcuts
+
+A Linux system with a GUI absolutely allows for conventional mouse control. When a GUI is not available, keyboard proficiency is an absolute must. There are various command line based shortcuts that can be immensely helpful.
+
+| Shortcut | Description |
+| :--- | :--- |
+| [[CTRL]]+[[L]] | Clears the terminal/console/shell |
+| [[CTRL]]+[[A]] | Goto beginning of prompt |
+| [[CTRL]]+[[E]] | Goto end of prompt |
+| [[CTRL]]+[[U]] | Clear prompt from end. Also puts line into clipboard buffer |
+| [[CTRL]]+[[K]] | Clear prompt from beginning. Also puts line into clipboard buffer |
+| [[CTRL]]+[[Y]] | "Yanks" buffer (paste) |
+| [[CTRL]]+[[C]] | Stops execution of currently running script/program |
+| [[&uarr;]] | If history is enabled, goto previous command |
+| [[&darr;]] | If history is enabled, goto next command |
+| [[TAB]] | Autocomplete path or command (see next section) |
+
+There are a few other commands for more intricate editing or program control, but these will be the most commonly used shortcuts.
+
+---
+
+## Autocompletion
+
+Autocompletion on the command line is another useful tool. Not all platforms support the fullest functionality of autocompletion, but most do support *some* level. The autocomplete feature can finish path names, file name, commands, and other options. Let's consider a practical example.
+
+You need to change to a new path, one that is long, and you don't want to type out the full path everytime.
+
+```bash
+/home/myuser/Documents/Some_Project/Phase_1/data/001
+```
+
+Rather than type all of that out, we could use autocomplete to assist.
+
+1. Type `/h` + [[TAB]]
+2. This autocompletes to `/home`
+3. Type `/m` + [[TAB]]
+4. Now we see `/home/myuser`
+5. Continue with the first letter of each folder followed by the [[TAB]] key.
+
+> Autocomplete may need more than just the first letter of each folder if there are more than one folders starting with the given criteria. For example, if `/home/` contains two users named `me` and `myaltuser`, your initial criteria for autocomplete will need to be two or more letters. To get autocomplete to resolve `myaltuser`, type `my`+[[TAB]] to complete.
+{.info-icon}
+
+You may notice if you press [[TAB]] more than once, you see a preview of all possible matches for your autocomplete. (If you don't see this, don't worry. Your distribution or device may have this disabled or not installed to conserve space on a power limited system.) The preview can sometimes help when you may not know the full path but have an idea of the parent path.
+
+I strongly urge you to abuse this feature if you have it available. It can mean the difference in measurable time when navigating the filesystem.
+
+---
+
+## Permissions
+
+Files, folders, and programs all use the same permission system in Linux. File permissions are represented by a string or number with information about who can read, write, and execute.
+
+---
+
+## Hidden Files
