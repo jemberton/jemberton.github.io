@@ -64,9 +64,6 @@ BOOM! :boom: Done. New bigger drive with all the files you had before and no rea
 
 About those common paths ... the table below shows common system paths. These locations are usually intended to not be modified directly by the user. We can call them "reserved" or "system" paths.
 
-> WIP from here below
-{.warning-icon}
-
 | Linux Path | Windows Path | Description |
 | :--- | :--- | :--- |
 | `/` | `C:\` | The main/root operating system |
@@ -122,14 +119,74 @@ Rather than type all of that out, we could use autocomplete to assist.
 
 You may notice if you press [[TAB]] more than once, you see a preview of all possible matches for your autocomplete. (If you don't see this, don't worry. Your distribution or device may have this disabled or not installed to conserve space on a power limited system.) The preview can sometimes help when you may not know the full path but have an idea of the parent path.
 
-I strongly urge you to abuse this feature if you have it available. It can mean the difference in measurable time when navigating the filesystem.
+I strongly urge you to abuse this feature if you have it available. It can mean the difference in measurable time when navigating the filesystem and performing tasks.
+
+---
+
+## Users and Groups
+
+Linux has users and groups (not unlike any other OS). Users are what you'd expect them to be, an individual user account. Linux can have users (you and me), system users (for processes, applications, and hardware access), and virtual or remote users. For most systems, you'll be interested in the "regular" users and the administrator "root". The administrator user has full permissions to *everything* on the filesystem. On most systems, you will have to temporarily elevate to "root" to perform certain tasks. We'll get into that later, but know that it is not advised to use a system as root unless you understand the implications. This mechanism is for safety against you and malicious software. It isn't full-proof, but it is quite effective.
+
+Users can be added to multiple groups. The groups serve to cover a broader level of access that can be shared by many users. For example, if you and another user both need read and write access to shared files on the system, but you are owner of those files. You and the other user can be added to the group and the permissions be set to allow read and write access to the file for the onwer and the group, but no access for anyone else.
 
 ---
 
 ## Permissions
 
-Files, folders, and programs all use the same permission system in Linux. File permissions are represented by a string or number with information about who can read, write, and execute.
+Files, folders, and programs all use the same permission system in Linux. File permissions are represented by a permissions mask with information about who can read, write, and execute.
+
+Examples of Permissions
+
+```plaintext
+rwxrwxrwx
+rwxr--r--
+777 or 0777
+700 or 0700
+```
+
+These may look a bit odd, but they make sense once you break it down. They represent read, write, and execute permissions for the owner user, group, and other.
+
+The first example would be a file where all users have full permissions. The second example is a file where everyone can read the file, but only the owner of the file can write or execute.
+
+The numeric mask (also called `chmod` or `octal`) is another way to represent the same permissions.
+
+| Permission | Letter | Number |
+| :--- | :--- | :--- |
+| Read | r | 4 |
+| Write | w | 2 |
+| Execute | x | 1 |
+
+The numbers are a sum of the permissions. In the examples above, we see two numeric/octal masks. The first one `777` or `0777` would be equivalent to all permissions on a file or directory. The first 7 is the owner, followed by the group, and finally, all other users. How did we get 7? That is `read (4) + write (2) + execute (1) = 7`. The second numeric example gives the owner full access, but no access to the group or other users. So a mask like `644` or `0644` would give the owner read and write, the group read only, and all other users read only access. The zero at the front of those numeric masks is for special permissions. We won't get into those here, that's for another day.
+
+There are a couple of ways to set permissions using the `chmod` command. You'll learn about those on the [Basic Commands](/guides/linux/basic-commands){.router} page.
 
 ---
 
 ## Hidden Files
+
+Files on a Linux system do *not* require an extension. So sometimes it can be difficult to distinguish what is a file and what is a folder. Hidden files or folders are easily identified by the name. To make a file or folder hidden, add a `.` at the beginning the of the name. For example:
+
+```plaintext
+my_passwords.txt
+.my_passwords.txt
+```
+
+> You may notice in the examples, we have file extensions. Linux does not *require* them, but can absolutely use them.
+{.info-icon}
+
+The first filename is not hidden, the second is. Hiding a file does *not* change the permissions, so you'll need to be sure to set those properly. Hidden files are usually intended to be used for holding your configs or "system" files. It is not a good practice to think of this as a security mechanism (so my example is intentionally misleading :stuck_out_tongue_winking_eye:). You might have environment variables or settings in a file that you don't necessarily want to see when listing the contents of a folder. Marking a file as hidden will keep those files from appearing in most common listings of directory contents unless a "show all" flag is given.
+
+---
+
+> WIP from here below
+{.warning-icon}
+
+## Paths
+
+### Absolute
+
+### Relative
+
+---
+
+Still with me?! Now that you're properly informed, let's actually *do* something! Head over to the [Basic Commands](/guides/linux/basic-commands){.router} page to learn more!

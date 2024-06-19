@@ -2,14 +2,5 @@
     "posts": [
         "p/init.md",
         "p/test.md"
-    ],
-    "guides": {
-        "index": "g/index.md",
-        "linux": [
-            "g/linux/index.md"
-        ]
-    },
-    "projects": [
-        "projects/index.md"
     ]
 }
