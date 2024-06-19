@@ -7,6 +7,8 @@
 
 # Test Post (dev)
 
+If you're seeing this post, you are here *early*! Consider yourself ... uh ... lucky?!
+
 ## heading 2
 
 ### heading 3
