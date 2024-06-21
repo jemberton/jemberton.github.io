@@ -112,6 +112,7 @@ export const escapeHTML = (line: string, preserveSpaces: boolean = false) => {
 //@ ============================================================================
 
 // TODO Review this and look to improve 
+// TODO add support for a "next/previous" page link 
 //# This function replaces dynamically generated HTML and adds in an onclick listener that extends vue-router-link 
 export const linkify = (element: HTMLElement, router: Router) => {
   const links = element.getElementsByTagName('a')
@@ -311,4 +312,11 @@ export const buildTOC = (element: HTMLElement) => {
   }
 
   return toc
+}
+
+export const fixTables = (element: HTMLElement) => {
+  const tables = element.getElementsByTagName('table')
+  Array.from(tables).forEach((table: HTMLTableElement) => {
+    table.outerHTML = `<div class="max-w-100 bg-red p-none" style="overflow: scroll;"><table>${ table.innerHTML }</table></div>`
+  })
 }

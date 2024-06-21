@@ -5,7 +5,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 const $router = useRouter()
 
-import { buildTOC, linkify, TOCLink } from '../lib'
+import { buildTOC, linkify, TOCLink, fixTables } from '../lib'
 
 const route = useRoute()
 
@@ -61,6 +61,7 @@ onMounted(() => {
 
     buildPage(category.toString(), page.toString())
     linkify(pageContent.value!, $router)
+    fixTables(pageContent.value!)
     tocContent.value = buildTOC(pageContent.value!)
 })
 
@@ -73,14 +74,18 @@ watch(() => route.params, (newParams) => {
 })
 
 watch(() => pageData.value, () => {
-    nextTick(() => { linkify(pageContent.value!, $router); tocContent.value = buildTOC(pageContent.value!) })
+    nextTick(() => {
+        linkify(pageContent.value!, $router)
+        fixTables(pageContent.value!)
+        tocContent.value = buildTOC(pageContent.value!)
+    })
 })
 
 </script>
 
 <template>
 <div class="grow row gap-lg align-start" :class="globalState.windowSize.width < 1024 ? 'w-100 p-md' : 'w-90 p-md'">
-    <div class="paper-torn border-none gutters-v shadow-low rounded-t-xxs font-retina p-md grow" ref="pageContent" v-html="pageData"></div>
+    <div class="paper-torn border-none gutters-v shadow-low rounded-t-xxs font-retina p-md grow max-w-100" ref="pageContent" v-html="pageData"></div>
     <div v-if="globalState.windowSize.width >= 1280" class="bg-crust text-subtext0 gutters-v rounded-xxs p-md sticky t-md border-thin border-base flex column gap-xs" style="min-width: 240px; max-width: 240px;">
         <template v-for="tocLink in tocContent">
             <a class="text-sm font-retina hover-green gap-xs flex row" :href="`#${ tocLink.url }`">
