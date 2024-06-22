@@ -249,9 +249,10 @@ table {
     box-shadow: 0px 1px 2px 1px rgba($crust, 0.4);
     margin: 1em 0; padding: 0;
     // word-wrap: break-word;
-    table-layout: fixed;
+    // table-layout: fixed;
     // display: grid;
     // grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    background: $base;
 
     thead {
         background: $crust; color: $subtext0;
@@ -260,7 +261,7 @@ table {
         tr, th, td { border: none; }
 
         tr {
-            th { padding: 0.5em 0.65em; word-wrap: break-word; min-width: 1em; max-width: auto; }
+            th { padding: 0.5em 0.65em; text-wrap: nowrap; }
         }
     }
 
@@ -271,11 +272,11 @@ table {
         tr, th, td { border: none; }
 
         tr:nth-child(even) {
-            background: rgba($mantle, 0.5);
+            background: rgba($mantle, 0.6);
         }
 
         tr {
-            td { padding: 0.5em 0.65em; word-wrap: break-word; min-width: 1em; max-width: auto; }
+            td { padding: 0.65em 0.65em; text-wrap: nowrap; }
         }
     }
 

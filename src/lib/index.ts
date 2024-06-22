@@ -307,7 +307,7 @@ export const buildTOC = (element: HTMLElement) => {
       let level = heading.tagName[1]
 
       toc.push({ text: text, url: url, level: parseInt(level) })
-      heading.innerHTML = `<span class="flex row align-center gap-xxxs"><a class="text-none noselect mb-lg" name="${ url }"></a><span>${ text }</span></span>`
+      heading.innerHTML = `<span class="flex row align-center gap-xxxs"><a class="text-none noselect" id="${ url }" type="${ heading.tagName !== "H1" ? 'toc' : 'toc' }"></a><span>${ text }</span></span>`
     })
   }
 
@@ -317,6 +317,6 @@ export const buildTOC = (element: HTMLElement) => {
 export const fixTables = (element: HTMLElement) => {
   const tables = element.getElementsByTagName('table')
   Array.from(tables).forEach((table: HTMLTableElement) => {
-    table.outerHTML = `<div class="max-w-100 bg-red p-none" style="overflow: scroll;"><table>${ table.innerHTML }</table></div>`
+    table.outerHTML = `<div class="w-100 p-none m-none" style="overflow: scroll;"><table>${ table.innerHTML }</table></div>`
   })
 }
