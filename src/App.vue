@@ -36,7 +36,7 @@ const navigation = [
     v-if="globalState.windowScroll.y > 0"
     class="screen-scroll rounded-full pointer hover-mauve bg-surface0 shadow-high justify-center align-center z-1"
     @click="() => globalState.windowScroll.y = 0"
-    title="Scroll to page top"
+    title="Scroll to top"
     v-motion-fade
 >
     <font-awesome-icon icon="fa-solid fa-caret-up fa-fw" class="text-xxl" />

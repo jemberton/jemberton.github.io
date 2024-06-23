@@ -21,8 +21,6 @@ const pageData = ref("")
 const tocContent = ref<TOCLink[]>([])
 const tocHighlight = ref("")
 
-const tocPositions = ref<number[]>([])
-
 const generateTab = (level: number) => {
     let tabSpace = ""
 
@@ -62,35 +60,27 @@ const tocHighlightHandler = () => {
     if (window.scrollY === 0) { tocHighlight.value = ""; return }
 
     let tocLinks = document.querySelectorAll<HTMLAnchorElement>('a[type=toc]')
-    let headingVisible: string[] = []
+    let headings: { id: string, top: number }[] = []
 
     Array.from(tocLinks).forEach((link: HTMLAnchorElement) => {
-        let top = link.getBoundingClientRect().top
+        let heading = document.getElementById(link.id.slice(5))
+        let top = heading?.getBoundingClientRect().top || 0
         let font = parseFloat(window.getComputedStyle(link, null).getPropertyValue('font-size'))
-        if (top + font >= 0 && top + font <= globalState.windowSize.height) {
-            headingVisible.push(link.id)
-        }
 
-        tocPositions.value.push(top)
-
-        console.log(link.getBoundingClientRect().bottom)
+        headings.push({ id: link.id.slice(5), top: top + font })
     })
 
-    for (const link of tocLinks) {
-        console.log('top', link.getBoundingClientRect().top)
+    let temp = ""
+
+    for (const heading of headings.reverse()) {
+        if (heading.top > 0 && heading.top < 180) {
+            tocHighlight.value = heading.id
+            temp = heading.id
+        } else if (heading.top < 180 && temp === "") {
+            tocHighlight.value = heading.id
+            temp = heading.id
+        }
     }
-
-    if (headingVisible.length > 0) tocHighlight.value = headingVisible[0]
-    if (window.scrollY === document.body.scrollHeight - window.innerHeight) tocHighlight.value = headingVisible[headingVisible.length - 1]
-}
-
-const testHighlight = (top: number) => {
-    if (top < 0) return false
-
-    let difference = window.scrollY - top
-    console.log('scrollDiff', difference)
-
-    return true
 }
 
 onMounted(() => {
@@ -102,11 +92,13 @@ onMounted(() => {
     fixTables(pageContent.value!)
     tocContent.value = buildTOC(pageContent.value!)
 
-    tocHighlightHandler()
+    // tocHighlightHandler()
 
-    // document.onscroll = () => {
-    //     tocHighlightHandler()
-    // }
+    document.onscroll = () => {
+        if (globalState.windowSize.width >= 1280) {
+            tocHighlightHandler()
+        }
+    }
 })
 
 watch(() => route.params, (newParams) => {
@@ -132,10 +124,9 @@ watch(() => pageData.value, () => {
     <div class="paper-torn border-none gutters-v shadow-low rounded-t-xxs font-retina p-md grow max-w-100" ref="pageContent" v-html="pageData"></div>
     <div v-if="globalState.windowSize.width >= 1280" class="bg-crust text-subtext0 gutters-v rounded-xxs p-md sticky t-md border-thin border-base flex column gap-xxxs" style="min-width: 240px; max-width: 240px;">
         <template v-for="tocLink in tocContent">
-            <a class="text-sm font-retina hover-green gap-xs flex row p-xxs" :href="`#${ tocLink.url }`" :class="tocHighlight === tocLink.url ? 'text-mauve bg-mantle' : ''" :reftop="tocLink.top">
+            <a class="text-sm font-retina gap-xs flex row p-xxs hover-green" :href="`#${ tocLink.url }`" :class="tocHighlight === tocLink.url ? 'text-mauve bg-base' : ''" type="toc" :id="`href#${ tocLink.url }`">
                 <template v-if="tocLink.level > 1"><span v-html="generateTab(tocLink.level)"></span><span>{{ tocLink.text }}</span></template>
                 <template v-else>{{ tocLink.text }}</template>
-                <template v-if="testHighlight(tocLink.top)"><span class="bg-red text-mantle">HIGHLIGHT</span></template>
             </a>
         </template>
     </div>

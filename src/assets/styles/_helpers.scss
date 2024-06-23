@@ -118,7 +118,7 @@ $svg:
             &:hover { color: $hover; border-color: $hover; }
         }
     }
-    .hover-#{$color_name} { &:hover { color: $color_hex; } }
+    .hover-#{$color_name} { &:hover { color: $color_hex !important; } }
     .bghover-#{$color_name} { &:hover { background: $color_hex; } }
     .border-hover-#{$color_name} { &:hover { border-color: $color_hex; } }
 
