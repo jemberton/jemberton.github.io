@@ -86,27 +86,6 @@ export const getFileContents = async (file: string) => {
   return ""
 }
 
-// TODO add support for table of contents generation from headings 
-//@ ============================================================================
-//@  Parsers
-//@ ============================================================================
-export const escapeHTML = (line: string, preserveSpaces: boolean = false) => {
-  line = line.replace(/\`/g, '')
-  line = line.replace(/\&/g, '&amp;')
-  line = line.replace(/\</g, '&lt;')
-  line = line.replace(/\>/g, '&gt;')
-
-  if (preserveSpaces) {
-    let leading = line.match(/^(\s+?)\S/g)
-    if (leading) {
-      let whitespace = leading[0].slice(0,-1)
-      line = `${ '&nbsp;'.repeat(whitespace.length) }${ line.slice(whitespace.length) }`
-    }
-  }
-
-  return line
-}
-
 //@ ============================================================================
 //@  Automations
 //@ ============================================================================

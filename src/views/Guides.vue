@@ -56,7 +56,9 @@ const buildPage = async (category: string, page: string) => {
     }
 }
 
+// FIXME move to lib/index.ts
 const tocHighlightHandler = () => {
+    if (globalState.windowSize.width < 1280) return
     if (window.scrollY === 0) { tocHighlight.value = ""; return }
 
     let tocLinks = document.querySelectorAll<HTMLAnchorElement>('a[type=toc]')
@@ -83,6 +85,19 @@ const tocHighlightHandler = () => {
     }
 }
 
+const isOnScreen = (id: string) => {
+    if (window.scrollY === 0) return false
+
+    let heading = document.getElementById(id)
+
+    if (heading) {
+        let top = heading.getBoundingClientRect().top
+        if (top > 0 && top < globalState.windowSize.height) return true
+    }
+
+    return false
+}
+
 onMounted(() => {
     const category = route.params.category || ""
     const page = route.params.page || ""
@@ -92,12 +107,8 @@ onMounted(() => {
     fixTables(pageContent.value!)
     tocContent.value = buildTOC(pageContent.value!)
 
-    // tocHighlightHandler()
-
     document.onscroll = () => {
-        if (globalState.windowSize.width >= 1280) {
-            tocHighlightHandler()
-        }
+        tocHighlightHandler()
     }
 })
 
@@ -120,11 +131,17 @@ watch(() => pageData.value, () => {
 </script>
 
 <template>
-<div class="grow row gap-lg align-start" :class="globalState.windowSize.width < 1024 ? 'w-100 p-md' : 'w-90 p-md'">
+<div class="grow row gap-lg align-start justify-center" :class="globalState.windowSize.width < 1024 ? 'w-100 p-md' : 'w-90 p-md'">
     <div class="paper-torn border-none gutters-v shadow-low rounded-t-xxs font-retina p-md grow max-w-100" ref="pageContent" v-html="pageData"></div>
-    <div v-if="globalState.windowSize.width >= 1280" class="bg-crust text-subtext0 gutters-v rounded-xxs p-md sticky t-md border-thin border-base flex column gap-xxxs" style="min-width: 240px; max-width: 240px;">
+    <div v-if="globalState.windowSize.width >= 1280" class="bg-crust text-subtext0 gutters-v rounded-xxs p-md sticky t-md border-thin border-base flex column" style="min-width: 240px; width: 240px; max-width: 240px;">
         <template v-for="tocLink in tocContent">
-            <a class="text-sm font-retina gap-xs flex row p-xxs hover-green" :href="`#${ tocLink.url }`" :class="tocHighlight === tocLink.url ? 'text-mauve bg-base' : ''" type="toc" :id="`href#${ tocLink.url }`">
+            <a
+                class="text-sm font-retina gap-xs flex row p-xxs hover-green"
+                :class="tocHighlight === tocLink.url ? 'text-mauve bg-base' : isOnScreen(tocLink.url) ? 'bg-mantle' : ''"
+                :href="`#${ tocLink.url }`"
+                type="toc"
+                :id="`href#${ tocLink.url }`"
+            >
                 <template v-if="tocLink.level > 1"><span v-html="generateTab(tocLink.level)"></span><span>{{ tocLink.text }}</span></template>
                 <template v-else>{{ tocLink.text }}</template>
             </a>
