@@ -189,4 +189,4 @@ The first filename is not hidden, the second is. Hiding a file does *not* change
 
 ---
 
-Still with me?! Now that you're properly informed, let's actually *do* something! Head over to the [Basic Commands](/guides/linux/basic-commands){.router} page to learn more!
+Still with me?! Now that you're properly informed, let's actually *do* something! Head over to the [Basic Commands](/guides/linux/basic-commands){.router-next} page to learn more!
