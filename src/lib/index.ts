@@ -24,6 +24,7 @@ export interface TOCLink {
   text: string
   url: string
   level: number
+  top: number
 }
 
 export const md = markdownit({ html: true, breaks: true })
@@ -305,9 +306,11 @@ export const buildTOC = (element: HTMLElement) => {
       let text = heading.innerText
       let url = text.toLowerCase().trim().replace(/\s/g, '-').replace(/[^a-zA-Z0-9-]/, '')
       let level = heading.tagName[1]
+      
+      heading.id = url
 
-      toc.push({ text: text, url: url, level: parseInt(level) })
-      heading.innerHTML = `<span class="flex row align-center gap-xxxs"><a class="text-none noselect" id="${ url }" type="${ heading.tagName !== "H1" ? 'toc' : 'toc' }"></a><span>${ text }</span></span>`
+      toc.push({ text: text, url: url, level: parseInt(level), top: heading.getBoundingClientRect().top })
+      heading.innerHTML = `<span class="flex column justify-center gap-xxxs">${ text }</span>`
     })
   }
 
