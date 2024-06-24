@@ -134,6 +134,8 @@ const bookNav = () => {
         }
 
         block.outerHTML = `<div class="bg-mantle flex row justify-start border-thinner border-crust my-md">${ prev }${ next }</div>`
+
+      return
     }
 }
 
