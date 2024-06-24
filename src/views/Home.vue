@@ -36,7 +36,7 @@ onMounted(async () => {
 </script>
 
 <template>
-<div class="grow" :class="globalState.windowSize.width < 1024 ? 'w-100 p-md' : 'w-90 p-md'" style="max-width: 1280px;">
+<div class="grow" :class="globalState.windowSize.width < 1024 ? 'w-100 p-md' : 'w-80 p-md'" style="max-width: 1280px;">
     <div class="row gap-md p-md rounded-xs bg-crust border-thin border-base">
         <span class="text-green">jemberton@github ~$</span>
         <span>echo $BLOG</span>

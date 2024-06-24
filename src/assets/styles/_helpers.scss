@@ -157,6 +157,7 @@ $svg:
     .my-#{$size_name} { margin-top: #{$size}em; margin-bottom: #{$size}em; }
 }
 .rounded { border-radius: 1.0em; }
+.rounded-inherit { border-radius: inherit; }
 .rounded-full { border-radius: 50%; }
 .p-font { padding: $global-font-size; }
 .px-font { padding: 0 $global-font-size; }
