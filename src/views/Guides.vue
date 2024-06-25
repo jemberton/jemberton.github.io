@@ -118,7 +118,6 @@ const bookNav = () => {
     let navLinks = document.querySelectorAll<HTMLAnchorElement>('a.router-prev, a.router-next')
 
     if (block) {
-        // TODO prev, center, and next all need to be made into HTMLAnchorElements in order to override click event
         let prev = ""
         // let center = "" // TODO Add this feature maybe?
         let next = ""
@@ -150,6 +149,19 @@ const bookNav = () => {
         }
 
         block.outerHTML = `<div class="bg-mantle flex row justify-start border-thinner border-crust my-md">${ prev }${ next }</div>`
+
+        let newLinks = document.querySelectorAll<HTMLAnchorElement>('a#booknav-prev, a#booknav-next')
+        Array.from(newLinks).forEach((link: HTMLAnchorElement) => {
+            let url = new URL(link.href)
+            let to = url.pathname
+
+            console.log(link.id)
+
+            link.onclick = (event: MouseEvent) => {
+                event.preventDefault()
+                router.push(to)
+            }
+        })
 
       return
     }
