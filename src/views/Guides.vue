@@ -3,7 +3,7 @@ import { Ref, nextTick, onMounted, ref, watch } from 'vue';
 import { useGlobalState } from '../stores/globalState'
 import { useRoute, useRouter } from 'vue-router'
 
-const $router = useRouter()
+const router = useRouter()
 
 import { buildTOC, linkify, TOCLink, fixTables } from '../lib'
 
@@ -98,11 +98,27 @@ const tocHighlightHandler = () => {
     })
 }
 
+function pushRoute(navdir: string) {
+    console.log('booknav click')
+    // event.preventDefault()
+    // let url = new URL(link.href)
+    // let to = url.pathname
+
+    // console.log(link.href, url, to)
+
+    // link.onclick = (event: MouseEvent) => {
+    //     console.log("SHOULD ROUTE")
+    //     event.preventDefault()
+    //     router.push(to)
+    // }
+}
+
 const bookNav = () => {
     let block = document.getElementById('booknav')
     let navLinks = document.querySelectorAll<HTMLAnchorElement>('a.router-prev, a.router-next')
 
     if (block) {
+        // TODO prev, center, and next all need to be made into HTMLAnchorElements in order to override click event
         let prev = ""
         // let center = "" // TODO Add this feature maybe?
         let next = ""
@@ -144,7 +160,7 @@ onMounted(() => {
     const page = route.params.page || ""
 
     buildPage(category.toString(), page.toString())
-    linkify(pageContent.value!, $router)
+    linkify(pageContent.value!, router)
     fixTables(pageContent.value!)
     tocContent.value = buildTOC(pageContent.value!)
     bookNav()
@@ -164,7 +180,7 @@ watch(() => route.params, (newParams) => {
 
 watch(() => pageData.value, () => {
     nextTick(() => {
-        linkify(pageContent.value!, $router)
+        linkify(pageContent.value!, router)
         fixTables(pageContent.value!)
         tocContent.value = buildTOC(pageContent.value!)
         bookNav()
