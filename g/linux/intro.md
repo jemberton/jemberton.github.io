@@ -1,8 +1,5 @@
 # Linux Intro
 
-> This page is a work in progress
-{.warning-icon}
-
 Welcome to the Linux Intro guide! This guide is intended to aid a new user into the world of using Linux. As there are numerous distributions of Linux available, it should be noted that the target of this guide is intended to be generic. Everything learned here will apply to *most* distributions. In the case of something that might deviate from *most*, it will be noted.
 
 ## Understanding Linux
@@ -178,18 +175,55 @@ The first filename is not hidden, the second is. Hiding a file does *not* change
 
 ---
 
-> WIP from here below
-{.warning-icon}
-
 ## Paths
+
+File and folder paths aren't really *that* much different than any other operating system. Each folder or level of the path is seperated by a `/` at the beginning of each level. Since Linux does not use drive letters, the highest level of a path is `/`. Paths can be represented in different ways (absolute and relative). There is also a shorthand helper.
 
 ### Absolute
 
+Absolute paths are also commonly called "full" paths. These names can be used interchangeably as the full path *is* an absolute path. That is to say, these show the path from the highest level `/` all the way to the target. Let's look at some examples:
+
+```plaintext
+/home/myuser/Downloads
+/usr/bin
+/opt/local/myfavapp/bin
+/home/myuser/Downloads/some_document.txt
+```
+
+Notice how each path starts with a `/` and all subfolders are seperated by the same `/` character. There does not need to be a trailing slash as it is assumed if the final path is a folder. If the final bit of the path is a file, it will just be *that* ... a file. Full paths are great to use when targeting a very specific folder that will/should be the same no matter the distribution of Linux. But sometimes, the file or folder may be in a different base location and varies from system to system. How do we deal with that? (hint: keep reading)
+
 ### Relative
+
+Relative paths are paths "in relation to" another path. In the first example for absolute paths, the last folder is the `Downloads` folder. Let's say we have a terminal open to that path. We can refer to the folder itself, the parent, and any subfolders by using a few different methods. (We will dive more into this when we learn how to navigate the filesystem, but for now, let's understand this conceptually.)
+
+| Relative Path | Absolute Path |
+| :--- | :--- |
+| `./` | `/home/myuser/Downloads` |
+| `../` | `/home/myuser/` |
+| `./some_folder` | `/home/myuser/Downloads/some_folder` |
+
+The single dot in the first example of the table above tells us "this" folder. The next example, there are two dots. That tells us the parent of this directory. The third example is similar to the first ... that references a folder named `some_folder` inside of the `Downloads` folder.
+
+The benefit of using relative paths is that the reference to a file or script can be moved around the filesystem as long as the file or folder being referenced is still relatively at the same location. Meaning, if a program is looking for a config file, you don't *have to have* it installed at the same location that I do as long as the files of the application are kept intact. Whew!
+
+### Shorthand
+
+Shorthand options for the Linux filesystem is pretty limited "out of the box". This can be expanded with symbolic links and aliases, but those require intention (so they are custom). The one shorthand option that is widely available is the `~` token. This tilde character is a short way of saying `/home` on most distributions. You might be thinking, "That doesn't really save a bunch of typing!", but it *can*. It is also dynamic to work with potentially *any* username. Let's look at another table of examples (we are going to assume `mysuer` is the currently logged in user):
+
+| Shorthand Path | Absolute Path |
+| :--- | :--- |
+| `~/` | `/home/myuser` |
+| `~myuser/` | `/home/myuser` |
+| `~otheruser/` | `/home/otheruser` |
+| `~/Downloads` | `/home/myuser/Downloads` |
+
+See how that works? If the tilde is alone and immediately followed by a slash, it means the current user's home. If we supply a username, it can reference *that* user's home folder. If you have a script or application that needs to reference a configuration commonly stored in the current user's `.config` directory, you can reference the path using the `~` operator without ever knowing the actual username. Neat! Alternatively, if you want to use a specific username, you can reference it after the `~` and it becomes less dynamic, but still is a shorthand option as opposed to writing `/home/otheruser` as the path.
+
+This shorthand option expands to match the home path no matter where it is *actually* pointing. Most systems use `/home/USERNAME` as the home path for a user, but they do not *have* to use `/home` as the base path. If you wanted the home path to be ... let's say `/some_path/some_other_path/users/USERNAME`, the tilde shorthand can refer to that instead. Mind you, this is extremely unconventional and absolutely unnecessary. Not to mention, this will cause all sorts of problems if used with the majority of applications out there, but it *is* an option!
 
 ---
 
-Still with me?! Now that you're properly informed, let's actually *do* something! Head over to the next page to learn more!
+Still with me?! Now that you're properly informed & confused, let's actually *do* something! Head over to the next page to learn more!
 
 ---{#booknav}
 
