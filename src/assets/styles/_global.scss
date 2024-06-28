@@ -10,6 +10,7 @@ body {
     width: 100vw; height: 100vh;
     max-width: 100%;
     overflow-x: hidden;
+    line-height: 1.55em;
 }
 
 *::-webkit-scrollbar {
@@ -62,17 +63,18 @@ code {
         color: $subtext1 !important;
         font-size: 0.9em;
         position: relative;
-        line-height: 2.25em;
-        margin: 0 0.25em;
+        // line-height: 2.25em;
+        margin: 0 0.25em; padding: 0.15em 0.25em;
     }
 }
 
-h1, h2, h3, h4, h5, h6 { margin: $global-font-size 0; padding: 0; }
+h1, h2, h3, h4, h5, h6 { margin: calc($global-font-size / 1.5) 0; padding: 0; }
 h1 { font-size: 2em; }
 h2 { font-size: 1.75em; }
 h3 { font-size: 1.5em; }
 h4 { font-size: 1.25em; }
 h5, h6 { font-size: 1em; }
+p { margin: $global-font-size 0; }
 pre {
     code {
         &.hljs {
@@ -148,6 +150,20 @@ blockquote {
 
         &::before {
             content: url("data:image/svg+xml;utf8,%3Csvg fill='%23#{ $string-red }' width='32' height='32' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3C!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--%3E%3Cpath d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z'/%3E%3C/svg%3E");
+            align-self: start;
+        }
+    }
+
+    &.action { border-color: $rosewater; background: rgba($rosewater, 0.1); }
+    &.action-icon {
+        border-color: $rosewater;
+        background: rgba($rosewater, 0.1);
+        gap: 1em;
+        display: flex; position: relative;
+        align-items: stretch;
+
+        &::before {
+            content: url("data:image/svg+xml;utf8,%3Csvg fill='%23#{ $string-rosewater }' width='32' height='32' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3C!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--%3E%3Cpath d='M152.1 38.2c9.9 8.9 10.7 24 1.8 33.9l-72 80c-4.4 4.9-10.6 7.8-17.2 7.9s-12.9-2.4-17.6-7L7 113C-2.3 103.6-2.3 88.4 7 79s24.6-9.4 33.9 0l22.1 22.1 55.1-61.2c8.9-9.9 24-10.7 33.9-1.8zm0 160c9.9 8.9 10.7 24 1.8 33.9l-72 80c-4.4 4.9-10.6 7.8-17.2 7.9s-12.9-2.4-17.6-7L7 273c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l22.1 22.1 55.1-61.2c8.9-9.9 24-10.7 33.9-1.8zM224 96c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32zm0 160c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32zM160 416c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-17.7 0-32-14.3-32-32zM48 368a48 48 0 1 1 0 96 48 48 0 1 1 0-96z'/%3E%3C/svg%3E");
             align-self: start;
         }
     }
@@ -231,8 +247,8 @@ hr {
 }
 
 kbd {
-    background: $surface0; color: $subtext1;
-    text-shadow: 0px 1px 1px $crust;
+    background: $surface1; color: $text;
+    text-shadow: 0px 2px 2px $crust;
     padding: 0.15em 0.5em;
     border-radius: 4px;
     font-size: 0.9em;

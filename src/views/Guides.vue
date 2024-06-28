@@ -154,17 +154,12 @@ const bookNav = () => {
 onMounted(() => {
     const category = route.params.category || ""
     const page = route.params.page || ""
-    const hash = route.hash || ""
 
     buildPage(category.toString(), page.toString())
     linkify(pageContent.value!, router)
     fixTables(pageContent.value!)
     tocContent.value = buildTOC(pageContent.value!)
     bookNav()
-
-    if (hash !== "") {
-        console.log(hash)
-    }
 
     document.onscroll = () => {
         tocHighlightHandler()
@@ -195,7 +190,6 @@ watch(() => pageData.value, () => {
 
             Array.from(headings).forEach((heading: HTMLHeadingElement) => {
                 if (heading.id === route.hash.replace("#", "")) {
-                    console.log('scroll heading found')
                     heading.scrollIntoView()
                 }
             })
@@ -210,7 +204,7 @@ watch(() => pageData.value, () => {
 <template>
 <div class="grow row gap-lg align-start justify-center" :class="globalState.windowSize.width < 1024 ? 'w-100 p-md' : 'w-90 p-md'">
     <div class="paper-torn border-none gutters-v shadow-low rounded-t-xxs font-retina p-md grow max-w-100" ref="pageContent" v-html="pageData"></div>
-    <div v-if="globalState.windowSize.width >= 1280" class="bg-crust text-subtext0 gutters-v rounded-xxs p-md sticky t-md border-thin border-base flex column" style="min-width: 240px; width: 240px; max-width: 240px;">
+    <div v-if="globalState.windowSize.width >= 1280" class="bg-crust text-subtext0 gutters-v rounded-xxs p-md sticky t-md border-thin border-base flex column line-lg" style="min-width: 240px; width: 240px; max-width: 240px;">
         <template v-for="tocLink in tocContent">
             <a
                 class="text-sm font-retina gap-xs flex row p-xxs hover-green"
