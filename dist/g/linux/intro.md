@@ -130,7 +130,7 @@ Users can be added to multiple groups. The groups serve to cover a broader level
 
 ## Permissions
 
-Files, folders, and programs all use the same permission system in Linux. File permissions are represented by a permissions mask with information about who can read, write, and execute.
+Files, folders, and programs all use the same permission system in Linux. File permissions are represented by a permissions mask with information about who can read, write, and execute. One is numeric and commonly referred to as "chmod", the other is a more readable version using "rwx" also called a umask.
 
 Examples of Permissions
 
@@ -208,7 +208,7 @@ The benefit of using relative paths is that the reference to a file or script ca
 
 ### Shorthand
 
-Shorthand options for the Linux filesystem is pretty limited "out of the box". This can be expanded with symbolic links and aliases, but those require intention (so they are custom). The one shorthand option that is widely available is the `~` token. This tilde character is a short way of saying `/home` on most distributions. You might be thinking, "That doesn't really save a bunch of typing!", but it *can*. It is also dynamic to work with potentially *any* username. Let's look at another table of examples (we are going to assume `mysuer` is the currently logged in user):
+Shorthand options for the Linux filesystem is pretty limited "out of the box". This can be expanded with symbolic links and aliases, but those require intention (so they are custom). The one shorthand option that is widely available is the `~` token. This tilde character is a short way of saying `/home` on most distributions. You might be thinking, "That doesn't really save a bunch of typing!", but it *can*. It is also dynamic to work with potentially *any* username. Let's look at another table of examples (we are going to assume `myuser` is the currently logged in user):
 
 | Shorthand Path | Absolute Path |
 | :--- | :--- |
