@@ -78,7 +78,8 @@ export const md = markdownit({ html: true, breaks: true })
 //@ ============================================================================
 export const getFileContents = async (file: string) => {
   if (file !== "") {
-    const data = await fetch(file)
+    let rndToken = new Date().getTime()
+    const data = await fetch(`${ file }?${ rndToken }`)
     const datavalue = await data.text()
     return datavalue
   }
@@ -236,6 +237,7 @@ export const linkify = (element: HTMLElement, router: Router) => {
           return
         }
 
+        // FIXME this needs to honor router hashes 
         const to = url.pathname
         // ignore same page links with anchors
         if (url.hash && window.location.pathname === to) {

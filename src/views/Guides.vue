@@ -62,6 +62,7 @@ const tocHighlightHandler = () => {
 
     Array.from(tocLinks).reverse().forEach((link: HTMLAnchorElement, index: number) => {
         let heading = document.getElementById(link.id.slice(5))
+        // FIXME add font size to this
         let top = heading?.getBoundingClientRect().top || 0
 
         if (window.scrollY !== 0) {
@@ -98,21 +99,6 @@ const tocHighlightHandler = () => {
     })
 }
 
-function pushRoute(navdir: string) {
-    console.log('booknav click')
-    // event.preventDefault()
-    // let url = new URL(link.href)
-    // let to = url.pathname
-
-    // console.log(link.href, url, to)
-
-    // link.onclick = (event: MouseEvent) => {
-    //     console.log("SHOULD ROUTE")
-    //     event.preventDefault()
-    //     router.push(to)
-    // }
-}
-
 const bookNav = () => {
     let block = document.getElementById('booknav')
     let navLinks = document.querySelectorAll<HTMLAnchorElement>('a.router-prev, a.router-next')
@@ -126,7 +112,7 @@ const bookNav = () => {
             Array.from(navLinks).forEach((link: HTMLAnchorElement) => {
                 if (link.classList.contains('router-prev')) {
                     prev = `
-                        <a class="grow row flex w-50 p-md justify-start align-stretch bghover-surface0 gap-md text-surface2" id="booknav-prev" href="${ link.href }">
+                        <a class="grow row flex w-50 p-lg justify-start align-stretch bghover-surface0 gap-md text-surface2" id="booknav-prev" href="${ link.href }">
                             <span class="row flex align-center"><svg class="icon-xl" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M48 256a208 208 0 1 1 416 0A208 208 0 1 1 48 256zm464 0A256 256 0 1 0 0 256a256 256 0 1 0 512 0zM217.4 376.9c4.2 4.5 10.1 7.1 16.3 7.1c12.3 0 22.3-10 22.3-22.3V304h96c17.7 0 32-14.3 32-32V240c0-17.7-14.3-32-32-32H256V150.3c0-12.3-10-22.3-22.3-22.3c-6.2 0-12.1 2.6-16.3 7.1L117.5 242.2c-3.5 3.8-5.5 8.7-5.5 13.8s2 10.1 5.5 13.8l99.9 107.1z"/></svg></span>
                             <span class="row flex align-center text-lg">${ link.innerText }</span>
                         </a>
@@ -135,7 +121,7 @@ const bookNav = () => {
 
                 if (link.classList.contains('router-next')) {
                     next = `
-                        <a class="grow row flex w-50 p-md justify-end align-stretch bghover-surface0 gap-md text-surface2" id="booknav-next" href="${ link.href }">
+                        <a class="grow row flex w-50 p-lg justify-end align-stretch bghover-surface0 gap-md text-surface2" id="booknav-next" href="${ link.href }">
                             <span class="row flex align-center text-lg">${ link.innerText }</span>
                             <span class="row flex align-center"><svg class="icon-xl" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM294.6 135.1c-4.2-4.5-10.1-7.1-16.3-7.1C266 128 256 138 256 150.3V208H160c-17.7 0-32 14.3-32 32v32c0 17.7 14.3 32 32 32h96v57.7c0 12.3 10 22.3 22.3 22.3c6.2 0 12.1-2.6 16.3-7.1l99.9-107.1c3.5-3.8 5.5-8.7 5.5-13.8s-2-10.1-5.5-13.8L294.6 135.1z"/></svg></span>
                         </a>
@@ -148,14 +134,12 @@ const bookNav = () => {
             })
         }
 
-        block.outerHTML = `<div class="bg-mantle flex row justify-start border-thinner border-crust my-md">${ prev }${ next }</div>`
+        block.outerHTML = `<div class="bg-mantle flex row justify-start border-thinner border-crust mb-md mt-lg">${ prev }${ next }</div>`
 
         let newLinks = document.querySelectorAll<HTMLAnchorElement>('a#booknav-prev, a#booknav-next')
         Array.from(newLinks).forEach((link: HTMLAnchorElement) => {
             let url = new URL(link.href)
             let to = url.pathname
-
-            console.log(link.id)
 
             link.onclick = (event: MouseEvent) => {
                 event.preventDefault()
@@ -196,6 +180,8 @@ watch(() => pageData.value, () => {
         fixTables(pageContent.value!)
         tocContent.value = buildTOC(pageContent.value!)
         bookNav()
+        // globalState.windowScroll.y = 0
+        // window.scrollTo(0,0)
     })
 })
 
