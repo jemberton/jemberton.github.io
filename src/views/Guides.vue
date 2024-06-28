@@ -154,12 +154,17 @@ const bookNav = () => {
 onMounted(() => {
     const category = route.params.category || ""
     const page = route.params.page || ""
+    const hash = route.hash || ""
 
     buildPage(category.toString(), page.toString())
     linkify(pageContent.value!, router)
     fixTables(pageContent.value!)
     tocContent.value = buildTOC(pageContent.value!)
     bookNav()
+
+    if (hash !== "") {
+        console.log(hash)
+    }
 
     document.onscroll = () => {
         tocHighlightHandler()
@@ -172,6 +177,10 @@ watch(() => route.params, (newParams) => {
     } else {
         buildPage("", "")
     }
+
+    if (route.hash === "") {
+        window.scrollTo(0,0)
+    }
 })
 
 watch(() => pageData.value, () => {
@@ -180,8 +189,19 @@ watch(() => pageData.value, () => {
         fixTables(pageContent.value!)
         tocContent.value = buildTOC(pageContent.value!)
         bookNav()
-        // globalState.windowScroll.y = 0
-        // window.scrollTo(0,0)
+
+        if (route.hash !== "") {
+            let headings = document.querySelectorAll<HTMLHeadingElement>(`h1, h2, h3, h4, h5, h6`)
+
+            Array.from(headings).forEach((heading: HTMLHeadingElement) => {
+                if (heading.id === route.hash.replace("#", "")) {
+                    console.log('scroll heading found')
+                    heading.scrollIntoView()
+                }
+            })
+        } else {
+            window.scrollTo(0,0)
+        }
     })
 })
 

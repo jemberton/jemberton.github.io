@@ -241,6 +241,14 @@ export const linkify = (element: HTMLElement, router: Router) => {
         const to = url.pathname
         // ignore same page links with anchors
         if (url.hash && window.location.pathname === to) {
+          console.log('url hash and pathname === to')
+          return
+        }
+
+        if (url.hash !== "") {
+          console.log('url hash exists but goes to different page ---', url.hash)
+          event.preventDefault()
+          router.push({ path: to, hash: url.hash})
           return
         }
 
