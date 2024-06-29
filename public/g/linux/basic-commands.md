@@ -244,6 +244,8 @@ This one combines multiple different permission masks for the different tiers of
 > WIP
 {.warning}
 
+Printing a text file to the console can be done multiple ways.
+
 ---
 
 ## Editing Text
@@ -289,7 +291,7 @@ This isn't meant to be a full blown guide for `nano` ... that [exists elsewhere]
 
 ### vi or vim
 
-The popular `vi` or `vim` (which are not the same thing, but close in most ways) is a powerful text editor with an extremely minimal design. It can be used like `nano` in the way of just opening the editor or specifying a file.
+The popular `vi` or [vim](https://www.vim.org/) (which are not the same thing, but close in most ways) is a powerful text editor with an extremely minimal design. It can be used like `nano` in the way of just opening the editor or specifying a file.
 
 ```plaintext
 vi
@@ -301,15 +303,30 @@ vim my_file.txt
 > Wait ... which one should I use?
 {.question-icon}
 
-Use `vim` or `Vi IMproved` if you have it. Promise, it'll be a happier situation. Embedded systems usually have only `vi` as their editor since they are usually deployed on limited resource systems. Versions like `nvim` or `neovim` exist too, but I'll refrain from getting into all the implementations and plugins and the like. If you open the editor, it'll be similar to this:
+Use `vim` or `Vi IMproved` if you have it. Promise, it'll be a happier situation. Embedded systems usually have only `vi` as their editor since they are usually deployed on limited resource systems. Versions like [neovim](https://neovim.io/) exist too, but I'll refrain from getting into all the implementations and plugins and the like. If you open the editor, it'll be similar to this:
 
 ![vim text editor](/img/linux-basic_commands-002.png "Customized vim")
 
 This is a screenshot of *my* `vim` ... so it has some plugins/add-ons applied. Yours will be less colorful and just a bit different ... but similar.
 
-> WIP
-{.warning}
+Using `vim` is not too difficult, but the main interface is not as intuitive as one might desire. Unlike `nano`, you cannot immediately start entering the text. The editor will do text entry, sure, but it has a long list of commands that can do some pretty wonderful stuff. For now, we just want to learn to enter some text and be able to save it to a file.
+
+1. Go into insert mode by pressing [[i]] (you should see a capital `I` in the lower left corner of the window)
+2. Move cursor to location and enter text
+3. Exit insert mode by pressing [[ESC]]
+4. Go into command mode by pressing [[SHIFT]] + [[:]] (you'll see a `:` in the lower left corner)
+5. Type `wq FILENAME` to write and quit (in *that* order) or type `q!` to quit without saving (if you opened vim using a filename, you don't need it in the `wq` sequence)
+
+> Open and edit the test file with nano or vim. Change the text to match this:<br>
+    `Hello, World! Welcome to the lesson!`
+{.action-icon}
+
+---
+
+Ready to move on?
 
 ---{#booknav}
 
 [Introduction](/guides/linux/intro){.router-prev}
+
+[Remote Access](/guides/linux/remote-access){.router-next}
