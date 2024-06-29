@@ -4,7 +4,7 @@ Here is a collection of guides with no particular connection to any other. At le
 
 I like humor (dad jokes incoming!), so keep a light heart while reading.
 
-## Topics
+## General Topics
 
 [!ref icon="linux" title="Linux"](/guides/linux)
 
@@ -13,3 +13,7 @@ I like humor (dad jokes incoming!), so keep a light heart while reading.
 [!ref icon="git" title="Git"](/guides)
 
 [!ref icon="docker" title="Docker"](/guides)
+
+## How To
+
+[!ref icon="book" title="Arch Linux"](/guides)
