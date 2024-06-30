@@ -239,12 +239,75 @@ This one combines multiple different permission masks for the different tiers of
 
 ---
 
-## Printing a text File
+## Printing a Text File
+
+Printing a text file to the console can be done in multiple ways. Not all of these commands will be available on every system, but a few are very commonly found. Here are a handful of examples.
+
+> There are *so* many more methods, but these will serve your needs for system to system compatibility, general purpose and use, and ease of use.
+{.info-icon}
+
+### cat
+
+The `cat` command is short for "concatenate". Its original purpose was to combine multiple text files into one. If given multiple file paths as arguments, it will do exactly that. If only one file path is provided, it will print the contents to the screen (if you have permissions). This command is on almost every distribution out-of-the-box. The options for the command are in the `--help` dialog and will vary from system to system. It is likely that you'll not be using any options for this command for some time.
+
+```plaintext
+cat my_file.txt
+cat my_file1.txt my_file2.txt
+```
+
+### head
+
+The `head` command prints the first 10 lines of a file. Multiple files can be given as arguments. The number of lines can be set with the `-n` or `--lines=NUM` option. Again, with any command, check the `--help`. Very commonly supported.
+
+```plaintext
+head my_long_file.txt
+head -n 50 my_long_file.txt
+head --lines=50 my_long_file.txt
+```
+
+### tail
+
+The `tail` command is virtually the same as the `head` command, except that is prints the *last* 10 lines of a file. It also can set the number of lines to show using the `-n` option. It also has another option that comes in handy ... `-f` or `--follow`. Following a file allows you to monitor changes to the file in real time. For example, if you wanted to watch a log file as an application or script runs, you can `tail -f` the file and see the changes to the `stdout` or standard output. Very commonly supported.
+
+```plaintext
+tail my_long_file.txt
+tail -n 50 my_long_file.txt
+tail -f my_long_file.txt
+```
+
+When following a file, the prompt will no longer take commands. You can use [[CTRL]] + [[C]] to cancel following and get your prompt back.
+
+### less
+
+The `less` command is a handy pager. It is excellent when viewing a long file. It allows movement between pages of content, searching, and a plethora of other functions. It is a very rich viewer for a command line based application. See `less --help` for the full list of supported functionalities. Less commonly supported on older or embedded systems.
+
+```plaintext
+less my_long_file.txt
+```
+
+> If you happened to open a file or the help with `less` and are not sure how to get out of viewing the file, press [[q]] or [[CTRL]] + [[C]] to exit. The preferred method is using [[q]].
+{.info-icon}
+
+### more
+
+The `more` command is used to display contents of a file. That's it. There are more than a handful of options including number of lines to show and pattern matching. Not commonly supported on older or embedded systems, but modern desktops seem to support it.
+
+```plaintext
+more my_long_file.txt
+```
+
+---
+
+## Filtering Text
+
+Displaying text to the `stdout` is all well and good, but what if we wanted to filter by a keyword or phrase? Fortunately, there are many methods available. The `grep` command is very common on most distributions. Others like `awk` and `sed` are usually pretty common too, but some embedded systems do not include them on the base system. They would have to be installed if you needed them.
+
+### grep
 
 > WIP
 {.warning}
 
-Printing a text file to the console can be done multiple ways.
+The `grep` or "global regular expression print" command.
 
 ---
 
@@ -317,7 +380,7 @@ Using `vim` is not too difficult, but the main interface is not as intuitive as 
 4. Go into command mode by pressing [[SHIFT]] + [[:]] (you'll see a `:` in the lower left corner)
 5. Type `wq FILENAME` to write and quit (in *that* order) or type `q!` to quit without saving (if you opened vim using a filename, you don't need it in the `wq` sequence)
 
-> Open and edit the test file with nano or vim. Change the text to match this:<br>
+> Open and edit the test file with nano/vim or use echo to change the text to match this:<br>
     `Hello, World! Welcome to the lesson!`
 {.action-icon}
 
