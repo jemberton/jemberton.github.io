@@ -119,7 +119,7 @@ const navigation = [
             <RouterView />
         </div>
         <div class="bg-mantle text-overlay1 p-md border-none border-t-thin border-crust">
-            <div>footer</div>
+            <div class="text-sm">engine v1</div>
         </div>
     </div>
 </div>

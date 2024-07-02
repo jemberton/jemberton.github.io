@@ -1,8 +1,5 @@
 # Basic Commands
 
-> This page is a work in progress
-{.warning-icon}
-
 There are numerous commands every aspiring Linux nerd should know. These commands are absolutely essential to *using* the system. First, we need to talk about *how* to use them.
 
 ## Man Pages
@@ -201,7 +198,7 @@ The remove command `rm` is as one would expect with what knowledge we have of th
 
 > This is ***not*** recycle! This is a very irreversible and permenant operation. I repeat: your removed files and folders are gone forever!<br>
     One remove command to memorize as **BAD**{.text-red}, is `rm -Rf /` or `sudo rm -Rf /` as this removes the root of the filesytem by force and recursively. That means ... everything on your hard disk is gone!
-{.warning-icon}
+{.danger-icon}
 
 ```plaintext
 rm my_file.txt
@@ -304,10 +301,23 @@ Displaying text to the `stdout` is all well and good, but what if we wanted to f
 
 ### grep
 
-> WIP
-{.warning}
+The `grep` or "global regular expression print" command allows for regular expression filtering on just about any textual input. This is one of those commands that is worth learning about early on, but also advanced enough that it has no place in the "beginner" section of learning Linux. Suffice to say, we are going to use it in its simplest form for now.
 
-The `grep` or "global regular expression print" command.
+Let's say, we have a long text file that is a log output from some application. You want to search this log for a very specific phrase, code, or entry. Maybe you just want to see all entries from the month of June, or the year 2023, or for lines that start with "Error". If you display the contents of the file to the `stdout` and direct it into `grep`, you will see the output of the text with any lines that match the expression.
+
+```plaintext
+line one
+line two
+line three
+```
+
+Here is a example text file with three lines. If you use the `cat` command to print the contents, it will show the full content. If you pipe that content into the `grep` command along with the argument `two`, only line two will be printed. If you swapped `two` for `line`, all three lines are returned.
+
+```plaintext
+cat example.txt | grep two
+```
+
+That pipe `|` is a way of redirecting the output of one command into another. It is a more advanced mechanism than we are concerned about for now. The `grep` command and the pipe `|` will be discussed in more detail in the advanced section.
 
 ---
 

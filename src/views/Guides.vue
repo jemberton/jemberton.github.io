@@ -63,7 +63,9 @@ const tocHighlightHandler = () => {
     Array.from(tocLinks).reverse().forEach((link: HTMLAnchorElement, index: number) => {
         let heading = document.getElementById(link.id.slice(5))
         // FIXME add font size to this
+        let font = parseFloat(window.getComputedStyle(link, null).getPropertyValue('font-size')) || 0
         let top = heading?.getBoundingClientRect().top || 0
+        top += font
 
         if (window.scrollY !== 0) {
             // Check if on screen
