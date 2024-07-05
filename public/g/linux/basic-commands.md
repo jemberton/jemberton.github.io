@@ -380,7 +380,8 @@ Use `vim` or `Vi IMproved` if you have it. Promise, it'll be a happier situation
 
 ![vim text editor](/img/linux-basic_commands-002.png "Customized vim"){.center}
 
-This is a screenshot of *my* `vim` ... so it has some plugins/add-ons applied. Yours will be less colorful and just a bit different ... but similar.
+> This is a screenshot of *my* `vim` ... so it has some plugins/add-ons applied. Yours will be less colorful and just a bit different ... but similar.
+{.info-icon}
 
 Using `vim` is not too difficult, but the main interface is not as intuitive as one might desire. Unlike `nano`, you cannot immediately start entering the text. The editor will do text entry, sure, but it has a long list of commands that can do some pretty wonderful stuff. For now, we just want to learn to enter some text and be able to save it to a file.
 
@@ -390,11 +391,11 @@ Using `vim` is not too difficult, but the main interface is not as intuitive as 
 4. Go into command mode by pressing [[SHIFT]] + [[:]] (you'll see a `:` in the lower left corner)
 5. Type `wq FILENAME` to write and quit (in *that* order) or type `q!` to quit without saving (if you opened vim using a filename, you don't need it in the `wq` sequence)
 
+---
+
 > Open and edit the test file with nano/vim or use echo to change the text to match this:<br>
     `Hello, World! Welcome to the lesson!`
 {.action-icon}
-
----
 
 Ready to move on?
 
