@@ -8,7 +8,7 @@ I like humor (dad jokes incoming!), so keep a light heart while reading.
 
 [!ref icon="linux" title="Linux"](/guides/linux)
 
-[!ref icon="python" title="Python"](/guides)
+[!ref icon="python" title="Python"](/guides/python)
 
 [!ref icon="git" title="Git"](/guides)
 
